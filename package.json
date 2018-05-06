@@ -11,6 +11,8 @@
       "type": "git",
       "url": "https://github.com/serayuzgur/crates.git"
   },
+  "icon": "icon.png",
+
   "keywords": [
     "cargo",
     "crates",
