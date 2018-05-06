@@ -7,6 +7,10 @@
   "engines": {
     "vscode": "^1.23.0"
   },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/serayuzgur/crates.git"
+  },
   "keywords": [
     "cargo",
     "crates",
