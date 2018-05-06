@@ -7,9 +7,20 @@
   "engines": {
     "vscode": "^1.23.0"
   },
-  "keywords": ["cargo", "crates", "crate", "crates.io", "rust"],
-  "categories": ["Programming Languages", "Other"],
-  "activationEvents": ["onLanguage:toml"],
+  "keywords": [
+    "cargo",
+    "crates",
+    "crate",
+    "crates.io",
+    "rust"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:toml"
+  ],
   "main": "./out/extension",
   "scripts": {
     "vscode:prepublish": "npm run compile",

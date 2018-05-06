@@ -13,7 +13,7 @@ interface StatusBarItemExt extends StatusBarItem {
 export const statusBarItem: StatusBarItemExt = window.createStatusBarItem(
   StatusBarAlignment.Left,
   0,
-);
+) as StatusBarItemExt;
 statusBarItem.text = "Crates: OK";
 statusBarItem.setText = (text?: string) =>
   (statusBarItem.text = text ? `Crates: ${text}` : "Crates: OK");
