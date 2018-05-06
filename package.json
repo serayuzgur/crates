@@ -1,0 +1,34 @@
+{
+  "name": "crates",
+  "displayName": "crates",
+  "description": "Helps to manage the versions of your dependencies (TOML).",
+  "version": "0.0.1",
+  "publisher": "serayuzgur",
+  "engines": {
+    "vscode": "^1.23.0"
+  },
+  "keywords": ["cargo", "crates", "crate", "crates.io", "rust"],
+  "categories": ["Programming Languages", "Other"],
+  "activationEvents": ["onLanguage:toml"],
+  "main": "./out/extension",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "2.8.3",
+    "vscode": "1.1.17",
+    "tslint": "5.10.0",
+    "@types/node": "10.0.4",
+    "@types/mocha": "5.2.0"
+  },
+  "dependencies": {
+    "@types/request-promise": "^4.1.41",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2",
+    "toml": "^2.3.3"
+  }
+}
