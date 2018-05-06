@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Helps to manage the versions of your dependencies (TOML).",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "serayuzgur",
   "engines": {
     "vscode": "^1.23.0"
