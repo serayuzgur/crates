@@ -1,5 +1,9 @@
 # crates
 
+
+[![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/v/serayuzgur.crates.svg)](https://github.com/serayuzgur/crates)
+[![Build Status](https://travis-ci.org/serayuzgur/crates.svg?branch=master)](https://travis-ci.org/serayuzgur/crates)
+
 crates is an extension aims to help people to manage their dependencies for rust (crates.io & TOML).
 
 ## Features
