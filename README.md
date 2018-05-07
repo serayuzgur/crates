@@ -21,7 +21,11 @@ FIXED: Dependency name must be like cratename=version. Spaces are not handled.
 
 ## Release Notes
 
-### 0.0.4 - developing
+### 0.0.5 
+
+* Last version bug fixed
+
+### 0.0.4 
 
 * travis integration
 * gif resized

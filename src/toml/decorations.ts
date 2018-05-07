@@ -20,7 +20,7 @@ function decoration(
 ) {
   const regex = new RegExp(`${crate}.*=.*"${version}"`, "g");
   const matches = regex.exec(editor.document.getText());
-  if (!matches || matches.length === 0) {
+  if (!matches || matches.length === 0 || !versions) {
     return;
   }
   const match = matches[0];
@@ -35,7 +35,7 @@ function decoration(
     hoverMessage: `Available: \n${versions.join(",\n")}`,
     renderOptions: {
       after: {
-        contentText: `Latest: ${version}`,
+        contentText: `Latest: ${versions[0]}`,
       },
     },
   };
