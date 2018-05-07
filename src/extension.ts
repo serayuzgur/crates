@@ -13,6 +13,7 @@ export function activate(context: ExtensionContext) {
   // Add active text editor listener and run once on start.
   context.subscriptions.push(window.onDidChangeActiveTextEditor(tomlListener));
   tomlListener(window.activeTextEditor);
+
 }
 
 export function deactivate() {}

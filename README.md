@@ -19,7 +19,11 @@ Dependency name must be like cratename=version. Spaces are not handled.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.3
+Console errors fixed.
+
+### 0.0.2
+Logo added
 
 ### 0.0.1
 The very first release, an alpha.

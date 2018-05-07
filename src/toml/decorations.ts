@@ -49,7 +49,7 @@ export function dependencies(
 ): void {
   const options: DecorationOptions[] = [];
   const responses = Object.keys(dependencies).map((key: string) => {
-    console.debug("Fetching dependency: ",key);
+    console.log("Fetching dependency: ",key);
     return versions(key)
       .then(function(htmlString: string) {
         const json = JSON.parse(htmlString);
@@ -62,7 +62,7 @@ export function dependencies(
       });
   });
   Promise.all(responses).then(() => {
-    console.debug("All fetched! 👏");
+    console.log("All fetched! 👏");
     finalize(options);
     statusBarItem.setText();
   });
