@@ -12,7 +12,7 @@ import { dependencies } from "./decorations";
 export default function(editor: TextEditor | undefined): void {
   if (editor) {
     const { fileName } = editor.document;
-    if (fileName.toLocaleLowerCase().endsWith(".toml")) {
+    if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
       console.log("TOML file activated. Parsing... ", fileName);
       statusBarItem.show();
       statusBarItem.setText("Fetching crates.io");

@@ -21,6 +21,10 @@ FIXED: Dependency name must be like cratename=version. Spaces are not handled.
 
 ## Release Notes
 
+### 0.0.6
+* Activates on rust or toml.
+* Only listens for Cargo.toml file
+
 ### 0.0.5 
 
 * Last version bug fixed
