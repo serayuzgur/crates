@@ -17,7 +17,7 @@ No settings for now.
 
 ## Known Issues
 
-Dependency name must be like cratename=version. Spaces are not handled.
+FIXED: Dependency name must be like cratename=version. Spaces are not handled.
 
 ## Release Notes
 
@@ -27,6 +27,7 @@ Dependency name must be like cratename=version. Spaces are not handled.
 * gif resized
 * readme edited
 * badges added for marketplace and travis.
+* parsing fixed for 
 
 ### 0.0.3
 

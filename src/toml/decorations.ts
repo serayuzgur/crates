@@ -18,9 +18,15 @@ function decoration(
   version: string,
   versions: string[],
 ) {
-  const asText = `${crate}="${version}"`;
-  const start = editor.document.getText().indexOf(asText);
-  const end = start + asText.length;
+
+  const regex = new RegExp(`${crate}.*=.*"${version}"`, "g");
+  const matches = regex.exec(editor.document.getText());
+  if (!matches || matches.length === 0) {
+    return;
+  }
+  const match = matches[0];
+  const end =  regex.lastIndex;
+  const start = regex.lastIndex - match.length;
 
   return {
     range: new Range(
