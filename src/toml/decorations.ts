@@ -1,7 +1,13 @@
 /**
  * Helps to manage decorations for the TOML files.
  */
-import { DecorationOptions, Range, TextEditor } from "vscode";
+import {
+  DecorationOptions,
+  Range,
+  TextEditor,
+  OverviewRulerLane,
+  workspace,
+} from "vscode";
 import { versions } from "../api";
 import { statusBarItem } from "../ui/indicators";
 
@@ -26,16 +32,16 @@ function decoration(
   const match = matches[0];
   const end = regex.lastIndex;
   const start = regex.lastIndex - match.length;
-
+  const hasLatest = versions[0] === version;
   return {
     range: new Range(
       editor.document.positionAt(start),
       editor.document.positionAt(end),
     ),
-    hoverMessage: `Available: \n${versions.join(",\n")}`,
+    hoverMessage: `**Available Versions** \t \n * ${versions.join("\n * ")}`,
     renderOptions: {
       after: {
-        contentText: `Latest: ${versions[0]}`,
+        contentText: hasLatest ? "👍" : `Latest: ${versions[0]}`,
       },
     },
   };
