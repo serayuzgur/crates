@@ -1,11 +1,7 @@
 /**
  * Helps to manage decorations for the TOML files.
  */
-import {
-  DecorationOptions,
-  Range,
-  TextEditor,
-} from "vscode";
+import { DecorationOptions, Range, TextEditor } from "vscode";
 import { versions } from "../api";
 import { statusBarItem } from "../ui/indicators";
 
@@ -60,15 +56,14 @@ export function dependencies(
   const responses = Object.keys(dependencies).map((key: string) => {
     console.log("Fetching dependency: ", key);
     return versions(key)
-      .then(function(htmlString: string) {
-        const json = JSON.parse(htmlString);
+      .then((json: any) => {
         const versions = json.versions.map((item: any) => item["num"]);
         const decor = decoration(editor, key, dependencies[key], versions);
         if (decor) {
           options.push(decor);
         }
       })
-      .catch(function(err: Error) {
+      .catch((err: Error) => {
         console.error(err);
       });
   });
