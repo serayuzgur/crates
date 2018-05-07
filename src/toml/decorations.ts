@@ -7,10 +7,10 @@ import { statusBarItem } from "../ui/indicators";
 
 /**
  * Create a decoration for the given crate.
- * @param editor 
- * @param crate 
- * @param version 
- * @param versions 
+ * @param editor
+ * @param crate
+ * @param version
+ * @param versions
  */
 function decoration(
   editor: TextEditor,
@@ -18,14 +18,13 @@ function decoration(
   version: string,
   versions: string[],
 ) {
-
   const regex = new RegExp(`${crate}.*=.*"${version}"`, "g");
   const matches = regex.exec(editor.document.getText());
   if (!matches || matches.length === 0) {
     return;
   }
   const match = matches[0];
-  const end =  regex.lastIndex;
+  const end = regex.lastIndex;
   const start = regex.lastIndex - match.length;
 
   return {
@@ -44,24 +43,26 @@ function decoration(
 
 /**
  * Takes parsed dependencies object, fetches all the versions and creates necessary decorations.
- * @param editor 
- * @param dependencies 
- * @param finalize 
+ * @param editor
+ * @param dependencies
+ * @param finalize
  */
 export function dependencies(
   editor: TextEditor,
   dependencies: any,
-  finalize: (result:DecorationOptions[]) => void,
+  finalize: (result: DecorationOptions[]) => void,
 ): void {
   const options: DecorationOptions[] = [];
   const responses = Object.keys(dependencies).map((key: string) => {
-    console.log("Fetching dependency: ",key);
+    console.log("Fetching dependency: ", key);
     return versions(key)
       .then(function(htmlString: string) {
         const json = JSON.parse(htmlString);
         const versions = json.versions.map((item: any) => item["num"]);
         const decor = decoration(editor, key, dependencies[key], versions);
-        options.push(decor);
+        if (decor) {
+          options.push(decor);
+        }
       })
       .catch(function(err: Error) {
         console.error(err);
