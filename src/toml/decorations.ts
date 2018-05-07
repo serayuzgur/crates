@@ -5,8 +5,6 @@ import {
   DecorationOptions,
   Range,
   TextEditor,
-  OverviewRulerLane,
-  workspace,
 } from "vscode";
 import { versions } from "../api";
 import { statusBarItem } from "../ui/indicators";
