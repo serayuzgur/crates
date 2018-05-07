@@ -1,17 +1,15 @@
 # crates
 
-
 [![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/v/serayuzgur.crates.svg)](https://github.com/serayuzgur/crates)
 [![Build Status](https://travis-ci.org/serayuzgur/crates.svg?branch=master)](https://travis-ci.org/serayuzgur/crates)
 
-crates is an extension aims to help people to manage their dependencies for rust (crates.io & TOML).
+**crates** is an extension for crates.io dependencies. Aims to help developers to manage dependencies while using _Cargo.toml_. It is only helpful if you are using dependencies from _crates.io_.
 
 ## Features
 
-It is very simple for now. Displays the latest version of the crate next to it and shows all versions on hover.
+Displays the latest version of the crate next to it and shows all versions on hover.
 
 ![ss](https://github.com/serayuzgur/crates/raw/master/feature.gif)
-
 
 ## Extension Settings
 
@@ -23,12 +21,21 @@ Dependency name must be like cratename=version. Spaces are not handled.
 
 ## Release Notes
 
+### 0.0.4 - developing
+
+* travis integration
+* gif resized
+* readme edited
+* badges added for marketplace and travis.
+
 ### 0.0.3
-Console errors fixed.
+
+* Console errors fixed.
 
 ### 0.0.2
-Logo added
+
+* Logo added
 
 ### 0.0.1
-The very first release, an alpha.
 
+* The first release, an alpha.
