@@ -29,6 +29,7 @@
   ],
   "main": "./out/extension",
   "scripts": {
+    "build":"npm run compile",
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
@@ -43,9 +44,9 @@
     "@types/mocha": "5.2.0"
   },
   "dependencies": {
-    "@types/request-promise": "^4.1.41",
+    "@types/request-promise": "4.1.41",
     "request": "^2.85.0",
-    "request-promise": "^4.2.2",
-    "toml": "^2.3.3"
+    "request-promise": "4.2.2",
+    "toml": "2.3.3"
   }
 }
