@@ -17,4 +17,4 @@ No settings for now.
 
 ## Known Issues
 
-* No refresh on edits.
+* 
