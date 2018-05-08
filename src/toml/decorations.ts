@@ -1,7 +1,7 @@
 /**
  * Helps to manage decorations for the TOML files.
  */
-import { DecorationOptions, Range, TextEditor } from "vscode";
+import { DecorationOptions, Range, TextEditor, MarkdownString } from "vscode";
 import { versions } from "../api";
 import { statusBarItem } from "../ui/indicators";
 
@@ -27,12 +27,25 @@ function decoration(
   const end = regex.lastIndex;
   const start = regex.lastIndex - match.length;
   const hasLatest = versions[0] === version;
+  const versionLinks = versions.map(
+    item =>
+      `[${item}](command:crates.replaceVersion?${JSON.stringify({
+        item: `${crate} = "${item}"`,
+        start,
+        end,
+      })})`,
+  );
+  const hoverMessage = new MarkdownString(
+    `**Available Versions** \t \n * ${versionLinks.join("\n * ")}`,
+  );
+  hoverMessage.isTrusted = true;
+
   return {
     range: new Range(
       editor.document.positionAt(start),
       editor.document.positionAt(end),
     ),
-    hoverMessage: `**Available Versions** \t \n * ${versions.join("\n * ")}`,
+    hoverMessage,
     renderOptions: {
       after: {
         contentText: hasLatest ? "👍" : `Latest: ${versions[0]}`,

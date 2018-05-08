@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+### 0.0.9 
+* Version list (hover) is clickable now. Easier to navigate between versions.
+
 ### 0.0.8
 * Better activation event. Listens for "Cargo.toml" as a rool level file.
 * Refreshes after each save.
