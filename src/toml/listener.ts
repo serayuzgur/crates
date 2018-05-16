@@ -7,6 +7,7 @@ import { parse } from "toml";
 import { statusBarItem } from "../ui/indicators";
 import decorators from "../ui/decorations";
 import { dependencies } from "./decorations";
+import { status } from "./commands";
 
 let decoration: TextEditorDecorationType;
 
@@ -16,9 +17,21 @@ function parseAndDecorate(editor: TextEditor) {
   console.log("Parsing... ", fileName);
   statusBarItem.setText("Fetching crates.io");
   const text = editor.document.getText();
-  console.log("Parsing OK : ", fileName);
+  const toml = parse(text);
+  const tomlDependencies = toml["dependencies"];
+
+  // parse target dependencies and add to dependencies
+  const targets = toml["target"];
+  Object.keys(targets).map(key => {
+    const target = targets[key];
+    if (target.dependencies) {
+      Object.keys(target.dependencies).map(
+        (key2: any) => (tomlDependencies[key2] = target.dependencies[key2]),
+      );
+    }
+  });
   try {
-    dependencies(editor, parse(text)["dependencies"], options => {
+    dependencies(editor, tomlDependencies, options => {
       if (decoration) {
         decoration.dispose();
       }
@@ -34,11 +47,13 @@ export default function(editor: TextEditor | undefined): void {
   if (editor) {
     const { fileName } = editor.document;
     if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
+      status.inProgress = true;
       statusBarItem.show();
       parseAndDecorate(editor);
     } else {
       statusBarItem.hide();
     }
+    status.inProgress = false;
   } else {
     console.log("No active editor found.");
   }

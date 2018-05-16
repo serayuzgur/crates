@@ -15,10 +15,11 @@ import { statusBarItem } from "../ui/indicators";
 function decoration(
   editor: TextEditor,
   crate: string,
-  version: string,
+  version: string | any,
   versions: string[],
 ) {
-  const regex = new RegExp(`${crate}.*=.*"${version}"`, "g");
+  // Also handle json valued dependencies
+  const regex = new RegExp(`${crate}.*=.*`, "g");
   const matches = regex.exec(editor.document.getText());
   if (!matches || matches.length === 0 || !versions) {
     return;
@@ -26,15 +27,24 @@ function decoration(
   const match = matches[0];
   const end = regex.lastIndex;
   const start = regex.lastIndex - match.length;
-  const hasLatest = versions[0] === version;
-  const versionLinks = versions.map(
-    item =>
-      `[${item}](command:crates.replaceVersion?${JSON.stringify({
-        item: `${crate} = "${item}"`,
-        start,
-        end,
-      })})`,
-  );
+  const isVersionString = typeof version === "string";
+  const hasLatest =
+    versions[0] === (isVersionString ? version : version.version);
+  const versionLinks = versions.map(item => {
+    let template;
+    if (isVersionString) {
+      template = `"${item}"`;
+    } else {
+      template = { ...version };
+      template["version"] = item;
+      template = JSON.stringify({ ...template }).replace(/\"([^(\")"]+)\":/g, "$1 = ");
+    }
+    return `[${item}](command:crates.replaceVersion?${JSON.stringify({
+      item: `${crate} = ${template}`,
+      start,
+      end,
+    })})`;
+  });
   const hoverMessage = new MarkdownString(
     `**Available Versions** \t \n * ${versionLinks.join("\n * ")}`,
   );

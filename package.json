@@ -2,17 +2,16 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Aims to help developers to manage dependencies while using Cargo.toml. It is only helpful if you are using dependencies from crates.io.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "publisher": "serayuzgur",
   "engines": {
     "vscode": "^1.23.0"
   },
   "repository": {
-      "type": "git",
-      "url": "https://github.com/serayuzgur/crates.git"
+    "type": "git",
+    "url": "https://github.com/serayuzgur/crates.git"
   },
   "icon": "icon.png",
-
   "keywords": [
     "cargo",
     "crates",
@@ -33,15 +32,16 @@
     "workspaceContains:Cargo.toml"
   ],
   "contributes": {
-    "commands": [{
+    "commands": [
+      {
         "command": "crates.replaceVersion",
         "title": "crates: Replace Version"
-    }]
-},
-
+      }
+    ]
+  },
   "main": "./out/extension",
   "scripts": {
-    "build":"npm run compile",
+    "build": "npm run compile",
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
@@ -52,12 +52,12 @@
     "typescript": "2.8.3",
     "vscode": "1.1.17",
     "tslint": "5.10.0",
-    "@types/node": "10.0.4",
+    "@types/node": "10.1.0",
     "@types/mocha": "5.2.0"
   },
   "dependencies": {
     "@types/request-promise": "4.1.41",
-    "request": "^2.85.0",
+    "request": "2.86.0",
     "request-promise": "4.2.2",
     "toml": "2.3.3"
   }

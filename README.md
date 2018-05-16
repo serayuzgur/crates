@@ -7,7 +7,8 @@
 
 ## Features
 
-Displays the latest version of the crate next to it and shows all versions on hover.
+Displays the latest version of the crate next to it and shows all versions (clickable) on hover. 
+Aims to be fast, simple. 
 
 ![ss](https://github.com/serayuzgur/crates/raw/master/feature.gif)
 
@@ -17,4 +18,37 @@ No settings for now.
 
 ## Known Issues
 
-* 
+* TOML must be valid.
+
+*  For target dependencies
+
+    **Supported:**
+
+    ```toml
+    [target.'cfg(target_os = "macos")'.dependencies]
+    objc = "0.2"
+    cocoa = "0.15.0"
+    core-foundation = "0.6.0"
+    core-graphics = "0.14.0"
+    ```
+
+    **Not Supported:**
+
+    ```toml
+    [target.'cfg(target_os = "windows")'.dependencies.winapi]
+    version = "0.3"
+    features = [
+        "winnt",
+        "winuser",
+        "wingdi",
+        "shellapi",
+        "dwmapi",
+        "processthreadsapi",
+        "libloaderapi",
+        "windowsx",
+        "hidusage",
+        "combaseapi",
+        "objbase",
+        "unknwnbase",
+    ]
+    ```
