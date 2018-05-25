@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+### 0.0.11 
+* Null control fix for "target". Thanks to [braunse](https://github.com/braunse).
+
 ### 0.0.10 
 * Complex Cargo.toml error fixed. [#1](https://github.com/serayuzgur/crates/issues/1)
 * Support for target dependencies. (not all usage cases)
