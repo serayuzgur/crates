@@ -21,7 +21,7 @@ function parseAndDecorate(editor: TextEditor) {
   const tomlDependencies = toml["dependencies"];
 
   // parse target dependencies and add to dependencies
-  const targets = toml["target"];
+  const targets = toml["target"] || {};
   Object.keys(targets).map(key => {
     const target = targets[key];
     if (target.dependencies) {
