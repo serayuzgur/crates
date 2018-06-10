@@ -30,25 +30,32 @@ function decoration(
   const isVersionString = typeof version === "string";
   const hasLatest =
     versions[0] === (isVersionString ? version : version.version);
-  const versionLinks = versions.map(item => {
+  
+  const hoverMessage = new MarkdownString(`**Available Versions** \t \n `);
+  hoverMessage.isTrusted = true;
+  versions.map(item => {
     let template;
     if (isVersionString) {
       template = `"${item}"`;
     } else {
       template = { ...version };
       template["version"] = item;
-      template = JSON.stringify({ ...template }).replace(/\"([^(\")"]+)\":/g, "$1 = ");
+      template = JSON.stringify({ ...template }).replace(
+        /\"([^(\")"]+)\":/g,
+        "$1 = ",
+      );
     }
-    return `[${item}](command:crates.replaceVersion?${JSON.stringify({
+    const replaceData = JSON.stringify({
       item: `${crate} = ${template}`,
       start,
       end,
-    })})`;
+    });
+    const command = `[${item}](command:crates.replaceVersion?${encodeURI(replaceData)})`;
+    hoverMessage.appendMarkdown("\n * ");
+    hoverMessage.appendMarkdown(command);
   });
-  const hoverMessage = new MarkdownString(
-    `**Available Versions** \t \n * ${versionLinks.join("\n * ")}`,
-  );
-  hoverMessage.isTrusted = true;
+
+
 
   return {
     range: new Range(
