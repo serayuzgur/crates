@@ -49,15 +49,15 @@
     "test": "npm run compile && node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
-    "typescript": "2.8.3",
-    "vscode": "1.1.17",
+    "typescript": "2.9.1",
+    "vscode": "1.1.18",
     "tslint": "5.10.0",
-    "@types/node": "10.1.0",
-    "@types/mocha": "5.2.0"
+    "@types/node": "10.3.2",
+    "@types/mocha": "5.2.2"
   },
   "dependencies": {
     "@types/request-promise": "4.1.41",
-    "request": "2.86.0",
+    "request": "2.87.0",
     "request-promise": "4.2.2",
     "toml": "2.3.3"
   }
