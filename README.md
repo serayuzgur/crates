@@ -3,6 +3,9 @@
 [![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/v/serayuzgur.crates.svg)](https://github.com/serayuzgur/crates)
 [![Build Status](https://travis-ci.org/serayuzgur/crates.svg?branch=master)](https://travis-ci.org/serayuzgur/crates)
 
+
+[Become a Patron!](https://www.patreon.com/bePatron?u=11468905)
+
 Hello Rust & VSCode lovers,
 
 This is **crates**. **crates** is an extension for crates.io dependencies. This extension aims helping developers to manage dependencies while using _Cargo.toml_.
