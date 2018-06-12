@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Aims to help developers to manage dependencies while using Cargo.toml. It is only helpful if you are using dependencies from crates.io.",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "publisher": "serayuzgur",
   "engines": {
     "vscode": "^1.23.0"
