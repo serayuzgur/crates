@@ -19,16 +19,15 @@ function parseAndDecorate(editor: TextEditor) {
   const text = editor.document.getText();
   const toml = parse(text);
   const tomlDependencies = toml["dependencies"];
-
+  Object.assign(tomlDependencies, toml["dev-dependencies"]);
+  Object.assign(tomlDependencies, toml["build-dependencies"]);
   // parse target dependencies and add to dependencies
   const targets = toml["target"] || {};
   Object.keys(targets).map(key => {
     const target = targets[key];
-    if (target.dependencies) {
-      Object.keys(target.dependencies).map(
-        (key2: any) => (tomlDependencies[key2] = target.dependencies[key2]),
-      );
-    }
+    Object.assign(tomlDependencies, target["dependencies"]);
+    Object.assign(tomlDependencies, target["dev-dependencies"]);
+    Object.assign(tomlDependencies, target["build-dependencies"]);
   });
   try {
     dependencies(editor, tomlDependencies, options => {

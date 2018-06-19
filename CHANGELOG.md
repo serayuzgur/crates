@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+### 0.1.1
+* build-dependencies support.
+* dev-dependencies support.
+
 ### 0.1.0 
 * Dependencies updated.
 * Readme Updated.
