@@ -28,9 +28,11 @@ function decoration(
   const end = regex.lastIndex;
   const start = regex.lastIndex - match.length;
   const isVersionString = typeof version === "string";
+  const currentVersion = isVersionString ? version : version.version;
   const hasLatest =
-    versions[0] === (isVersionString ? version : version.version);
-  
+    versions[0] === currentVersion ||
+    versions[0].indexOf(`${currentVersion}.`) === 0;
+
   const hoverMessage = new MarkdownString(`**Available Versions** \t \n `);
   hoverMessage.isTrusted = true;
   versions.map(item => {
@@ -50,12 +52,12 @@ function decoration(
       start,
       end,
     });
-    const command = `[${item}](command:crates.replaceVersion?${encodeURI(replaceData)})`;
+    const command = `[${item}](command:crates.replaceVersion?${encodeURI(
+      replaceData,
+    )})`;
     hoverMessage.appendMarkdown("\n * ");
     hoverMessage.appendMarkdown(command);
   });
-
-
 
   return {
     range: new Range(
@@ -87,7 +89,12 @@ export function dependencies(
     console.log("Fetching dependency: ", key);
     return versions(key)
       .then((json: any) => {
-        const versions = json.versions.map((item: any) => item["num"]);
+        const versions = json.versions.reduce((result: any[], item: any) => {
+          if (!item.yanked) {
+            result.push(item.num);
+          }
+          return result;
+        }, []);
         const decor = decoration(editor, key, dependencies[key], versions);
         if (decor) {
           options.push(decor);

@@ -10,15 +10,17 @@ features = ["icon_loading"]
 icon_loading = ["image"]
 
 [dependencies]
-lazy_static = "1.0.0"
-libc = "0.2.37"
+lazy_static = "1.0.1"
+libc = "0.2.42"
 image = {version = "0.19.0",optional = true}
+futures = "0.1.21"
+
 
 [dev-dependencies]
 tempdir = "0.3.7"
 
 [build-dependencies]
-gcc = "0.3.54"
+gcc = "0.3"
 
 [target.'cfg(target_os = "android")'.dependencies.android_glue]
 version = "0.2"
@@ -33,7 +35,7 @@ core-foundation = "0.6.0"
 core-graphics = "0.14.0"
 
 [target.'cfg(unix)'.dev-dependencies]
-mio = "0.6.14"
+mio = "0.6"
 
 
 [target.'cfg(target_os = "windows")'.dependencies.winapi]
@@ -55,7 +57,7 @@ features = [
 
 [target.'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))'.dependencies]
 wayland-client = {version = "0.10.3",features = ["dlopen","egl","cursor"]}
-smithay-client-toolkit = "0.2.1"
-x11-dl = "2.17.5"
-parking_lot = "0.5.5"
+smithay-client-toolkit = "0.2.4"
+x11-dl = "2"
+parking_lot = "0.6.2"
 percent-encoding = "1.0.1"
