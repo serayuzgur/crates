@@ -1,7 +1,7 @@
 # crates
 
 
-[![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/v/serayuzgur.crates.svg)](https://github.com/serayuzgur/crates)
+[![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/v/serayuzgur.crates.svg)](https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates)
 [![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/d/serayuzgur.crates.svg)](https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates)
 [![Build Status](https://travis-ci.org/serayuzgur/crates.svg?branch=master)](https://travis-ci.org/serayuzgur/crates)
 
