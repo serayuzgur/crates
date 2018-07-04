@@ -2,8 +2,18 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Aims to help rust developers to manage dependencies while using Cargo.toml. It is only helpful if you are using dependencies from crates.io.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "serayuzgur",
+  "author": {
+    "name": "serayuzgur",
+    "email": "serayuzgur@gmail.com"
+  },
+  "license": "LICENSE",
+  "bugs": {
+    "url": "https://github.com/serayuzgur/crates/issues",
+    "email": "serayuzgur@gmail.com"
+  },
+  "homepage": "https://github.com/serayuzgur/crates/blob/master/README.md",
   "engines": {
     "vscode": "^1.23.0"
   },
@@ -37,7 +47,19 @@
         "command": "crates.replaceVersion",
         "title": "crates: Replace Version"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Crates configuration",
+      "properties": {
+        "crates.upToDateDecorator": {
+          "type": "string",
+          "scope": "resource",
+          "default": "👍",
+          "description": "The text to show when dependency is up to date. "
+        }
+      }
+    }
   },
   "main": "./out/extension",
   "scripts": {

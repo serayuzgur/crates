@@ -25,7 +25,9 @@ Aims to be fast and simple.
 
 ## Extension Settings
 
-No settings for now. It is so **simple** that you do not need any configuration.
+It is so **simple** that you do not need any configuration, but if you insist...
+
+`crates.upToDateDecorator :` The text to show when dependency is up to date. Default is 👍.
 
 ## Known Issues
 

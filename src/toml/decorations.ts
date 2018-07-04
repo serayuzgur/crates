@@ -1,7 +1,13 @@
 /**
  * Helps to manage decorations for the TOML files.
  */
-import { DecorationOptions, Range, TextEditor, MarkdownString } from "vscode";
+import {
+  workspace,
+  DecorationOptions,
+  Range,
+  TextEditor,
+  MarkdownString,
+} from "vscode";
 import { versions } from "../api";
 import { statusBarItem } from "../ui/indicators";
 
@@ -17,6 +23,7 @@ function decoration(
   crate: string,
   version: string | any,
   versions: string[],
+  upToDateDecorator: string,
 ) {
   // Also handle json valued dependencies
   const regex = new RegExp(`${crate}.*=.*`, "g");
@@ -67,7 +74,7 @@ function decoration(
     hoverMessage,
     renderOptions: {
       after: {
-        contentText: hasLatest ? "👍" : `Latest: ${versions[0]}`,
+        contentText: hasLatest ? upToDateDecorator : `Latest: ${versions[0]}`,
       },
     },
   };
@@ -87,6 +94,11 @@ export function dependencies(
   const options: DecorationOptions[] = [];
   const responses = Object.keys(dependencies).map((key: string) => {
     console.log("Fetching dependency: ", key);
+    const upToDateDecoratorConf = workspace
+      .getConfiguration("", editor.document.uri)
+      .get("crates.upToDateDecorator");
+
+    const upToDateDecorator = upToDateDecoratorConf ? upToDateDecoratorConf + "" : "";
     return versions(key)
       .then((json: any) => {
         const versions = json.versions.reduce((result: any[], item: any) => {
@@ -95,7 +107,13 @@ export function dependencies(
           }
           return result;
         }, []);
-        const decor = decoration(editor, key, dependencies[key], versions);
+        const decor = decoration(
+          editor,
+          key,
+          dependencies[key],
+          versions,
+          upToDateDecorator,
+        );
         if (decor) {
           options.push(decor);
         }
