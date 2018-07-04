@@ -28,6 +28,7 @@ Aims to be fast and simple.
 It is so **simple** that you do not need any configuration, but if you insist...
 
 `crates.upToDateDecorator`: The text to show when dependency is up to date. Default is 👍.
+
 `crates.listPreReleases` : If true, pre-release versions will be listed in hover and at decoration. Default is false.
 
 ## Known Issues
