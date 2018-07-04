@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+
+### 0.2.1
+* Patreon link changed to a badge.
+
+
 ### 0.2.0
 * Version resolution support improved [#6](https://github.com/serayuzgur/crates/issues/6).
 * Yanked versions removed from the version list [#7](https://github.com/serayuzgur/crates/issues/7).
