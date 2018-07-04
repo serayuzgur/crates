@@ -56,7 +56,13 @@
           "type": "string",
           "scope": "resource",
           "default": "👍",
-          "description": "The text to show when dependency is up to date. "
+          "description": "The text to show when dependency is up to date."
+        },
+        "crates.listPreReleases": {
+          "type": "boolean",
+          "scope": "resource",
+          "default": false,
+          "description": "If true, pre-release versions will be listed in hover and at decoration."
         }
       }
     }

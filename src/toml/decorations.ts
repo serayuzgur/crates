@@ -94,15 +94,21 @@ export function dependencies(
   const options: DecorationOptions[] = [];
   const responses = Object.keys(dependencies).map((key: string) => {
     console.log("Fetching dependency: ", key);
-    const upToDateDecoratorConf = workspace
-      .getConfiguration("", editor.document.uri)
-      .get("crates.upToDateDecorator");
+    const conf = workspace.getConfiguration("", editor.document.uri);
+    const upToDateDecoratorConf = conf.get("crates.upToDateDecorator");
 
-    const upToDateDecorator = upToDateDecoratorConf ? upToDateDecoratorConf + "" : "";
+    const upToDateDecorator = upToDateDecoratorConf
+      ? upToDateDecoratorConf + ""
+      : "";
+    const listPreReleases = conf.get("crates.listPreReleases");
     return versions(key)
       .then((json: any) => {
         const versions = json.versions.reduce((result: any[], item: any) => {
-          if (!item.yanked) {
+          const isPreRelease =
+            !listPreReleases &&
+            (item.num.indexOf("-alpha") !== -1 ||
+              item.num.indexOf("-beta") !== -1);
+          if (!item.yanked && !isPreRelease) {
             result.push(item.num);
           }
           return result;

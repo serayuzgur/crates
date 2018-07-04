@@ -7,6 +7,7 @@ All notable changes to the "crates" extension will be documented in this file.
 * Marketplace badges are linked to marketplace. [#13](https://github.com/serayuzgur/crates/issues/13).
 * Package json improved.
 * The up to date decorator (👍) is now customizable from setting crates.upToDateDecorator [#12](https://github.com/serayuzgur/crates/issues/12).
+* Listing pre-releases is now customizable from setting crates.listPreReleases [#10](https://github.com/serayuzgur/crates/issues/10).
 
 
 ### 0.2.0
