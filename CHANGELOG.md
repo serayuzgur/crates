@@ -2,7 +2,7 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 ## 0.2.2
-* "-rc" added for pre-release control.
+* "-" is the controlidentifier for pre-release check.
 
 ### 0.2.1
 * Patreon link changed to a badge.
