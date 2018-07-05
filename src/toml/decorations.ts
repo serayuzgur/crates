@@ -107,7 +107,8 @@ export function dependencies(
           const isPreRelease =
             !listPreReleases &&
             (item.num.indexOf("-alpha") !== -1 ||
-              item.num.indexOf("-beta") !== -1);
+              item.num.indexOf("-beta") !== -1||
+              item.num.indexOf("-rc") !== -1);
           if (!item.yanked && !isPreRelease) {
             result.push(item.num);
           }

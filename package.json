@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Aims to help rust developers to manage dependencies while using Cargo.toml. It is only helpful if you are using dependencies from crates.io.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
