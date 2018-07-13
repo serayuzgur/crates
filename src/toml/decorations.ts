@@ -25,59 +25,65 @@ function decoration(
   versions: string[],
   upToDateDecorator: string,
 ) {
-  // Also handle json valued dependencies
-  const regex = new RegExp(`${crate}.*=.*`, "g");
-  const matches = regex.exec(editor.document.getText());
-  if (!matches || matches.length === 0 || !versions) {
-    return;
-  }
-  const match = matches[0];
-  const end = regex.lastIndex;
-  const start = regex.lastIndex - match.length;
-  const isVersionString = typeof version === "string";
-  const currentVersion = isVersionString ? version : version.version;
-  const hasLatest =
-    versions[0] === currentVersion ||
-    versions[0].indexOf(`${currentVersion}.`) === 0;
-
-  const hoverMessage = new MarkdownString(`**Available Versions** \t \n `);
-  hoverMessage.isTrusted = true;
-  versions.map(item => {
-    let template;
-    if (isVersionString) {
-      template = `"${item}"`;
-    } else {
-      template = { ...version };
-      template["version"] = item;
-      template = JSON.stringify({ ...template }).replace(
-        /\"([^(\")"]+)\":/g,
-        "$1 = ",
-      );
+  const regex = new RegExp(`.*${crate}.*=.*`, "g");
+  while (true) {
+    // Also handle json valued dependencies
+    const matches = regex.exec(editor.document.getText());
+    if (!matches || matches.length === 0 || !versions) {
+      return;
     }
-    const replaceData = JSON.stringify({
-      item: `${crate} = ${template}`,
-      start,
-      end,
-    });
-    const command = `[${item}](command:crates.replaceVersion?${encodeURI(
-      replaceData,
-    )})`;
-    hoverMessage.appendMarkdown("\n * ");
-    hoverMessage.appendMarkdown(command);
-  });
+    const match = matches[0];
+    if (match.startsWith("#")) {
+      continue;
+    }
+    console.log(match);
+    const end = regex.lastIndex;
+    const start = regex.lastIndex - match.length;
+    const isVersionString = typeof version === "string";
+    const currentVersion = isVersionString ? version : version.version;
+    const hasLatest =
+      versions[0] === currentVersion ||
+      versions[0].indexOf(`${currentVersion}.`) === 0;
 
-  return {
-    range: new Range(
-      editor.document.positionAt(start),
-      editor.document.positionAt(end),
-    ),
-    hoverMessage,
-    renderOptions: {
-      after: {
-        contentText: hasLatest ? upToDateDecorator : `Latest: ${versions[0]}`,
+    const hoverMessage = new MarkdownString(`**Available Versions** \t \n `);
+    hoverMessage.isTrusted = true;
+    versions.map(item => {
+      let template;
+      if (isVersionString) {
+        template = `"${item}"`;
+      } else {
+        template = { ...version };
+        template["version"] = item;
+        template = JSON.stringify({ ...template }).replace(
+          /\"([^(\")"]+)\":/g,
+          "$1 = ",
+        );
+      }
+      const replaceData = JSON.stringify({
+        item: `${crate} = ${template}`,
+        start,
+        end,
+      });
+      const command = `[${item}](command:crates.replaceVersion?${encodeURI(
+        replaceData,
+      )})`;
+      hoverMessage.appendMarkdown("\n * ");
+      hoverMessage.appendMarkdown(command);
+    });
+
+    return {
+      range: new Range(
+        editor.document.positionAt(start),
+        editor.document.positionAt(end),
+      ),
+      hoverMessage,
+      renderOptions: {
+        after: {
+          contentText: hasLatest ? upToDateDecorator : `Latest: ${versions[0]}`,
+        },
       },
-    },
-  };
+    };
+  }
 }
 
 /**
@@ -93,7 +99,6 @@ export function dependencies(
 ): void {
   const options: DecorationOptions[] = [];
   const responses = Object.keys(dependencies).map((key: string) => {
-    console.log("Fetching dependency: ", key);
     const conf = workspace.getConfiguration("", editor.document.uri);
     const upToDateDecoratorConf = conf.get("crates.upToDateDecorator");
 
@@ -104,8 +109,7 @@ export function dependencies(
     return versions(key)
       .then((json: any) => {
         const versions = json.versions.reduce((result: any[], item: any) => {
-          const isPreRelease =
-            !listPreReleases && item.num.indexOf("-") !== -1;
+          const isPreRelease = !listPreReleases && item.num.indexOf("-") !== -1;
           if (!item.yanked && !isPreRelease) {
             result.push(item.num);
           }

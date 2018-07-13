@@ -2,7 +2,7 @@
  * Listener for TOML files.
  * Filters active editor files according to the extension.
  */
-import { TextEditor, TextEditorDecorationType } from "vscode";
+import { TextEditor, TextEditorDecorationType, window } from "vscode";
 import { parse } from "toml";
 import { statusBarItem } from "../ui/indicators";
 import decorators from "../ui/decorations";
@@ -17,28 +17,38 @@ function parseAndDecorate(editor: TextEditor) {
   console.log("Parsing... ", fileName);
   statusBarItem.setText("Fetching crates.io");
   const text = editor.document.getText();
-  const toml = parse(text);
-  const tomlDependencies = toml["dependencies"];
-  Object.assign(tomlDependencies, toml["dev-dependencies"]);
-  Object.assign(tomlDependencies, toml["build-dependencies"]);
-  // parse target dependencies and add to dependencies
-  const targets = toml["target"] || {};
-  Object.keys(targets).map(key => {
-    const target = targets[key];
-    Object.assign(tomlDependencies, target["dependencies"]);
-    Object.assign(tomlDependencies, target["dev-dependencies"]);
-    Object.assign(tomlDependencies, target["build-dependencies"]);
-  });
   try {
-    dependencies(editor, tomlDependencies, options => {
-      if (decoration) {
-        decoration.dispose();
-      }
-      decoration = decorators.latestVersion("VERSION");
-      editor.setDecorations(decoration, options);
+    const toml = parse(text);
+    const tomlDependencies = toml["dependencies"];
+    Object.assign(tomlDependencies, toml["dev-dependencies"]);
+    Object.assign(tomlDependencies, toml["build-dependencies"]);
+    // parse target dependencies and add to dependencies
+    const targets = toml["target"] || {};
+    Object.keys(targets).map(key => {
+      const target = targets[key];
+      Object.assign(tomlDependencies, target["dependencies"]);
+      Object.assign(tomlDependencies, target["dev-dependencies"]);
+      Object.assign(tomlDependencies, target["build-dependencies"]);
     });
+
+    try {
+      dependencies(editor, tomlDependencies, options => {
+        if (decoration) {
+          decoration.dispose();
+        }
+        decoration = decorators.latestVersion("VERSION");
+        editor.setDecorations(decoration, options);
+      });
+    } catch (e) {
+      console.error(e);
+    }
   } catch (e) {
     console.error(e);
+    statusBarItem.setText("Cargo.toml is not valid!");
+    window.showErrorMessage(`Cargo.toml is not valid! ${JSON.stringify(e)}`);
+    if (decoration) {
+      decoration.dispose();
+    }
   }
 }
 

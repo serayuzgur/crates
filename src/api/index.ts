@@ -9,6 +9,7 @@ const data: any = {};
 
 function cache(key: string, func: any, url: string) {
   if (!data[key]) {
+    console.log("Fetching dependency: ", key);
     data[key] = func(url).then((response: string) => {
       try {
         return JSON.parse(response);

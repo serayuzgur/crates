@@ -6,7 +6,7 @@ import {
   window,
   workspace,
   ExtensionContext,
-  TextDocumentChangeEvent,
+  TextDocument,
 } from "vscode";
 import tomlListener from "./toml/listener";
 import TomlCommands from "./toml/commands";
@@ -16,8 +16,8 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(window.onDidChangeActiveTextEditor(tomlListener));
 
   context.subscriptions.push(
-    workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => {
-      const { fileName } = e.document;
+    workspace.onDidSaveTextDocument((document: TextDocument) => {
+      const { fileName } = document;
       if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
         tomlListener(window.activeTextEditor);
       }
