@@ -24,19 +24,19 @@ function decoration(
   version: string | any,
   versions: string[],
   upToDateDecorator: string,
-) {
+):Array<DecorationOptions> {
   const regex = new RegExp(`.*${crate}.*=.*`, "g");
+  const decorations = [];
   while (true) {
     // Also handle json valued dependencies
     const matches = regex.exec(editor.document.getText());
     if (!matches || matches.length === 0 || !versions) {
-      return;
+      return decorations;
     }
     const match = matches[0];
     if (match.startsWith("#")) {
       continue;
     }
-    console.log(match);
     const end = regex.lastIndex;
     const start = regex.lastIndex - match.length;
     const isVersionString = typeof version === "string";
@@ -45,7 +45,9 @@ function decoration(
       versions[0] === currentVersion ||
       versions[0].indexOf(`${currentVersion}.`) === 0;
 
-    const hoverMessage = new MarkdownString(`**Available Versions** \t \n `);
+    const hoverMessage = new MarkdownString(
+      "**Available Versions** (from crates.io)",
+    );
     hoverMessage.isTrusted = true;
     versions.map(item => {
       let template;
@@ -64,14 +66,13 @@ function decoration(
         start,
         end,
       });
-      const command = `[${item}](command:crates.replaceVersion?${encodeURI(
-        replaceData,
-      )})`;
+
+      const command = `[${item}](command:crates.replaceVersion?${encodeURI(replaceData)})`;
       hoverMessage.appendMarkdown("\n * ");
       hoverMessage.appendMarkdown(command);
     });
 
-    return {
+    decorations.push( {
       range: new Range(
         editor.document.positionAt(start),
         editor.document.positionAt(end),
@@ -82,7 +83,7 @@ function decoration(
           contentText: hasLatest ? upToDateDecorator : `Latest: ${versions[0]}`,
         },
       },
-    };
+    });
   }
 }
 
@@ -123,7 +124,7 @@ export function dependencies(
           upToDateDecorator,
         );
         if (decor) {
-          options.push(decor);
+          options.push(...decor);
         }
       })
       .catch((err: Error) => {

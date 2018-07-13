@@ -30,7 +30,7 @@ function parseAndDecorate(editor: TextEditor) {
       Object.assign(tomlDependencies, target["dev-dependencies"]);
       Object.assign(tomlDependencies, target["build-dependencies"]);
     });
-
+    statusBarItem.setText("Cargo.toml parsed");
     try {
       dependencies(editor, tomlDependencies, options => {
         if (decoration) {
@@ -38,6 +38,8 @@ function parseAndDecorate(editor: TextEditor) {
         }
         decoration = decorators.latestVersion("VERSION");
         editor.setDecorations(decoration, options);
+        statusBarItem.setText("OK");
+
       });
     } catch (e) {
       console.error(e);

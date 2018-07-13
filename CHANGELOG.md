@@ -3,8 +3,8 @@ All notable changes to the "crates" extension will be documented in this file.
 
 ## 0.2.2
 * "-" is the controlidentifier for pre-release check.
-* crates noew decorates the toml file on each save. Not on every change.
-* Invalid toml files cause a fail on version decorations. All will be cleared with a status and error message. Also commented sections handled. [#9](https://github.com/serayuzgur/crates/issues/9)
+* crates now decorates the toml file on each save. Not on every change.
+* Invalid toml files caused a glitch on version decorations. Now all will be cleared with a toolbar and error message. Also commented sections handled correctly. [#9](https://github.com/serayuzgur/crates/issues/9)
 
 ### 0.2.1
 * Patreon link changed to a badge.
