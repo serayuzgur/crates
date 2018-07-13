@@ -25,7 +25,7 @@ function decoration(
   versions: string[],
   upToDateDecorator: string,
 ):Array<DecorationOptions> {
-  const regex = new RegExp(`.*${crate}.*=.*`, "g");
+  const regex = new RegExp(`.*${crate}\\\s*=.*`, "g");
   const decorations = [];
   while (true) {
     // Also handle json valued dependencies
@@ -46,7 +46,7 @@ function decoration(
       versions[0].indexOf(`${currentVersion}.`) === 0;
 
     const hoverMessage = new MarkdownString(
-      "**Available Versions** (from crates.io)",
+      `**Available Versions**`,
     );
     hoverMessage.isTrusted = true;
     versions.map(item => {
