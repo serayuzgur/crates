@@ -19,7 +19,7 @@ function parseAndDecorate(editor: TextEditor) {
   const text = editor.document.getText();
   try {
     const toml = parse(text);
-    const tomlDependencies = toml["dependencies"];
+    const tomlDependencies = toml["dependencies"] || {};
     Object.assign(tomlDependencies, toml["dev-dependencies"]);
     Object.assign(tomlDependencies, toml["build-dependencies"]);
     // parse target dependencies and add to dependencies
