@@ -24,8 +24,14 @@ function decoration(
   version: string | any,
   versions: string[],
   upToDateDecorator: string,
-):Array<DecorationOptions> {
-  const regex = new RegExp(`.*${crate}\\\s*=.*`, "g");
+): Array<DecorationOptions> {
+  const isOutOfLine =
+    new RegExp(`.*dependencies.${crate}]`, "g").exec(
+      editor.document.getText(),
+    ) !== null;
+  const regex = isOutOfLine
+    ? new RegExp(`.*dependencies.${crate}]\nversion\\\s*=.*`, "g")
+    : new RegExp(`.*${crate}\\\s*=.*`, "g");
   const decorations = [];
   while (true) {
     // Also handle json valued dependencies
@@ -45,14 +51,23 @@ function decoration(
       versions[0] === currentVersion ||
       versions[0].indexOf(`${currentVersion}.`) === 0;
 
-    const hoverMessage = new MarkdownString(
-      `**Available Versions**`,
-    );
+    const hoverMessage = new MarkdownString(`**Available Versions**`);
     hoverMessage.isTrusted = true;
     versions.map(item => {
       let template;
-      if (isVersionString) {
+      if (isOutOfLine) {
+        const versionReg = new RegExp(`version\\\s*=.*`, "g");
+        const data = match.split("\n");
+        for (let i = 1; i < data.length; i++) {
+          if (versionReg.exec(data[i]) !== null) {
+            data[i] = `version = "${item}"`;
+            break;
+          }
+        }
+        template = data.join("\n");
+      } else if (isVersionString) {
         template = `"${item}"`;
+        template = `${crate} = ${template}`;
       } else {
         template = { ...version };
         template["version"] = item;
@@ -60,19 +75,23 @@ function decoration(
           /\"([^(\")"]+)\":/g,
           "$1 = ",
         );
+        template = `${crate} = ${template}`;
       }
+
       const replaceData = JSON.stringify({
-        item: `${crate} = ${template}`,
+        item: template,
         start,
         end,
       });
 
-      const command = `[${item}](command:crates.replaceVersion?${encodeURI(replaceData)})`;
+      const command = `[${item}](command:crates.replaceVersion?${encodeURI(
+        replaceData,
+      )})`;
       hoverMessage.appendMarkdown("\n * ");
       hoverMessage.appendMarkdown(command);
     });
 
-    decorations.push( {
+    decorations.push({
       range: new Range(
         editor.document.positionAt(start),
         editor.document.positionAt(end),

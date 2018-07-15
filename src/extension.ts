@@ -7,7 +7,6 @@ import {
   workspace,
   ExtensionContext,
   TextDocumentChangeEvent,
-  TextDocument,
 } from "vscode";
 import tomlListener from "./toml/listener";
 import TomlCommands from "./toml/commands";
