@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.2.3
+* Extension listener is back to onchange but with a dirty control [#15](https://github.com/serayuzgur/crates/issues/15).
+
 ## 0.2.2
 * "-" is the controlidentifier for pre-release check.
 * crates now decorates the toml file on each save. Not on every change.
