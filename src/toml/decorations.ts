@@ -26,11 +26,14 @@ function decoration(
   upToDateDecorator: string,
 ): Array<DecorationOptions> {
   const isOutOfLine =
-    new RegExp(`^\\s*\\[dependencies.${crate}\\]`, "gm").exec(
+    new RegExp(`^\\s*\\[(.*\\.)?dependencies.${crate}\\]`, "gm").exec(
       editor.document.getText(),
     ) !== null;
   const regex = isOutOfLine
-    ? new RegExp(`^\\s*\\[dependencies.${crate}\\]\\s*\nversion\\s*=.*`, "gm")
+    ? new RegExp(
+      `^\\s*\\[(.*\\.)?dependencies.${crate}\\]\\s*\nversion\\s*=.*`,
+      "gm",
+    )
     : new RegExp(`^\\s*${crate}\\s*=.*`, "gm");
   const decorations = [];
   while (true) {
