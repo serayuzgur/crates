@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.2.4
+* Regexp bug fixed by [@userzimmermann](https://github.com/userzimmermann)
+
 ## 0.2.3
 * Extension listener is back to onchange but with a dirty control [#15](https://github.com/serayuzgur/crates/issues/15).
 * Out of line dependencies supported. [#8](https://github.com/serayuzgur/crates/issues/8).
