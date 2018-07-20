@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.3.0
+* RegExps removed and migrated to inhouse parser.  [#17](https://github.com/serayuzgur/crates/issues/17).
+
 ## 0.2.4
 * Regexp bug fixed by [@userzimmermann](https://github.com/userzimmermann)
 

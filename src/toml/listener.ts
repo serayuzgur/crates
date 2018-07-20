@@ -2,48 +2,79 @@
  * Listener for TOML files.
  * Filters active editor files according to the extension.
  */
-import { TextEditor, TextEditorDecorationType, window } from "vscode";
-import { parse } from "toml";
+import {
+  TextEditor,
+  TextEditorDecorationType,
+  window,
+  workspace,
+} from "vscode";
+import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
-import decorators from "../ui/decorations";
-import { dependencies } from "./decorations";
+import { decorate } from "./decorations";
 import { status } from "./commands";
+import { versions } from "../api";
 
 let decoration: TextEditorDecorationType;
 
-function parseAndDecorate(editor: TextEditor) {
-  const { fileName } = editor.document;
+function parseToml(text: string): Item[] {
+  console.log("Parsing...");
+  const toml = parse(text);
+  const tomlDependencies = filterCrates(toml.values);
+  statusBarItem.setText("Cargo.toml parsed");
+  return tomlDependencies;
+}
 
-  console.log("Parsing... ", fileName);
+function fetchCrateVersions(
+  dependencies: Item[],
+  shouldListPreRels: boolean,
+): Promise<any> {
   statusBarItem.setText("Fetching crates.io");
-  const text = editor.document.getText();
-  try {
-    const toml = parse(text);
-    const tomlDependencies = toml["dependencies"] || {};
-    Object.assign(tomlDependencies, toml["dev-dependencies"]);
-    Object.assign(tomlDependencies, toml["build-dependencies"]);
-    // parse target dependencies and add to dependencies
-    const targets = toml["target"] || {};
-    Object.keys(targets).map(key => {
-      const target = targets[key];
-      Object.assign(tomlDependencies, target["dependencies"]);
-      Object.assign(tomlDependencies, target["dev-dependencies"]);
-      Object.assign(tomlDependencies, target["build-dependencies"]);
-    });
-    statusBarItem.setText("Cargo.toml parsed");
-    try {
-      dependencies(editor, tomlDependencies, options => {
-        if (decoration) {
-          decoration.dispose();
-        }
-        decoration = decorators.latestVersion("VERSION");
-        editor.setDecorations(decoration, options);
-        statusBarItem.setText("OK");
-
+  const responses = dependencies.map((item: Item) => {
+    return versions(item.key)
+      .then((json: any) => {
+        return {
+          item,
+          versions: json.versions.reduce((result: any[], item: any) => {
+            const isPreRelease =
+              !shouldListPreRels && item.num.indexOf("-") !== -1;
+            if (!item.yanked && !isPreRelease) {
+              result.push(item.num);
+            }
+            return result;
+          }, []),
+        };
+      })
+      .catch((err: Error) => {
+        console.error(err);
       });
-    } catch (e) {
-      console.error(e);
-    }
+  });
+  return Promise.all(responses);
+}
+
+function decorateVersions(
+  editor: TextEditor,
+  items: Array<{ item: Item; versions: Array<string> }>,
+) {
+  if (decoration) {
+    decoration.dispose();
+  }
+  decoration = decorate(editor, items);
+  statusBarItem.setText("OK");
+}
+
+function parseAndDecorate(editor: TextEditor) {
+  const text = editor.document.getText();
+  const config = workspace.getConfiguration("", editor.document.uri);
+  const shouldListPreRels = config.get("crates.listPreReleases");
+
+  try {
+    // Parse
+    const dependencies = parseToml(text);
+
+    // Fetch Versions
+    fetchCrateVersions(dependencies, !!shouldListPreRels).then(
+      decorateVersions.bind(undefined,editor),
+    );
   } catch (e) {
     console.error(e);
     statusBarItem.setText("Cargo.toml is not valid!");

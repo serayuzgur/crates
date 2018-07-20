@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Aims to help Rust developers to manage dependencies while using Cargo.toml. It is only helpful if you are using dependencies from crates.io.",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
@@ -74,19 +74,22 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    "test": "npm run compile && node ./node_modules/vscode/bin/test",
+    "test-mocha": "npm run compile && mocha --recursive --require ts-node/register \"./**/*.test.ts\"",
+    "test-mocha-w": "mocha --watch --recursive --require ts-node/register \"./**/*.test.ts\" --watch --watch-extensions ts \"./**/*.test.ts\""
   },
   "devDependencies": {
+    "@types/mocha": "5.2.5",
+    "@types/node": "^10.5.2",
+    "mocha": "5.2.0",
+    "ts-node": "7.0.0",
+    "tslint": "5.11.0",
     "typescript": "2.9.2",
-    "vscode": "1.1.18",
-    "tslint": "5.10.0",
-    "@types/node": "10.5.2",
-    "@types/mocha": "5.2.4"
+    "vscode": "1.1.18"
   },
   "dependencies": {
-    "@types/request-promise": "4.1.41",
+    "@types/request-promise": "4.1.42",
     "request": "2.87.0",
-    "request-promise": "4.2.2",
-    "toml": "2.3.3"
+    "request-promise": "4.2.2"
   }
 }
