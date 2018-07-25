@@ -268,5 +268,5 @@ function initNewItem(item: Item, parent: Item, i: number, buff: Array<string>) {
 }
 
 function isWhiteSpace(ch: string) {
-  return ch === " " || ch === "\n" || ch === "\t";
+  return ch === " " || ch === "\n" || ch === "\r" || ch === "\t";
 }
