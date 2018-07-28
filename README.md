@@ -37,24 +37,11 @@ It is so **simple** that you do not need any configuration, but if you insist...
 
 ## Known Issues
 
-- For **out of line dependencies**
+- All glitches will be cleared on save.
 
-  **Supported:**
 
-  ```toml
-  [target.'cfg(target_os = "windows")'.dependencies.winapi]
-  version = "0.3"
-  features = [
-      "winnt",
-  ]
-  ```
+## Thanks to
 
-  **Not Supported:**
+[@ademozay](https://github.com/ademozay)
 
-  ```toml
-  [target.'cfg(target_os = "windows")'.dependencies.winapi]
-  features = [
-      "winnt",
-  ]
-  version = "0.3"
-  ```
+[@userzimmermann](https://github.com/userzimmermann)

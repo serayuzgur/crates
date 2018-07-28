@@ -46,6 +46,10 @@
       {
         "command": "crates.replaceVersion",
         "title": "crates: Replace Version"
+      },
+      {
+        "command": "crates.retry",
+        "title": "crates: Retry to fetch Cargo.toml"
       }
     ],
     "configuration": {

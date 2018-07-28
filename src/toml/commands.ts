@@ -2,6 +2,7 @@
  * Commands related to TOML files.
  */
 import { commands, TextEditor, TextEditorEdit, Range } from "vscode";
+import tomlListener from "./listener";
 
 export const status = { inProgress: false };
 
@@ -21,6 +22,15 @@ export const replaceVersion = commands.registerTextEditorCommand(
           info.item,
         );
       }
+    }
+  },
+);
+
+export const reload = commands.registerTextEditorCommand(
+  "crates.retry",
+  (editor: TextEditor, edit: TextEditorEdit, info) => {
+    if (editor) {
+      tomlListener(editor);
     }
   },
 );

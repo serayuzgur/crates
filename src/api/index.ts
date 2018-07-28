@@ -8,7 +8,7 @@ const API = "https://crates.io/api/v1";
 const data: any = {};
 
 function cache(key: string, func: any, url: string) {
-  if (!data[key]) {
+  if (!data[key] || data[key].isRejected()) {
     console.log("Fetching dependency: ", key);
     data[key] = func(url).then((response: string) => {
       try {

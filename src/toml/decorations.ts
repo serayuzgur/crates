@@ -10,7 +10,9 @@ import {
   MarkdownString,
   TextEditorDecorationType,
 } from "vscode";
+
 import { Item } from "./parser";
+import { Dependency } from "./listener";
 
 export const latestVersion = (text: string) =>
   window.createTextEditorDecorationType({
@@ -36,12 +38,9 @@ function decoration(
   // Also handle json valued dependencies
 
   const start = item.start;
-  const end = item.end ;
+  const end = item.end;
   const currentVersion = item.value;
-  console.log(editor.document.getText(new Range(
-    editor.document.positionAt(start),
-    editor.document.positionAt(end),
-  ), ));
+ 
   const hasLatest =
     versions[0] === currentVersion ||
     versions[0].indexOf(`${currentVersion}.`) === 0;
@@ -83,14 +82,14 @@ function decoration(
  */
 export function decorate(
   editor: TextEditor,
-  dependencies: Array<{ item: Item; versions: Array<string> }>,
+  dependencies: Array<Dependency>,
 ): TextEditorDecorationType {
   const config = workspace.getConfiguration("", editor.document.uri);
   const upToDateChar = config.get("crates.upToDateDecorator");
   const upToDateDecorator = upToDateChar ? upToDateChar + "" : "";
   const options: DecorationOptions[] = [];
 
-  dependencies.map((dependency: { item: Item; versions: Array<string> }) => {
+  dependencies.map((dependency: Dependency) => {
     const decor = decoration(
       editor,
       dependency.item,

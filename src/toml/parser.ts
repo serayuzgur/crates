@@ -187,7 +187,7 @@ function parseArray(data: string, parent: Item, index: number): number {
   while (i++ < data.length) {
     const ch = data.charAt(i);
 
-    if (buff.length == 0) { item.start = i; }
+    if (buff.length === 0) { item.start = i; }
 
     if (ch === " " || ch === "\n" || ch === "\t" || ch === "," || isComment) {
       if (ch === "\n") {

@@ -2,7 +2,13 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 ## 0.3.0
-* RegExps removed and migrated to inhouse parser.  [#17](https://github.com/serayuzgur/crates/issues/17).
+* This is the most complete release so far.
+* Retry command added for reloading versions
+* RegExps removed and migrated to a custom parser.  [#17](https://github.com/serayuzgur/crates/issues/17).
+* Additional depencency case added for the test. [#22](https://github.com/serayuzgur/crates/issues/22).
+* All failed fetchs will be reported via status mesage and notification with a *retry* command [#23](https://github.com/serayuzgur/crates/issues/23).
+* A bug at caching fixed.
+* Thanks to [@userzimmermann](https://github.com/userzimmermann) for this release.
 
 ## 0.2.4
 * Regexp bug fixed by [@userzimmermann](https://github.com/userzimmermann)

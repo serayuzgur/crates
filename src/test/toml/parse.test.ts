@@ -27,6 +27,7 @@ suite("parser Tests", function() {
       "target.'cfg(unix)'.dev-dependencies",
       "target.'cfg(target_os = \"windows\")'.dependencies.winapi",
       'target.\'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))\'.dependencies',
+      "dependencies.libc",
     ];
 
     assert.equal(doc.values.length, expected.length);
@@ -49,14 +50,14 @@ suite("parser Tests", function() {
     {
       const item = doc.values[11];
       const section = tomlFile.substring(item.start, item.end);
-      const desiredSection = tomlFile.substring(1037, 1331);
+      const desiredSection = tomlFile.substring(1037, 1333);
       assert.equal(section, desiredSection);
     }
   });
 
   test("Read Values", function() {
     const doc = parse(tomlFile);
-    const expected = [3, 1, 1, 5, 1, 1, 1, 1, 5, 1, 2, 5];
+    const expected = [3, 1, 1, 5, 1, 1, 1, 1, 5, 1, 2, 5,1];
 
     assert.equal(doc.values.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
@@ -102,6 +103,7 @@ suite("parser Tests", function() {
       'x11-dl = "2"',
       'parking_lot = "0.6.2"',
       'percent-encoding = "1.0.1"',
+      'libc = "0.2.42"',
     ];
 
     const actual = filterCrates(doc.values);
