@@ -101,6 +101,7 @@
   "dependencies": {
     "@types/request-promise": "4.1.42",
     "request": "2.88.0",
-    "request-promise": "4.2.2"
+    "request-promise": "4.2.2",
+    "url-parse": "1.4.3"
   }
 }
