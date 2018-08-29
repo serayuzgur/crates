@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.3.1
+* Dependencies updated.
+* Command descriptions are better now.
+* Emojis added for critical status messages.
+* **Update All** command added.
+* Some small performance improvements. 
+* Better README with more gifs :D
+* New icon. (Wow, this really changes everything!)
+
 ## 0.3.0
 * This is the most complete release so far.
 * Retry command added for reloading versions

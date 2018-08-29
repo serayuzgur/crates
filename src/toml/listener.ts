@@ -35,7 +35,7 @@ function fetchCrateVersions(
   dependencies: Item[],
   shouldListPreRels: boolean,
 ): Promise<Dependency[]> {
-  statusBarItem.setText("Fetching crates.io");
+  statusBarItem.setText("👀 Fetching crates.io");
   const responses = dependencies.map(
     (item: Item): Dependency => {
       return versions(item.key)
@@ -114,6 +114,7 @@ export default function(editor: TextEditor | undefined): void {
     const { fileName } = editor.document;
     if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
       status.inProgress = true;
+      status.replaceItems = [];
       statusBarItem.show();
       parseAndDecorate(editor);
     } else {

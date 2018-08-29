@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Aims to help Rust developers to manage dependencies while using Cargo.toml. It is only helpful if you are using dependencies from crates.io.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
@@ -45,11 +45,18 @@
     "commands": [
       {
         "command": "crates.replaceVersion",
-        "title": "crates: Replace Version"
+        "title": "Do not call manualy ! Replace Version of the provided dependency",
+        "category": "👆 Crates"
       },
       {
         "command": "crates.retry",
-        "title": "crates: Retry to fetch Cargo.toml"
+        "title": "Retry to fetch Cargo.toml",
+        "category": "👆 Crates"
+      },
+      {
+        "command": "crates.updateAll",
+        "title": "Update All dependencies of the Cargo.toml",
+        "category": "👆 Crates"
       }
     ],
     "configuration": {
@@ -84,16 +91,16 @@
   },
   "devDependencies": {
     "@types/mocha": "5.2.5",
-    "@types/node": "^10.5.2",
+    "@types/node": "10.9.3",
     "mocha": "5.2.0",
-    "ts-node": "7.0.0",
+    "ts-node": "7.0.1",
     "tslint": "5.11.0",
-    "typescript": "2.9.2",
-    "vscode": "1.1.18"
+    "typescript": "3.0.1",
+    "vscode": "1.1.21"
   },
   "dependencies": {
     "@types/request-promise": "4.1.42",
-    "request": "2.87.0",
+    "request": "2.88.0",
     "request-promise": "4.2.2"
   }
 }

@@ -13,6 +13,7 @@ import {
 
 import { Item } from "./parser";
 import { Dependency } from "./listener";
+import { status, ReplaceItem } from "./commands";
 
 export const latestVersion = (text: string) =>
   window.createTextEditorDecorationType({
@@ -40,26 +41,34 @@ function decoration(
   const start = item.start;
   const end = item.end;
   const currentVersion = item.value;
- 
+
   const hasLatest =
     versions[0] === currentVersion ||
     versions[0].indexOf(`${currentVersion}.`) === 0;
 
   const hoverMessage = new MarkdownString(`**Available Versions**`);
   hoverMessage.isTrusted = true;
-  versions.map(version => {
-    const replaceData = JSON.stringify({
-      item: `"${version}"`,
+
+  if (versions.length > 0) {
+    status.replaceItems.push({
+      item: `"${versions[0]}"`,
       start,
       end,
     });
+  }
 
-    const command = `[${version}](command:crates.replaceVersion?${encodeURI(
-      replaceData,
-    )})`;
+  for (let i = 0; i < versions.length; i++) {
+    const version = versions[i];
+    const replaceData: ReplaceItem = {
+      item: `"${version}"`,
+      start,
+      end,
+    };
+    const encoded = encodeURI(JSON.stringify(replaceData));
+    const command = `[${version}](command:crates.replaceVersion?${encoded})`;
     hoverMessage.appendMarkdown("\n * ");
     hoverMessage.appendMarkdown(command);
-  });
+  }
 
   return {
     range: new Range(
@@ -89,7 +98,8 @@ export function decorate(
   const upToDateDecorator = upToDateChar ? upToDateChar + "" : "";
   const options: DecorationOptions[] = [];
 
-  dependencies.map((dependency: Dependency) => {
+  for (let i = dependencies.length - 1; i > -1; i--) {
+    const dependency: Dependency = dependencies[i];
     const decor = decoration(
       editor,
       dependency.item,
@@ -99,7 +109,7 @@ export function decorate(
     if (decor) {
       options.push(decor);
     }
-  });
+  }
   const lastVerDeco = latestVersion("VERSION");
   editor.setDecorations(lastVerDeco, options);
   return lastVerDeco;

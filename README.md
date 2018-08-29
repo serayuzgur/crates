@@ -7,13 +7,12 @@
 
 Hello Rust & VSCode lovers,
 
-This is **crates**, an extension for *crates.io* dependencies. Aims helping developers to manage dependencies while using _Cargo.toml_.
+This is **crates**, an extension for _crates.io_ dependencies. Aims helping developers to manage dependencies while using _Cargo.toml_.
 
 ## Notes
 
-* It is only helpful if you are using dependencies from _crates.io_. Dependencies from _git_ or other platforms are not supported.
-* TOML must be valid. If not crates will not show versions. It will inform you with. status bar and dialog.
-
+- It is only helpful if you are using dependencies from _crates.io_. Dependencies from _git_ or other platforms are not supported.
+- TOML must be valid. If not crates will not show versions. It will inform you with. status bar and dialog.
 
 ## Features
 
@@ -24,7 +23,17 @@ This is **crates**, an extension for *crates.io* dependencies. Aims helping deve
 
 Aims to be fast and simple.
 
-![ss](https://github.com/serayuzgur/crates/raw/master/feature.gif)
+### Update Single Dependency
+
+![update](https://github.com/serayuzgur/crates/raw/master/update.gif)
+
+### Update All Dependencies (lazy mode)
+
+![updateAll](https://github.com/serayuzgur/crates/raw/master/updateAll.gif)
+
+### Simple settings
+
+![pref](https://github.com/serayuzgur/crates/raw/master/pref.png)
 
 ## Extension Settings
 
@@ -34,11 +43,9 @@ It is so **simple** that you do not need any configuration, but if you insist...
 
 `crates.listPreReleases` : If true, pre-release versions will be listed in hover and at decoration. Default is false.
 
-
 ## Known Issues
 
 - All glitches will be cleared on save.
-
 
 ## Thanks to
 

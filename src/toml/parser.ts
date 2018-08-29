@@ -162,7 +162,6 @@ function parseValues(data: string, parent: Item, index: number): number {
       item = initNewItem(item, parent, i, buff);
       isParsingKey = true;
     } else if (ch === "]") {
-      // item = clearVars(item, parent, i, buff);
       i--;
       break;
     } else {
