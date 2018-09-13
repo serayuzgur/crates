@@ -18,7 +18,6 @@ import { status, ReplaceItem } from "./commands";
 export const latestVersion = (text: string) =>
   window.createTextEditorDecorationType({
     after: {
-      contentText: text,
       margin: "2em",
     },
   });
@@ -71,23 +70,23 @@ function decoration(
     hoverMessage.appendMarkdown(command);
   }
 
-  let latestText = latestDecorator;
-  if (latestText.indexOf("${version}") > -1) {
-    latestText = latestText.replace("${version}", versions[0]);
-  }
+  const latestText = latestDecorator.replace("${version}", versions[0]);
+  const contentText = hasLatest ? upToDateDecorator : latestText;
 
-  return {
+  const deco = {
     range: new Range(
       editor.document.positionAt(start),
       editor.document.positionAt(end),
     ),
     hoverMessage,
     renderOptions: {
-      after: {
-        contentText: hasLatest ? upToDateDecorator : latestText,
-      },
+      after: {},
     },
   };
+  if (contentText.length > 0) {
+    deco.renderOptions.after = { contentText };
+  }
+  return deco;
 }
 
 /**
