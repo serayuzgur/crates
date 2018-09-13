@@ -35,6 +35,7 @@ function decoration(
   item: Item,
   versions: string[],
   upToDateDecorator: string,
+  latestDecorator: string,
 ): DecorationOptions {
   // Also handle json valued dependencies
 
@@ -70,6 +71,11 @@ function decoration(
     hoverMessage.appendMarkdown(command);
   }
 
+  let latestText = latestDecorator;
+  if (latestText.indexOf("${version}") > -1) {
+    latestText = latestText.replace("${version}", versions[0]);
+  }
+
   return {
     range: new Range(
       editor.document.positionAt(start),
@@ -78,7 +84,7 @@ function decoration(
     hoverMessage,
     renderOptions: {
       after: {
-        contentText: hasLatest ? upToDateDecorator : `Latest: ${versions[0]}`,
+        contentText: hasLatest ? upToDateDecorator : latestText,
       },
     },
   };
@@ -95,7 +101,9 @@ export function decorate(
 ): TextEditorDecorationType {
   const config = workspace.getConfiguration("", editor.document.uri);
   const upToDateChar = config.get("crates.upToDateDecorator");
+  const latestText = config.get("crates.latestDecorator");
   const upToDateDecorator = upToDateChar ? upToDateChar + "" : "";
+  const latestDecorator = latestText ? latestText + "" : "";
   const options: DecorationOptions[] = [];
 
   for (let i = dependencies.length - 1; i > -1; i--) {
@@ -105,6 +113,7 @@ export function decorate(
       dependency.item,
       dependency.versions,
       upToDateDecorator,
+      latestDecorator,
     );
     if (decor) {
       options.push(decor);

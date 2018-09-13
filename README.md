@@ -41,6 +41,8 @@ It is so **simple** that you do not need any configuration, but if you insist...
 
 `crates.upToDateDecorator`: The text to show when dependency is up to date. Default is 👍.
 
+`crates.latestDecorator`: The text to show when dependency is **not**  up to date. Default is `Latest: ${version}`.
+
 `crates.listPreReleases` : If true, pre-release versions will be listed in hover and at decoration. Default is false.
 
 ## Known Issues

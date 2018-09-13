@@ -2,6 +2,8 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 ## 0.3.1
+* New settings: crates.latestDecorator. For changing latest version decoration [#27](https://github.com/serayuzgur/crates/issues/27).
+## 0.3.1
 * Dependencies updated.
 * Command descriptions are better now.
 * Emojis added for critical status messages.

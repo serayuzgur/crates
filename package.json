@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Aims to help Rust developers to manage dependencies while using Cargo.toml. It is only helpful if you are using dependencies from crates.io.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
@@ -61,7 +61,7 @@
     ],
     "configuration": {
       "type": "object",
-      "title": "Crates configuration",
+      "title": "Crates",
       "properties": {
         "crates.upToDateDecorator": {
           "type": "string",
@@ -69,11 +69,17 @@
           "default": "👍",
           "description": "The text to show when dependency is up to date."
         },
+        "crates.latestDecorator": {
+          "type": "string",
+          "scope": "resource",
+          "default": "Latest: ${version}",
+          "description": "The text template to show when dependency is not up to date. ${version} will be replaced by the latest version info."
+        },
         "crates.listPreReleases": {
           "type": "boolean",
           "scope": "resource",
           "default": false,
-          "description": "If true, pre-release versions will be listed in hover and at decoration."
+          "description": "If true, pre-release versions will be available."
         }
       }
     }
@@ -91,11 +97,11 @@
   },
   "devDependencies": {
     "@types/mocha": "5.2.5",
-    "@types/node": "10.9.3",
+    "@types/node": "10.9.4",
     "mocha": "5.2.0",
     "ts-node": "7.0.1",
     "tslint": "5.11.0",
-    "typescript": "3.0.1",
+    "typescript": "3.0.3",
     "vscode": "1.1.21"
   },
   "dependencies": {
