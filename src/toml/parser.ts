@@ -128,8 +128,9 @@ function parseValues(data: string, parent: Item, index: number): number {
   while (i++ < data.length) {
     const ch = data.charAt(i);
 
-    if (!isParsingKey && buff.length === 0) { item.start = i; }
-
+    if (!isParsingKey && buff.length === 0) {
+      item.start = i;
+    }
 
     if (isWhiteSpace(ch) || isComment) {
       if (ch === "\n") {
@@ -144,6 +145,11 @@ function parseValues(data: string, parent: Item, index: number): number {
       buff = [];
     } else if (ch === '"' || ch === "'") {
       i = parseString(data, item, i, ch);
+      item = initNewItem(item, parent, i, buff);
+      isParsingKey = true;
+    } else if (data.substring(i,i+4) === "true" || data.substring(i,i+5) === "false") {
+      i = parseBoolean(data, item, i, ch);
+      console.log("!!!OSMAN:", item);
       item = initNewItem(item, parent, i, buff);
       isParsingKey = true;
     } else if (ch === "{") {
@@ -186,7 +192,9 @@ function parseArray(data: string, parent: Item, index: number): number {
   while (i++ < data.length) {
     const ch = data.charAt(i);
 
-    if (buff.length === 0) { item.start = i; }
+    if (buff.length === 0) {
+      item.start = i;
+    }
 
     if (ch === " " || ch === "\n" || ch === "\t" || ch === "," || isComment) {
       if (ch === "\n") {
@@ -198,6 +206,11 @@ function parseArray(data: string, parent: Item, index: number): number {
     } else if (ch === '"' || ch === "'") {
       item.start = i;
       i = parseString(data, item, i, ch);
+      item = initNewItem(item, parent, i, buff);
+    } else if (ch === "t" || ch === "f") {
+      item.start = i;
+      console.log("!!!OSMAN:", item);
+      i = parseBoolean(data, item, i, ch);
       item = initNewItem(item, parent, i, buff);
     } else if (ch === "{") {
       i = parseValues(data, item, i);
@@ -251,6 +264,32 @@ function parseString(
 }
 
 /**
+ * Parse boolean
+ * @param data
+ * @param item
+ * @param index
+ * @param opener
+ */
+function parseBoolean(
+  data: string,
+  item: Item,
+  index: number,
+  opener: string,
+): number {
+  const ch = data.charAt(0);
+  switch (ch) {
+    case "t":
+      item.value = "true";
+      return index + 4;
+    case "f":
+      item.value = "false";
+      return index + 4;
+    default:
+      return index;
+  }
+}
+
+/**
  * Reset some values
  * @param item
  * @param parent
@@ -259,7 +298,7 @@ function parseString(
  */
 function initNewItem(item: Item, parent: Item, i: number, buff: Array<string>) {
   if (item.start !== -1) {
-    item.end = i+1;
+    item.end = i + 1;
     parent.values.push(item);
   }
   buff.length = 0;

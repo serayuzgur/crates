@@ -19,6 +19,8 @@ suite("parser Tests", function() {
       "package.metadata.docs.rs",
       "features",
       "dependencies",
+      "dependencies.clap",
+      "dependencies.nom",
       "dev-dependencies",
       "build-dependencies",
       "target.'cfg(target_os = \"android\")'.dependencies.android_glue",
@@ -35,8 +37,7 @@ suite("parser Tests", function() {
       const item = doc.values[i];
       assert.equal(item.key, expected[i].replace(/\s/g, ""));
       assert.strictEqual(
-        tomlFile
-          .substring(item.start+1, item.start+1 + expected[i].length),
+        tomlFile.substring(item.start + 1, item.start + 1 + expected[i].length),
         expected[i],
         `Start index error for "${doc.values[i].key}"`,
       );
@@ -49,15 +50,18 @@ suite("parser Tests", function() {
     }
     {
       const item = doc.values[11];
-      const section = tomlFile.substring(item.start, item.end);
-      const desiredSection = tomlFile.substring(1037, 1333);
+      const section = tomlFile.substring(item.start, item.end-1);
+      const desiredSection = tomlFile.substring(824, 875);
+      assert.equal(section.length, desiredSection.length);
+
       assert.equal(section, desiredSection);
+
     }
   });
 
   test("Read Values", function() {
     const doc = parse(tomlFile);
-    const expected = [3, 1, 1, 5, 1, 1, 1, 1, 5, 1, 2, 5,1];
+    const expected = [3, 1, 1, 5, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1];
 
     assert.equal(doc.values.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
@@ -69,7 +73,7 @@ suite("parser Tests", function() {
     }
   });
 
-  test("Test Start & end", function () {
+  test("Test Start & end", function() {
     const doc = parse(tomlFile);
     {
       const item = doc.values[0].values[0];
@@ -87,6 +91,8 @@ suite("parser Tests", function() {
       'image = "0.19.0"',
       'futures = "0.1.21"',
       'futures-await = "0.1.0"',
+      'clap = "2.32.0"',
+      'nom = "4"',
       'tempdir = "0.3.7"',
       'gcc = "0.3"',
       'android_glue = "0.2"',

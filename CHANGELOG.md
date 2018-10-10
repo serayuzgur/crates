@@ -1,5 +1,12 @@
 # Change Log
-All notable changes to the "crates" extension will be documented in this file.
+All notable changes to the "crates" extension will be documented in this 
+file.
+
+
+## 0.3.3
+* Confuse on table dependencies with boolean attributes fixed. [#28](https://github.com/serayuzgur/crates/issues/28).
+
+
 
 ## 0.3.2
 * Spacing issues with inline dependencies. [#26](https://github.com/serayuzgur/crates/issues/26).

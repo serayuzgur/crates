@@ -17,6 +17,14 @@ futures = "0.1.21"
 # futures-await = "0.1.0"
 futures-await = "0.1.0"
 
+[dependencies.clap]
+version = "2.32.0"
+default-features = false
+
+[dependencies.nom]
+version = "4"
+features = ["verbose-errors"]
+
 [dev-dependencies]
 tempdir = "0.3.7"
 
