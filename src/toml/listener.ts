@@ -7,7 +7,6 @@ import {
   TextEditorDecorationType,
   window,
   workspace,
-  commands,
 } from "vscode";
 import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
@@ -45,7 +44,7 @@ function fetchCrateVersions(
             versions: json.versions.reduce((result: any[], item: any) => {
               const isPreRelease =
                 !shouldListPreRels && item.num.indexOf("-") !== -1;
-              if (!item.yanked && !isPreRelease) {
+              if (!item.yanked && !isPreRelease && item.num !== "0.0.0") {
                 result.push(item.num);
               }
               return result;
@@ -68,18 +67,14 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
   }
   const errors: Array<string> = [];
   const filtered = dependencies.filter((dep: Dependency) => {
-    if (dep && !dep.error) {
+    if (dep && !dep.error && dep.versions.length) {
       return dep;
     }
     errors.push(`${dep.item.key}`);
   });
   decoration = decorate(editor, filtered);
   if (errors.length) {
-    window
-      .showErrorMessage(`Fetch Errors:  ${errors.join(" , ")}`, "Retry")
-      .then(action => {
-        commands.executeCommand("crates.retry");
-      });
+    window.showErrorMessage(`Fetch Errors:  ${errors.join(" , ")}`, "Retry");
     statusBarItem.setText("⚠️ Completed with errors");
   } else {
     statusBarItem.setText("OK");

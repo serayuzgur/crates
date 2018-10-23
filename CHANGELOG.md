@@ -3,6 +3,10 @@ All notable changes to the "crates" extension will be documented in this
 file.
 
 
+## 0.3.4
+* A bug which caused loop on parsing fixed. [#29](https://github.com/serayuzgur/crates/issues/29).
+
+
 ## 0.3.3
 * Confuse on table dependencies with boolean attributes fixed. [#28](https://github.com/serayuzgur/crates/issues/28).
 
