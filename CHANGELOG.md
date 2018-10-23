@@ -1,10 +1,10 @@
 # Change Log
-All notable changes to the "crates" extension will be documented in this 
-file.
+All notable changes to the "crates" extension will be documented in this file.
 
 
 ## 0.3.4
 * A bug which caused loop on parsing fixed. [#29](https://github.com/serayuzgur/crates/issues/29).
+* Version confuse after inline table version fixed. [#30](https://github.com/serayuzgur/crates/issues/30).
 
 
 ## 0.3.3

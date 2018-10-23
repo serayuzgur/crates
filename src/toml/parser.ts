@@ -85,17 +85,13 @@ function parseTables(data: string, parent: Item): Item {
   let item: Item = new Item();
   let i = -1;
   let buff = [];
-  let isComment = false;
 
   while (i++ < data.length) {
     const ch = data.charAt(i);
-    if (isWhiteSpace(ch) || isComment) {
-      if (ch === "\n") {
-        isComment = false;
-      }
+    if (isWhiteSpace(ch) || isNewLine(ch)) {
       continue;
     } else if (ch === "#") {
-      isComment = true;
+      i = parseComment(data, i);
     } else if (ch === "[") {
       item = new Item();
       item.start = i;
@@ -103,7 +99,7 @@ function parseTables(data: string, parent: Item): Item {
     } else if (ch === "]") {
       item.key = buff.join("");
       i = parseValues(data, item, i);
-      item = initNewItem(item, parent, i, buff);
+      item = initNewItem(item, parent, i);
     } else {
       buff.push(ch);
     }
@@ -123,56 +119,52 @@ function parseValues(data: string, parent: Item, index: number): number {
   let item = new Item();
 
   let isParsingKey = true;
-  let buff: string[] = [];
-  let isComment = false;
   while (i++ < data.length) {
     const ch = data.charAt(i);
-
-    if (!isParsingKey && buff.length === 0) {
-      item.start = i;
-    }
-
-    if (isWhiteSpace(ch) || isComment) {
-      if (ch === "\n") {
-        isComment = false;
-      }
+    if (isWhiteSpace(ch) || isNewLine(ch) || isComma(ch)) {
       continue;
     } else if (ch === "#") {
-      isComment = true;
-    } else if (ch === "=") {
+      i = parseComment(data, i);
+    } else if (isParsingKey) {
+      if (ch === "[") {
+        return --i;
+      } else if (ch === "}") {
+        return i;
+      }
+      i = parseKey(data, item, i);
       isParsingKey = false;
-      item.key = buff.join("");
-      buff = [];
+    } else if (ch === "#") {
+      i = parseComment(data, i);
     } else if (ch === '"' || ch === "'") {
       i = parseString(data, item, i, ch);
-      item = initNewItem(item, parent, i, buff);
+      item = initNewItem(item, parent, i);
       isParsingKey = true;
-    } else if (data.substring(i,i+4) === "true" || data.substring(i,i+5) === "false") {
-      i = parseBoolean(data, item, i, ch);
-      console.log("!!!OSMAN:", item);
-      item = initNewItem(item, parent, i, buff);
+    } else if (ch === "[") {
+      i = parseArray(data, item, i);
+      item = initNewItem(item, parent, i);
       isParsingKey = true;
     } else if (ch === "{") {
       i = parseValues(data, item, i);
-      item = initNewItem(item, parent, i, buff);
-    } else if (ch === "}") {
-      item = initNewItem(item, parent, i, buff);
+      item = initNewItem(item, parent, i);
       isParsingKey = true;
-      return i;
-    } else if (ch === "[") {
-      if (isParsingKey) {
-        i--;
-        break;
-      }
-      i = parseArray(data, item, i);
-      item = initNewItem(item, parent, i, buff);
+    } else if (isBoolean(data, i)) {
+      i = parseBoolean(data, item, i, ch);
+      item = initNewItem(item, parent, i);
       isParsingKey = true;
-    } else if (ch === "]") {
-      i--;
-      break;
-    } else {
-      buff.push(ch);
     }
+    //  else if (ch === "]") {
+    //   i--;
+    //   break;
+    // } else if (
+    //   data.substring(i, i + 4) === "true" ||
+    //   data.substring(i, i + 5) === "false"
+    // ) {
+    //   i = parseBoolean(data, item, i, ch);
+    //   // item = initNewItem(item, parent, i, buff);
+    //   // isParsingKey = true;
+    // } else {
+    //   buff.push(ch);
+    // }
   }
 
   return i;
@@ -187,45 +179,15 @@ function parseValues(data: string, parent: Item, index: number): number {
 function parseArray(data: string, parent: Item, index: number): number {
   let i = index;
   let item = new Item();
-  let buff: string[] = [];
-  let isComment = false;
   while (i++ < data.length) {
     const ch = data.charAt(i);
-
-    if (buff.length === 0) {
-      item.start = i;
-    }
-
-    if (ch === " " || ch === "\n" || ch === "\t" || ch === "," || isComment) {
-      if (ch === "\n") {
-        isComment = false;
-      }
+    if (isWhiteSpace(ch) || isNewLine(ch) || isComma(ch)) {
       continue;
-    } else if (ch === "#") {
-      isComment = true;
     } else if (ch === '"' || ch === "'") {
-      item.start = i;
       i = parseString(data, item, i, ch);
-      item = initNewItem(item, parent, i, buff);
-    } else if (ch === "t" || ch === "f") {
-      item.start = i;
-      console.log("!!!OSMAN:", item);
-      i = parseBoolean(data, item, i, ch);
-      item = initNewItem(item, parent, i, buff);
-    } else if (ch === "{") {
-      i = parseValues(data, item, i);
-      item = initNewItem(item, parent, i, buff);
-    } else if (ch === "}") {
-      item = initNewItem(item, parent, i, buff);
-      return i;
-    } else if (ch === "[") {
-      i = parseValues(data, item, i);
-      item = initNewItem(item, parent, i, buff);
+      item = initNewItem(item, parent, i);
     } else if (ch === "]") {
-      item = initNewItem(item, parent, i, buff);
-      break;
-    } else {
-      buff.push(ch);
+      return i;
     }
   }
 
@@ -246,6 +208,7 @@ function parseString(
   opener: string,
 ): number {
   let i = index;
+  item.start = index;
   let buff: string[] = [];
   while (i++ < data.length) {
     const ch = data.charAt(i);
@@ -254,11 +217,51 @@ function parseString(
       case "'":
         if (ch === opener) {
           item.value = buff.join("");
+          item.end = i;
           return i;
         }
       default:
         buff.push(ch);
     }
+  }
+  return i;
+}
+
+/**
+ * Parse comment
+ * @param data
+ * @param index
+ */
+function parseComment(data: string, index: number): number {
+  let i = index;
+  while (i++ < data.length) {
+    const ch = data.charAt(i);
+    if (isNewLine(ch)) {
+      return i;
+    }
+  }
+  return i;
+}
+
+/**
+ * Parse key
+ * @param data
+ * @param item
+ * @param index
+ */
+function parseKey(data: string, item: Item, index: number): number {
+  let i = index;
+  let buff: string[] = [];
+  item.start = index;
+  while (i < data.length) {
+    const ch = data.charAt(i);
+    if (ch === "=") {
+      item.key = buff.join("");
+      return i;
+    } else if (!isWhiteSpace(ch)) {
+      buff.push(ch);
+    }
+    i++;
   }
   return i;
 }
@@ -276,11 +279,11 @@ function parseBoolean(
   index: number,
   opener: string,
 ): number {
-  const ch = data.charAt(0);
+  const ch = data.charAt(index);
   switch (ch) {
     case "t":
       item.value = "true";
-      return index + 4;
+      return index + 3;
     case "f":
       item.value = "false";
       return index + 4;
@@ -296,15 +299,27 @@ function parseBoolean(
  * @param i
  * @param buff
  */
-function initNewItem(item: Item, parent: Item, i: number, buff: Array<string>) {
+function initNewItem(item: Item, parent: Item, i: number) {
   if (item.start !== -1) {
     item.end = i + 1;
     parent.values.push(item);
   }
-  buff.length = 0;
   return new Item();
 }
 
 function isWhiteSpace(ch: string) {
-  return ch === " " || ch === "\n" || ch === "\r" || ch === "\t";
+  return ch === " " || ch === "\t";
+}
+function isNewLine(ch: string) {
+  return ch === "\n" || ch === "\r";
+}
+
+function isComma(ch: string) {
+  return ch === ",";
+}
+
+function isBoolean(data: string, i: number) {
+  return (
+    data.substring(i, i + 4) === "true" || data.substring(i, i + 5) === "false"
+  );
 }
