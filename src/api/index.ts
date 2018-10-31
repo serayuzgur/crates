@@ -10,7 +10,11 @@ const data: any = {};
 function cache(key: string, func: any, url: string) {
   if (!data[key] || data[key].isRejected()) {
     console.log("Fetching dependency: ", key);
-    data[key] = func(url)
+    data[key] = func(url, {
+      headers: {
+        "User-Agent": "VSCode.Crates (https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates)",
+      },
+    })
       .then((response: string) => {
         try {
           return JSON.parse(response);

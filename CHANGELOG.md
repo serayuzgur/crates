@@ -1,6 +1,8 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.3.5
+* User-Agent header added on crates.io requests. [#31](https://github.com/serayuzgur/crates/issues/31).
 
 ## 0.3.4
 * A bug which caused loop on parsing fixed. [#29](https://github.com/serayuzgur/crates/issues/29).
