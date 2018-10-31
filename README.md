@@ -1,6 +1,8 @@
 # crates
 
-[![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/v/serayuzgur.crates.svg)](https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates)
+[![Visual Studio Marketplace Version](https://vsmarketplacebadge.apphb.com/version/serayuzgur.crates.svg)](https://vsmarketplacebadge.apphb.com/version/serayuzgur.crates.svg)
+[![Visual Studio Marketplace Installs](https://vsmarketplacebadge.apphb.com/installs-short/serayuzgur.crates.svg)](https://vsmarketplacebadge.apphb.com/installs-short/serayuzgur.crates.svg)
+[![Visual Studio Marketplace Rating](https://vsmarketplacebadge.apphb.com/rating-short/serayuzgur.crates.svg)](https://vsmarketplacebadge.apphb.com/rating-short/serayuzgur.crates.svg)
 [![GitHub stars](https://img.shields.io/github/stars/serayuzgur/crates.svg)](https://github.com/serayuzgur/crates/stargazers)
 [![Build Status](https://travis-ci.org/serayuzgur/crates.svg?branch=master)](https://travis-ci.org/serayuzgur/crates)
 
@@ -42,7 +44,7 @@ It is so **simple** that you do not need any configuration, but if you insist...
 
 `crates.upToDateDecorator`: The text to show when dependency is up to date. Default is 👍.
 
-`crates.latestDecorator`: The text to show when dependency is **not**  up to date. Default is `Latest: ${version}`.
+`crates.latestDecorator`: The text to show when dependency is **not** up to date. Default is `Latest: ${version}`.
 
 `crates.listPreReleases` : If true, pre-release versions will be listed in hover and at decoration. Default is false.
 
