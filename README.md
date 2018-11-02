@@ -12,6 +12,10 @@ Hello Rust & VSCode lovers,
 
 This is **crates**, an extension for _crates.io_ dependencies. Aims helping developers to manage dependencies while using _Cargo.toml_.
 
+## Requirements
+
+- Have a TOML plugin installed, such as ![TOML Language Support](https://marketplace.visualstudio.com/items?itemName=be5invis.toml) or ![Better TOML](https://github.com/bungcip/better-toml).
+
 ## Notes
 
 - It is only helpful if you are using dependencies from _crates.io_. Dependencies from _git_ or other platforms are not supported.
