@@ -48,6 +48,8 @@ It is so **simple** that you do not need any configuration, but if you insist...
 
 `crates.listPreReleases` : If true, pre-release versions will be listed in hover and at decoration. Default is false.
 
+`crates.suppressErrorToasts` : If true, all error message toasts will be suppressed. Default is false.
+
 ## Known Issues
 
 - All glitches will be cleared on save.

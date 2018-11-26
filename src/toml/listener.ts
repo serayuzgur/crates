@@ -21,6 +21,13 @@ export interface Dependency {
 }
 
 let decoration: TextEditorDecorationType;
+let suppressErrorToasts: boolean | undefined = false;
+
+function showErrorMessage(message: string, ...items: string[]) {
+  if (!suppressErrorToasts) {
+    window.showErrorMessage(message, ...items);
+  }
+}
 
 function parseToml(text: string): Item[] {
   console.log("Parsing...");
@@ -74,7 +81,7 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
   });
   decoration = decorate(editor, filtered);
   if (errors.length) {
-    window.showErrorMessage(`Fetch Errors:  ${errors.join(" , ")}`, "Retry");
+    showErrorMessage(`Fetch Errors:  ${errors.join(" , ")}`, "Retry");
     statusBarItem.setText("⚠️ Completed with errors");
   } else {
     statusBarItem.setText("OK");
@@ -85,6 +92,7 @@ function parseAndDecorate(editor: TextEditor) {
   const text = editor.document.getText();
   const config = workspace.getConfiguration("", editor.document.uri);
   const shouldListPreRels = config.get("crates.listPreReleases");
+  suppressErrorToasts = config.get("crates.suppressErrorToasts");
 
   try {
     // Parse
@@ -97,7 +105,7 @@ function parseAndDecorate(editor: TextEditor) {
   } catch (e) {
     console.error(e);
     statusBarItem.setText("Cargo.toml is not valid!");
-    window.showErrorMessage(`Cargo.toml is not valid! ${JSON.stringify(e)}`);
+    showErrorMessage(`Cargo.toml is not valid! ${JSON.stringify(e)}`);
     if (decoration) {
       decoration.dispose();
     }
