@@ -145,29 +145,29 @@ function parseValues(data: string, parent: Item, index: number): number {
       isParsingKey = true;
     } else if (ch === "{") {
       i = parseValues(data, item, i);
-      item = initNewItem(item, parent, i);
+      if (isCratesDep(item)) {
+        item = initNewItem(item, parent, i);
+      }
       isParsingKey = true;
     } else if (isBoolean(data, i)) {
       i = parseBoolean(data, item, i, ch);
       item = initNewItem(item, parent, i);
       isParsingKey = true;
     }
-    //  else if (ch === "]") {
-    //   i--;
-    //   break;
-    // } else if (
-    //   data.substring(i, i + 4) === "true" ||
-    //   data.substring(i, i + 5) === "false"
-    // ) {
-    //   i = parseBoolean(data, item, i, ch);
-    //   // item = initNewItem(item, parent, i, buff);
-    //   // isParsingKey = true;
-    // } else {
-    //   buff.push(ch);
-    // }
   }
 
   return i;
+}
+
+function isCratesDep(i: Item): boolean {
+  if (i.values && i.values.length) {
+    for (let value of i.values) {
+      if (value.key === "git" || value.key === "path") {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 /**

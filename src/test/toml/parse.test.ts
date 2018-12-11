@@ -12,9 +12,6 @@ suite("Parser Tests", function() {
   test("Read File", function() {
     assert.notEqual(tomlFile, undefined);
   });
-  // test("Read Bombadil", function() {
-  //   assert.notEqual(parseBombadil(tomlFile), undefined);
-  // });
   test("Read Tables", function() {
     const doc = parse(tomlFile);
     const expected = [
@@ -60,7 +57,7 @@ suite("Parser Tests", function() {
       const item = doc.values[doc.values.length - 1];
       const section = tomlFile.substring(item.start, item.end - 1);
       const desiredSection = tomlFile.substring(1527, 1567);
-      assert.equal(section.length, desiredSection.length);
+      // assert.equal(section.length, desiredSection.length);
 
       assert.equal(section, desiredSection);
     }
@@ -68,7 +65,7 @@ suite("Parser Tests", function() {
 
   test("Read Values", function() {
     const doc = parse(tomlFile);
-    const expected = [3, 1, 1, 7, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1];
+    const expected = [3, 1, 1, 6, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1];
 
     assert.equal(doc.values.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
@@ -99,7 +96,6 @@ suite("Parser Tests", function() {
       'futures = "0.1.21"',
       'futures-await = "0.1.0"',
       'log = "0.4"',
-      'emoji-clock = "0.1.0"',
       'clap = "2.32.0"',
       'nom = "4"',
       'tempdir = "0.3.7"',
