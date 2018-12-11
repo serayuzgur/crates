@@ -97,17 +97,17 @@
   },
   "devDependencies": {
     "@types/mocha": "5.2.5",
-    "@types/node": "10.12.1",
+    "@types/node": "10.12.12",
+    "@types/request-promise": "4.1.42",
     "mocha": "5.2.0",
     "ts-node": "7.0.1",
     "tslint": "5.11.0",
-    "typescript": "3.1.4",
-    "vscode": "1.1.21"
+    "typescript": "3.2.2",
+    "vscode": "1.1.26"
   },
   "dependencies": {
-    "@types/request-promise": "4.1.42",
     "request": "2.88.0",
     "request-promise": "4.2.2",
-    "url-parse": "1.4.3"
+    "url-parse": "1.4.4"
   }
 }
