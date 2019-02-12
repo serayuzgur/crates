@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.3.7
+* Fetch errors for crates with package alias. [#38](https://github.com/serayuzgur/crates/issues/38).
+
 ## 0.3.6
 * Fetch errors for crate from git link and version. [#36](https://github.com/serayuzgur/crates/issues/36).
 

@@ -145,9 +145,10 @@ function parseValues(data: string, parent: Item, index: number): number {
       isParsingKey = true;
     } else if (ch === "{") {
       i = parseValues(data, item, i);
-      if (isCratesDep(item)) {
-        item = initNewItem(item, parent, i);
+      if (!isCratesDep(item)) {
+        item.start = -1;
       }
+      item = initNewItem(item, parent, i);
       isParsingKey = true;
     } else if (isBoolean(data, i)) {
       i = parseBoolean(data, item, i, ch);
@@ -164,6 +165,8 @@ function isCratesDep(i: Item): boolean {
     for (let value of i.values) {
       if (value.key === "git" || value.key === "path") {
         return false;
+      } else if (value.key === "package") {
+        i.key = value.value;
       }
     }
   }

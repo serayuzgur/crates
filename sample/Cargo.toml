@@ -10,14 +10,15 @@ features = ["icon_loading","osman"]
 icon_loading = ["image"]
 
 [dependencies]
-lazy_static = "1.0.2"
-libc = "0.2.24"
-image = {version = "0.20.0",optional = true}
+lazy_static = "1.2.0"
+libc = "0.2.45"
+image = {version = "0.20.1",optional = true}
 futures = "0.1.21"
 # futures-await = "0.1.0"
 futures-await = "0.1.1"
 log = "0.4"
 clippy = { version = "0.0.302", optional = true}
+cookie_rs = {package = "cookie", version = "0.10.1"}
 emoji-clock = { version= "0.1.0", path = "../lib"}
 
 
@@ -73,5 +74,5 @@ version = "0.2.8"
 wayland-client = {version = "0.21.2",features = ["dlopen","egl","cursor"]}
 smithay-client-toolkit = "0.2.4"
 x11-dl = "2"
-parking_lot = "0.6.2"
+parking_lot = "0.7.0"
 percent-encoding = "1.0.0"

@@ -29,17 +29,19 @@ suite("Parser Tests", function() {
       "target.'cfg(unix)'.dev-dependencies",
       "target.'cfg(target_os = \"windows\")'.dependencies.winapi",
       'target.\'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))\'.dependencies',
-      "dependencies.libc",
+      "dependencies.libb",
     ];
     const actual = [];
     for (let i = 0; i < expected.length; i++) {
       const item = doc.values[i];
+      assert.notEqual(item, undefined, `Undefined item at ${i}`);
       actual.push(item.key);
     }
 
     assert.equal(actual.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
       const item = doc.values[i];
+      assert.notEqual(item, undefined);
       assert.equal(item.key, expected[i].replace(/\s/g, ""));
       assert.strictEqual(
         tomlFile.substring(item.start + 1, item.start + 1 + expected[i].length),
@@ -56,7 +58,7 @@ suite("Parser Tests", function() {
     {
       const item = doc.values[doc.values.length - 1];
       const section = tomlFile.substring(item.start, item.end - 1);
-      const desiredSection = tomlFile.substring(1527, 1567);
+      const desiredSection = tomlFile.substring(1580, 1817);
       // assert.equal(section.length, desiredSection.length);
 
       assert.equal(section, desiredSection);
@@ -65,14 +67,16 @@ suite("Parser Tests", function() {
 
   test("Read Values", function() {
     const doc = parse(tomlFile);
-    const expected = [3, 1, 1, 6, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1];
+    const expected = [3, 1, 1, 7, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1];
 
     assert.equal(doc.values.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
       assert.equal(
         doc.values[i].values.length,
         expected[i],
-        `Value count is wrong for table: ${doc.values[i].key}`,
+        `Value count is wrong for table: ${
+          doc.values[i].key
+        }, items: ${JSON.stringify(doc.values[i].values,null,2)}`,
       );
     }
   });
@@ -95,6 +99,7 @@ suite("Parser Tests", function() {
       'image = "0.19.0"',
       'futures = "0.1.21"',
       'futures-await = "0.1.0"',
+      'cookie = "0.11"',
       'log = "0.4"',
       'clap = "2.32.0"',
       'nom = "4"',
@@ -114,7 +119,7 @@ suite("Parser Tests", function() {
       'x11-dl = "2"',
       'parking_lot = "0.6.2"',
       'percent-encoding = "1.0.1"',
-      'libc = "0.2.42"',
+      'libb = "0.2.42"',
     ];
 
     const actual = filterCrates(doc.values);

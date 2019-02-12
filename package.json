@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Helps Rust developers managing dependencies with Cargo.toml. Only works with dependencies from crates.io.",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
@@ -97,12 +97,12 @@
   },
   "devDependencies": {
     "@types/mocha": "5.2.5",
-    "@types/node": "10.12.12",
+    "@types/node": "11.9.0",
     "@types/request-promise": "4.1.42",
     "mocha": "5.2.0",
-    "ts-node": "7.0.1",
-    "tslint": "5.11.0",
-    "typescript": "3.2.2",
+    "ts-node": "8.0.2",
+    "tslint": "5.12.1",
+    "typescript": "3.3.3",
     "vscode": "1.1.26"
   },
   "dependencies": {
