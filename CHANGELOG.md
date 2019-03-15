@@ -3,6 +3,9 @@ All notable changes to the "crates" extension will be documented in this file.
 
 ## 0.4.0
 * All fetches will be done from github api to crates.io-index repository . [#42](https://github.com/serayuzgur/crates/issues/42).
+* Dependencies updated.
+* Quoted dependency names are supported now. [#40](https://github.com/serayuzgur/crates/issues/40).
+
 
 ## 0.3.7
 * Fetch errors for crates with package alias. [#38](https://github.com/serayuzgur/crates/issues/38).
