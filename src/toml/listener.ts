@@ -12,7 +12,7 @@ import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
 import { decorate } from "./decorations";
 import { status } from "./commands";
-import { versions } from "../api";
+import { versions } from "../api/github";
 
 export interface Dependency {
   item: Item;
