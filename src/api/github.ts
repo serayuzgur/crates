@@ -49,13 +49,13 @@ function cache(key: string, func: any, url: string) {
 }
 
 export const versions = (name: string) => {
-  if (name.startsWith('"') && name.endsWith('"')) {
-    name = name.substring(1, name.length - 1);
-  }
   return cache(name, get, `${API}/contents/${decidePath(name)}`);
 };
 
 export function decidePath(name: string) {
+  if (name.startsWith('"') && name.endsWith('"')) {
+    name = name.substring(1, name.length - 1);
+  }
   if (name.length === 1) {
     return `1/${name}`;
   }
