@@ -51,6 +51,7 @@ futures = ""
 
 [target.'cfg(unix)'.dev-dependencies]
 mio = "0.6"
+aerosol="0.2.0"
 
 
 [target.'cfg(target_os = "windows")'.dependencies.winapi]

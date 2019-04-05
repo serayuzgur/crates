@@ -48,7 +48,7 @@ function fetchCrateVersions(
                 result.push(item.num);
               }
               return result;
-            }, []),
+            }, []).sort().reverse(),
           };
         })
         .catch((error: Error) => {
