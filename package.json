@@ -99,7 +99,7 @@
     "@types/mocha": "5.2.6",
     "@types/node": "11.11.3",
     "@types/request-promise": "4.1.42",
-    "mocha": "6.0.2",
+    "mocha": "6.1.2",
     "ts-node": "8.0.3",
     "tslint": "5.14.0",
     "typescript": "3.3.3333",
