@@ -2,13 +2,8 @@
  * Listener for TOML files.
  * Filters active editor files according to the extension.
  */
-import {
-  TextEditor,
-  TextEditorDecorationType,
-  window,
-  workspace,
-} from "vscode";
-import * as compareVersions from 'compare-versions';
+import { TextEditor, TextEditorDecorationType, window, workspace } from "vscode";
+import * as compareVersions from "compare-versions";
 import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
 import { decorate } from "./decorations";
@@ -31,10 +26,7 @@ function parseToml(text: string): Item[] {
   return tomlDependencies;
 }
 
-function fetchCrateVersions(
-  dependencies: Item[],
-  shouldListPreRels: boolean,
-): Promise<Dependency[]> {
+function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean): Promise<Dependency[]> {
   statusBarItem.setText("👀 Fetching crates.io");
   const responses = dependencies.map(
     (item: Item): Dependency => {
@@ -42,17 +34,19 @@ function fetchCrateVersions(
         .then((json: any) => {
           return {
             item,
-            versions: json.versions.reduce((result: any[], item: any) => {
-              const isPreRelease =
-                !shouldListPreRels && item.num.indexOf("-") !== -1;
-              if (!item.yanked && !isPreRelease && item.num !== "0.0.0") {
-                result.push(item.num);
-              }
-              return result;
-            }, []).sort(compareVersions).reverse(),
+            versions: json.versions
+              .reduce((result: any[], item: any) => {
+                const isPreRelease = !shouldListPreRels && item.num.indexOf("-") !== -1;
+                if (!item.yanked && !isPreRelease && item.num !== "0.0.0") {
+                  result.push(item.num);
+                }
+                return result;
+              }, [])
+              .sort(compareVersions)
+              .reverse(),
           };
         })
-        .catch((error: Error) => {
+        .catch((error: Error) =>  {
           console.error(error);
           statusBarItem.setText(`⚠️ Fetch Error for ${item.key}`);
           return { item, error };
@@ -92,9 +86,7 @@ function parseAndDecorate(editor: TextEditor) {
     const dependencies = parseToml(text);
 
     // Fetch Versions
-    fetchCrateVersions(dependencies, !!shouldListPreRels).then(
-      decorateVersions.bind(undefined, editor),
-    );
+    fetchCrateVersions(dependencies, !!shouldListPreRels).then(decorateVersions.bind(undefined, editor));
   } catch (e) {
     console.error(e);
     statusBarItem.setText("Cargo.toml is not valid!");

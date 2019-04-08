@@ -32,7 +32,7 @@ function cache(key: string, func: any, url: string) {
           try {
             if (rec.trim().length > 0) {
               const parsed = JSON.parse(rec);
-              versions.push({ num: parsed.vers, yanked: parsed.yanged });
+              versions.push({ num: parsed.vers, yanked: parsed.yanked });
             }
           } catch (er) {
             console.log(er, rec);

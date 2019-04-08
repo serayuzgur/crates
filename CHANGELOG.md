@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.4.2
+* Sorting is now uses version compare. [#45](https://github.com/serayuzgur/crates/issues/45) Thanks to [kupiakos](https://github.com/kupiakos)
+* Yanked versions fixed. [#44](https://github.com/serayuzgur/crates/issues/44)
+
 ## 0.4.1
 * Sorting of the versions fixed. [#43](https://github.com/serayuzgur/crates/issues/43)
 
