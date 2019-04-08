@@ -8,6 +8,7 @@ import {
   window,
   workspace,
 } from "vscode";
+import * as compareVersions from 'compare-versions';
 import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
 import { decorate } from "./decorations";
@@ -48,7 +49,7 @@ function fetchCrateVersions(
                 result.push(item.num);
               }
               return result;
-            }, []).sort().reverse(),
+            }, []).sort(compareVersions).reverse(),
           };
         })
         .catch((error: Error) => {
