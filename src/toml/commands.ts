@@ -30,6 +30,7 @@ export const replaceVersion = commands.registerTextEditorCommand(
           ),
           info.item,
         );
+        status.inProgress = false;
       }
     }
   },
