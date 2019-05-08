@@ -154,6 +154,10 @@ function parseValues(data: string, parent: Item, index: number): number {
       i = parseBoolean(data, item, i, ch);
       item = initNewItem(item, parent, i);
       isParsingKey = true;
+    } else if (isNumber(data, i)) {
+      i = parseNumber(data, item, i);
+      item = initNewItem(item, parent, i);
+      isParsingKey = true;
     }
   }
 
@@ -204,12 +208,7 @@ function parseArray(data: string, parent: Item, index: number): number {
  * @param index
  * @param opener
  */
-function parseString(
-  data: string,
-  item: Item,
-  index: number,
-  opener: string,
-): number {
+function parseString(data: string, item: Item, index: number, opener: string): number {
   let i = index;
   item.start = index;
   let buff: string[] = [];
@@ -276,12 +275,7 @@ function parseKey(data: string, item: Item, index: number): number {
  * @param index
  * @param opener
  */
-function parseBoolean(
-  data: string,
-  item: Item,
-  index: number,
-  opener: string,
-): number {
+function parseBoolean(data: string, item: Item, index: number, opener: string): number {
   const ch = data.charAt(index);
   switch (ch) {
     case "t":
@@ -293,6 +287,49 @@ function parseBoolean(
     default:
       return index;
   }
+}
+
+/**
+ * Parse number
+ * @param data
+ * @param item
+ * @param index
+ * @param opener
+ */
+function parseNumber(data: string, item: Item, index: number): number {
+  const ch = data.charAt(index);
+  if (ch === "+" || ch === "-") {
+    index++;
+  }
+  let i = index;
+  item.start = index;
+  let buff: string[] = [];
+  while (i < data.length) {
+    const ch = data.charAt(i);
+    switch (ch) {
+      case "0":
+      case "1":
+      case "2":
+      case "3":
+      case "4":
+      case "5":
+      case "6":
+      case "7":
+      case "8":
+      case "9":
+      case ".":
+        buff.push(ch);
+        break;
+      default:
+        if (isNewLine(ch)) {
+          item.value = buff.join("");
+          item.end = i;
+          return i;
+        }
+    }
+    i++;
+  }
+  return i;
 }
 
 /**
@@ -322,7 +359,12 @@ function isComma(ch: string) {
 }
 
 function isBoolean(data: string, i: number) {
-  return (
-    data.substring(i, i + 4) === "true" || data.substring(i, i + 5) === "false"
-  );
+  return data.substring(i, i + 4) === "true" || data.substring(i, i + 5) === "false";
+}
+function isNumber(data: string, i: number) {
+  const ch = data.charAt(i);
+  if (ch === "+" || ch === "-") {
+    return true;
+  }
+  return parseInt(data.charAt(i), 10);
 }

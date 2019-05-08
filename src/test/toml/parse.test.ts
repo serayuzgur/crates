@@ -5,9 +5,7 @@ import * as fs from "fs";
 import { parse, filterCrates } from "../../toml/parser";
 
 suite("Parser Tests", function() {
-  const tomlFile = Buffer.from(
-    fs.readFileSync("./src/test/full.toml"),
-  ).toString();
+  const tomlFile = Buffer.from(fs.readFileSync("./src/test/full.toml")).toString();
   // Defines a Mocha unit test
   test("Read File", function() {
     assert.notEqual(tomlFile, undefined);
@@ -18,6 +16,7 @@ suite("Parser Tests", function() {
       "package",
       "package.metadata.docs.rs",
       "features",
+      "profile.release",
       "dependencies",
       "dependencies.clap",
       "dependencies.nom",
@@ -29,7 +28,6 @@ suite("Parser Tests", function() {
       "target.'cfg(unix)'.dev-dependencies",
       "target.'cfg(target_os = \"windows\")'.dependencies.winapi",
       'target.\'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))\'.dependencies',
-      "dependencies.libb",
     ];
     const actual = [];
     for (let i = 0; i < expected.length; i++) {
@@ -43,11 +41,7 @@ suite("Parser Tests", function() {
       const item = doc.values[i];
       assert.notEqual(item, undefined);
       assert.equal(item.key, expected[i].replace(/\s/g, ""));
-      assert.strictEqual(
-        tomlFile.substring(item.start + 1, item.start + 1 + expected[i].length),
-        expected[i],
-        `Start index error for "${doc.values[i].key}"`,
-      );
+      assert.strictEqual(tomlFile.substring(item.start + 1, item.start + 1 + expected[i].length), expected[i], `Start index error for "${doc.values[i].key}"`);
     }
     {
       const item = doc.values[0];
@@ -58,7 +52,7 @@ suite("Parser Tests", function() {
     {
       const item = doc.values[doc.values.length - 1];
       const section = tomlFile.substring(item.start, item.end - 1);
-      const desiredSection = tomlFile.substring(1580, 1817);
+      const desiredSection = tomlFile.substring(1674, 1909);
       // assert.equal(section.length, desiredSection.length);
 
       assert.equal(section, desiredSection);
@@ -67,16 +61,14 @@ suite("Parser Tests", function() {
 
   test("Read Values", function() {
     const doc = parse(tomlFile);
-    const expected = [3, 1, 1, 7, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1];
+    const expected = [3, 1, 1, 1, 7, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1];
 
     assert.equal(doc.values.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
       assert.equal(
         doc.values[i].values.length,
         expected[i],
-        `Value count is wrong for table: ${
-          doc.values[i].key
-        }, items: ${JSON.stringify(doc.values[i].values,null,2)}`,
+        `Value count is wrong for table: ${doc.values[i].key}, items: ${JSON.stringify(doc.values[i].values, null, 2)}`,
       );
     }
   });
@@ -125,10 +117,7 @@ suite("Parser Tests", function() {
     const actual = filterCrates(doc.values);
     assert.equal(actual.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
-      assert.equal(
-        `${actual[i].key}="${actual[i].value}"`,
-        expected[i].replace(/\s/g, ""),
-      );
+      assert.equal(`${actual[i].key}="${actual[i].value}"`, expected[i].replace(/\s/g, ""));
     }
   });
 });

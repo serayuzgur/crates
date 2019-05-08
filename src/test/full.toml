@@ -9,6 +9,10 @@ features = ["icon_loading","osman"]
 [features]
 icon_loading = ["image"]
 
+[profile.release]
+# Include line numbers even in release ([optimized + debuginfo])
+debug = 1
+
 [dependencies]
 lazy_static = "1.0.1"
 libc = "0.2.42"
