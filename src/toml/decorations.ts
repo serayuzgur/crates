@@ -39,7 +39,8 @@ function decoration(
   // Also handle json valued dependencies
 
   const start = item.start;
-  const end = item.end;
+  const endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
+  const end = editor.document.offsetAt(endofline);
   const currentVersion = item.value;
 
   const hasLatest =
