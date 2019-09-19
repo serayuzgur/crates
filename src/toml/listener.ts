@@ -75,7 +75,8 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
   });
   decoration = decorate(editor, filtered);
   if (errors.length) {
-    window.showErrorMessage(`Fetch Errors:  ${errors.join("\n")}`, "Retry");
+    console.log(errors.join("\n"));
+    window.showErrorMessage(`Fetch Errors\n${errors.join("\n")}`, {modal:true}, "Retry");
     statusBarItem.setText("⚠️ Completed with errors");
   } else {
     statusBarItem.setText("OK");
