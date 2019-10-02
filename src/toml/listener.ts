@@ -68,7 +68,6 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
     if (dep && !dep.error && dep.versions.length) {
       return dep;
     }else if(!dep.error && dep.versions.length === 0){
-      console.log("THIS HAPPENED");
       dep.error = dep.item.key + ": " + "No versions found";
     }
     errors.push(`${dep.error}`);
