@@ -14,6 +14,7 @@ import {
 import { Item } from "./parser";
 import { Dependency } from "./listener";
 import { status, ReplaceItem } from "./commands";
+import { satisfies } from "semver";
 
 export const latestVersion = (text: string) =>
   window.createTextEditorDecorationType({
@@ -42,10 +43,7 @@ function decoration(
   const endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
   const end = editor.document.offsetAt(endofline);
   const currentVersion = item.value;
-
-  const hasLatest =
-    versions[0] === currentVersion ||
-    versions[0].indexOf(`${currentVersion}.`) === 0;
+  const hasLatest = satisfies(versions[0], currentVersion || "0.0.0");
 
   const hoverMessage = new MarkdownString(`**Available Versions**`);
   hoverMessage.isTrusted = true;
