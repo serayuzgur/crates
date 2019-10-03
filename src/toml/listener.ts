@@ -49,7 +49,10 @@ function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean): P
         .catch((error: Error) =>  {
           console.error(error);
           statusBarItem.setText(`⚠️ Fetch Error for ${item.key}`);
-          return { item, error };
+          return {
+            item,
+            error : item.key + ": " + error
+          };
         });
     },
   );
@@ -64,12 +67,15 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
   const filtered = dependencies.filter((dep: Dependency) => {
     if (dep && !dep.error && dep.versions.length) {
       return dep;
+    }else if(!dep.error && dep.versions.length === 0){
+      dep.error = dep.item.key + ": " + "No versions found";
     }
-    errors.push(`${dep.item.key}`);
+    errors.push(`${dep.error}`);
   });
   decoration = decorate(editor, filtered);
   if (errors.length) {
-    window.showErrorMessage(`Fetch Errors:  ${errors.join(" , ")}`, "Retry");
+    console.log(errors.join("\n"));
+    window.showErrorMessage(`Fetch Errors\n${errors.join("\n")}`, {modal:true}, "Retry");
     statusBarItem.setText("⚠️ Completed with errors");
   } else {
     statusBarItem.setText("OK");
