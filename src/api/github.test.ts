@@ -12,5 +12,6 @@ suite("GithubAPI Tests", function() {
     assert.equal(decidePath("weldmock"), "we/ld/weldmock");
     assert.equal(decidePath("e2fslibs-sys"), "e2/fs/e2fslibs-sys");
     assert.equal(decidePath('"e2fslibs-sys"'), "e2/fs/e2fslibs-sys");
+    assert.equal(decidePath('"Inflector"'), "in/fl/inflector");
   });
 });

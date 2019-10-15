@@ -53,6 +53,7 @@ export const versions = (name: string) => {
 };
 
 export function decidePath(name: string) {
+  name = name.toLowerCase();
   if (name.startsWith('"') && name.endsWith('"')) {
     name = name.substring(1, name.length - 1);
   }
