@@ -9,6 +9,7 @@ All notable changes to the "crates" extension will be documented in this file.
 - Buggy rendering for parameterized dependencies [#52](https://github.com/serayuzgur/crates/issues/52)
 - ^ versions handled incorrectly [#39](https://github.com/serayuzgur/crates/issues/39)
 - Splitting vscode package into @types/vscode and vscode-test [#57](https://github.com/serayuzgur/crates/issues/57)
+- Uppercase key seems to be causing an error [#56](https://github.com/serayuzgur/crates/issues/56)
 
 ## 0.4.3
 
