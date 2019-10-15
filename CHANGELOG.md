@@ -2,6 +2,14 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.4.4
+
+- Dependencies updated.
+- Certain version numbers cause fetch errors. [#37](https://github.com/serayuzgur/crates/issues/37)
+- Buggy rendering for parameterized dependencies [#52](https://github.com/serayuzgur/crates/issues/52)
+- ^ versions handled incorrectly [#39](https://github.com/serayuzgur/crates/issues/39)
+- Splitting vscode package into @types/vscode and vscode-test [#57](https://github.com/serayuzgur/crates/issues/57)
+
 ## 0.4.3
 
 - Dependencies updated.

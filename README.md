@@ -57,3 +57,7 @@ It is so **simple** that you do not need any configuration, but if you insist...
 [@ademozay](https://github.com/ademozay)
 
 [@userzimmermann](https://github.com/userzimmermann)
+
+[@RensAlthuis](https://github.com/RensAlthuis)
+
+oli-obk (First Patron)
