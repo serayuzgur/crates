@@ -110,6 +110,7 @@
     "compare-versions": "3.5.1",
     "request": "2.88.0",
     "request-promise": "4.2.4",
-    "url-parse": "1.4.7"
+    "url-parse": "1.4.7",
+    "semver": "6.3.0"
   }
 }

@@ -41,7 +41,8 @@ function decoration(
 
   const start = item.start;
   const endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
-  const end = editor.document.offsetAt(endofline);
+  const decoPosition = editor.document.offsetAt(endofline);
+  const end = item.end;
   const currentVersion = item.value;
   const hasLatest = satisfies(versions[0], currentVersion || "0.0.0");
 
@@ -75,7 +76,7 @@ function decoration(
   const deco = {
     range: new Range(
       editor.document.positionAt(start),
-      editor.document.positionAt(end),
+      editor.document.positionAt(decoPosition),
     ),
     hoverMessage,
     renderOptions: {
