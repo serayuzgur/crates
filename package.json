@@ -99,6 +99,7 @@
     "@types/mocha": "5.2.7",
     "@types/node": "12.7.12",
     "@types/request-promise": "4.1.44",
+    "@types/semver": "6.0.2",
     "mocha": "6.2.1",
     "ts-node": "8.4.1",
     "tslint": "5.20.0",
