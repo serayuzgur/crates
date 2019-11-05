@@ -2,6 +2,10 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.4.5
+
+- Github basic authentication support for increasing api rates 5000req/h [#60](https://github.com/serayuzgur/crates/issues/60)
+
 ## 0.4.4
 
 - Dependencies updated.

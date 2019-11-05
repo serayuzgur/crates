@@ -26,11 +26,11 @@ function parseToml(text: string): Item[] {
   return tomlDependencies;
 }
 
-function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean): Promise<Dependency[]> {
+function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean, githubToken?: string): Promise<Dependency[]> {
   statusBarItem.setText("👀 Fetching crates.io");
   const responses = dependencies.map(
     (item: Item): Dependency => {
-      return versions(item.key)
+      return versions(item.key, githubToken)
         .then((json: any) => {
           return {
             item,
@@ -46,12 +46,12 @@ function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean): P
               .reverse(),
           };
         })
-        .catch((error: Error) =>  {
+        .catch((error: Error) => {
           console.error(error);
           statusBarItem.setText(`⚠️ Fetch Error for ${item.key}`);
           return {
             item,
-            error : item.key + ": " + error
+            error: item.key + ": " + error
           };
         });
     },
@@ -67,7 +67,7 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
   const filtered = dependencies.filter((dep: Dependency) => {
     if (dep && !dep.error && dep.versions.length) {
       return dep;
-    }else if(!dep.error && dep.versions.length === 0){
+    } else if (!dep.error && dep.versions.length === 0) {
       dep.error = dep.item.key + ": " + "No versions found";
     }
     errors.push(`${dep.error}`);
@@ -75,7 +75,7 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
   decoration = decorate(editor, filtered);
   if (errors.length) {
     console.log(errors.join("\n"));
-    window.showErrorMessage(`Fetch Errors\n${errors.join("\n")}`, {modal:true}, "Retry");
+    window.showErrorMessage(`Fetch Errors\n${errors.join("\n")}`, { modal: true }, "Retry");
     statusBarItem.setText("⚠️ Completed with errors");
   } else {
     statusBarItem.setText("OK");
@@ -86,13 +86,14 @@ function parseAndDecorate(editor: TextEditor) {
   const text = editor.document.getText();
   const config = workspace.getConfiguration("", editor.document.uri);
   const shouldListPreRels = config.get("crates.listPreReleases");
-
+  const basicAuth = config.get<string>("crates.githubAuthBasic");
+  const githubToken = basicAuth ? `Basic ${Buffer.from(basicAuth).toString("base64")}` : undefined;
   try {
     // Parse
     const dependencies = parseToml(text);
 
     // Fetch Versions
-    fetchCrateVersions(dependencies, !!shouldListPreRels).then(decorateVersions.bind(undefined, editor));
+    fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken).then(decorateVersions.bind(undefined, editor));
   } catch (e) {
     console.error(e);
     statusBarItem.setText("Cargo.toml is not valid!");
@@ -103,7 +104,7 @@ function parseAndDecorate(editor: TextEditor) {
   }
 }
 
-export default function(editor: TextEditor | undefined): void {
+export default function (editor: TextEditor | undefined): void {
   if (editor) {
     const { fileName } = editor.document;
     if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {

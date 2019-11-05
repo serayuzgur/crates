@@ -42,6 +42,8 @@ Aims to be fast and simple.
 
 It is so **simple** that you do not need any configuration, but if you insist...
 
+`crates.githubAuthBasic`: The `<username>:<personal-access-token>` or `<username>:<password>` for accessing Github API with increased access rates 5000 req/h. 
+
 `crates.upToDateDecorator`: The text to show when dependency is up to date. Default is 👍.
 
 `crates.latestDecorator`: The text to show when dependency is **not** up to date. Default is `Latest: ${version}`.
