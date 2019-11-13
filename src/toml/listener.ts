@@ -75,7 +75,6 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
   decoration = decorate(editor, filtered);
   if (errors.length) {
     console.log(errors.join("\n"));
-    window.showErrorMessage(`Fetch Errors\n${errors.join("\n")}`, { modal: true }, "Retry");
     statusBarItem.setText("⚠️ Completed with errors");
   } else {
     statusBarItem.setText("OK");
@@ -97,7 +96,6 @@ function parseAndDecorate(editor: TextEditor) {
   } catch (e) {
     console.error(e);
     statusBarItem.setText("Cargo.toml is not valid!");
-    window.showErrorMessage(`Cargo.toml is not valid! ${JSON.stringify(e)}`);
     if (decoration) {
       decoration.dispose();
     }
