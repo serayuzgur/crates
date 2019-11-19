@@ -25,10 +25,10 @@ export const replaceVersion = commands.registerTextEditorCommand(
         console.log("Replacing", info.item);
         edit.replace(
           new Range(
-            editor.document.positionAt(info.start),
-            editor.document.positionAt(info.end),
+            editor.document.positionAt(info.start + 1),
+            editor.document.positionAt(info.end - 1),
           ),
-          info.item,
+          info.item.substr(1, info.item.length - 2),
         );
         status.inProgress = false;
       }

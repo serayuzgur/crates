@@ -36,6 +36,8 @@ function decoration(
   versions: string[],
   upToDateDecorator: string,
   latestDecorator: string,
+  errorDecorator: string,
+  error?: string,
 ): DecorationOptions {
   // Also handle json valued dependencies
 
@@ -46,7 +48,7 @@ function decoration(
   const currentVersion = item.value;
   const hasLatest = satisfies(versions[0], currentVersion || "0.0.0");
 
-  const hoverMessage = new MarkdownString(`**Available Versions**`);
+  const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`**Available Versions**`);
   hoverMessage.isTrusted = true;
 
   if (versions.length > 0) {
@@ -71,7 +73,7 @@ function decoration(
   }
 
   const latestText = latestDecorator.replace("${version}", versions[0]);
-  const contentText = hasLatest ? upToDateDecorator : latestText;
+  const contentText = error ? errorDecorator : hasLatest ? upToDateDecorator : latestText;
 
   const deco = {
     range: new Range(
@@ -101,8 +103,10 @@ export function decorate(
   const config = workspace.getConfiguration("", editor.document.uri);
   const upToDateChar = config.get("crates.upToDateDecorator");
   const latestText = config.get("crates.latestDecorator");
+  const errorText = config.get("crates.errorDecorator");
   const upToDateDecorator = upToDateChar ? upToDateChar + "" : "";
   const latestDecorator = latestText ? latestText + "" : "";
+  const errorDecorator = errorText ? errorText + "" : "";
   const options: DecorationOptions[] = [];
 
   for (let i = dependencies.length - 1; i > -1; i--) {
@@ -110,9 +114,11 @@ export function decorate(
     const decor = decoration(
       editor,
       dependency.item,
-      dependency.versions,
+      dependency.versions || [],
       upToDateDecorator,
       latestDecorator,
+      errorDecorator,
+      dependency.error,
     );
     if (decor) {
       options.push(decor);

@@ -2,6 +2,17 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.4.6
+
+- Should not convert single to double quotes [#66](https://github.com/serayuzgur/crates/issues/66)
+- Rate limiting should not trigger error messages [#65](https://github.com/serayuzgur/crates/issues/65)
+- Fetch Errors and constant error messages when viewing Cargo.toml with conflicts [#61](https://github.com/serayuzgur/crates/issues/61)
+- Alert always happen when I add deps to Cargo.toml [#59](https://github.com/serayuzgur/crates/issues/59)
+- `No versions found` error should be less intrusive [#58](https://github.com/serayuzgur/crates/issues/58)
+- alternative registries are not taken into account [#41](https://github.com/serayuzgur/crates/issues/41)
+
+
+
 ## 0.4.5
 
 - Github basic authentication support for increasing api rates 5000req/h [#60](https://github.com/serayuzgur/crates/issues/60)

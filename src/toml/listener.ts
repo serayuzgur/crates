@@ -2,7 +2,7 @@
  * Listener for TOML files.
  * Filters active editor files according to the extension.
  */
-import { TextEditor, TextEditorDecorationType, window, workspace } from "vscode";
+import { TextEditor, TextEditorDecorationType, workspace } from "vscode";
 import * as compareVersions from "compare-versions";
 import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
@@ -12,8 +12,8 @@ import { versions } from "../api/github";
 
 export interface Dependency {
   item: Item;
-  versions: Array<string>;
-  error: string;
+  versions?: Array<string>;
+  error?: string;
 }
 
 let decoration: TextEditorDecorationType;
@@ -22,6 +22,7 @@ function parseToml(text: string): Item[] {
   console.log("Parsing...");
   const toml = parse(text);
   const tomlDependencies = filterCrates(toml.values);
+  console.log("Parsed");
   statusBarItem.setText("Cargo.toml parsed");
   return tomlDependencies;
 }
@@ -48,7 +49,6 @@ function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean, gi
         })
         .catch((error: Error) => {
           console.error(error);
-          statusBarItem.setText(`⚠️ Fetch Error for ${item.key}`);
           return {
             item,
             error: item.key + ": " + error
@@ -65,17 +65,16 @@ function decorateVersions(editor: TextEditor, dependencies: Array<Dependency>) {
   }
   const errors: Array<string> = [];
   const filtered = dependencies.filter((dep: Dependency) => {
-    if (dep && !dep.error && dep.versions.length) {
+    if (dep && !dep.error && (dep.versions && dep.versions.length)) {
       return dep;
-    } else if (!dep.error && dep.versions.length === 0) {
+    } else if (!dep.error) {
       dep.error = dep.item.key + ": " + "No versions found";
     }
     errors.push(`${dep.error}`);
+    return dep;
   });
   decoration = decorate(editor, filtered);
   if (errors.length) {
-    console.log(errors.join("\n"));
-    window.showErrorMessage(`Fetch Errors\n${errors.join("\n")}`, { modal: true }, "Retry");
     statusBarItem.setText("⚠️ Completed with errors");
   } else {
     statusBarItem.setText("OK");
@@ -93,11 +92,13 @@ function parseAndDecorate(editor: TextEditor) {
     const dependencies = parseToml(text);
 
     // Fetch Versions
-    fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken).then(decorateVersions.bind(undefined, editor));
+    fetchCrateVersions(dependencies,
+      !!shouldListPreRels,
+      githubToken)
+      .then(decorateVersions.bind(undefined, editor));
   } catch (e) {
     console.error(e);
     statusBarItem.setText("Cargo.toml is not valid!");
-    window.showErrorMessage(`Cargo.toml is not valid! ${JSON.stringify(e)}`);
     if (decoration) {
       decoration.dispose();
     }

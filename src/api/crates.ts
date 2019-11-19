@@ -24,7 +24,6 @@ function cache(key: string, func: any, url: string) {
         }
       })
       .catch((resp: any) => {
-        console.error(resp);
         throw resp;
       });
   }
