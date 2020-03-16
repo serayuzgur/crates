@@ -9,3 +9,4 @@ vsc-extension-quickstart.md
 tslint.json
 sample/**
 node_modules
+webpack.config.js
