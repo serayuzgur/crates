@@ -2,6 +2,15 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.4.8
+
+- Go to DOCS.RS added in popup [#72](https://github.com/serayuzgur/crates/issues/72)
+- "0.0.0" version is included now  [#73](https://github.com/serayuzgur/crates/issues/73)
+
+## 0.4.7
+
+- Hot Fix
+
 ## 0.4.6
 
 - Should not convert single to double quotes [#66](https://github.com/serayuzgur/crates/issues/66)
