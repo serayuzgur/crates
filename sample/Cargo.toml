@@ -25,7 +25,8 @@ log = "0.4"
 clippy = { version = "0.0.302", optional = true}
 cookie_rs = {package = "cookie", version = "0.10.1"}
 emoji-clock = { version= "0.1.0", path = "../lib"}
-
+pin-utils = "0.1.0-alpha.4"
+inkwell="0.0.0"
 
 [dependencies.clap]
 version = "3.0.0"

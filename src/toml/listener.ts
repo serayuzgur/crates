@@ -38,7 +38,7 @@ function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean, gi
             versions: json.versions
               .reduce((result: any[], item: any) => {
                 const isPreRelease = !shouldListPreRels && item.num.indexOf("-") !== -1;
-                if (!item.yanked && !isPreRelease && item.num !== "0.0.0") {
+                if (!item.yanked && !isPreRelease ) {
                   result.push(item.num);
                 }
                 return result;
