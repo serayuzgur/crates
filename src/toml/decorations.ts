@@ -48,7 +48,10 @@ function decoration(
   const currentVersion = item.value;
   const hasLatest = satisfies(versions[0], currentVersion || "0.0.0");
 
-  const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`**Available Versions**`);
+  const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`### Docs`);
+  hoverMessage.appendMarkdown(`\n * [Latest](https://docs.rs/crate/${item.key}/${versions[0]})`);
+  hoverMessage.appendMarkdown(`\n * [Current](https://docs.rs/crate/${item.key}/${currentVersion}) \n\n`);
+  hoverMessage.appendMarkdown("### Available Versions");
   hoverMessage.isTrusted = true;
 
   if (versions.length > 0) {
@@ -67,7 +70,7 @@ function decoration(
       end,
     };
     const encoded = encodeURI(JSON.stringify(replaceData));
-    const command = `[${version}](command:crates.replaceVersion?${encoded})`;
+    const command = `[${version}](command:crates.replaceVersion?${encoded}) [   (docs)](https://docs.rs/crate/${item.key}/${version})`;
     hoverMessage.appendMarkdown("\n * ");
     hoverMessage.appendMarkdown(command);
   }
