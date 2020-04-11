@@ -8,7 +8,7 @@ import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
 import { decorate } from "./decorations";
 import { status } from "./commands";
-import { versions } from "../api/github";
+import { versions } from "../api/local_registry";
 
 export interface Dependency {
   item: Item;
@@ -30,7 +30,7 @@ function parseToml(text: string): Item[] {
 function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean, githubToken?: string): Promise<Dependency[]> {
   statusBarItem.setText("👀 Fetching crates.io");
   const responses = dependencies.map(
-    (item: Item): Dependency => {
+    (item: Item): Promise<Dependency> => {
       return versions(item.key, githubToken)
         .then((json: any) => {
           return {
