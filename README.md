@@ -37,7 +37,7 @@ Aims to be fast and simple.
 
 It is so **simple** that you do not need any configuration, but if you insist...
 
-`crates.useLocalCargoRepository`: If true, crates will use local cargo repository.
+`crates.useLocalCargoIndex`: If true, crates will use local cargo repository.
 
 `crates.githubAuthBasic`: The `<username>:<personal-access-token>` or `<username>:<password>` for accessing Github API with increased access rates 5000 req/h. 
 

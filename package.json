@@ -92,11 +92,11 @@
           "default": false,
           "description": "If true, pre-release versions will be available."
         },
-        "crates.useLocalCargoRepository": {
+        "crates.useLocalCargoIndex": {
           "type": "boolean",
           "scope": "resource",
-          "default": false,
-          "description": "If true, crates will use local cargo repository."
+          "default": true,
+          "description": "If true, crates will use local cargo index. (Requires git, cargo and updated creates.io index)"
         }
       }
     }
