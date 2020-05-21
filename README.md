@@ -4,7 +4,6 @@
 [![Visual Studio Marketplace Installs](https://vsmarketplacebadge.apphb.com/installs-short/serayuzgur.crates.svg)](https://vsmarketplacebadge.apphb.com/installs-short/serayuzgur.crates.svg)
 [![Visual Studio Marketplace Rating](https://vsmarketplacebadge.apphb.com/rating-short/serayuzgur.crates.svg)](https://vsmarketplacebadge.apphb.com/rating-short/serayuzgur.crates.svg)
 [![GitHub stars](https://img.shields.io/github/stars/serayuzgur/crates.svg)](https://github.com/serayuzgur/crates/stargazers)
-[![Build Status](https://travis-ci.org/serayuzgur/crates.svg?branch=master)](https://travis-ci.org/serayuzgur/crates)
 
 [![Become a Patron !](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=11468905)
 
@@ -36,11 +35,9 @@ Aims to be fast and simple.
 
 ### Simple settings
 
-![pref](https://github.com/serayuzgur/crates/raw/master/pref.png)
-
-## Extension Settings
-
 It is so **simple** that you do not need any configuration, but if you insist...
+
+`crates.useLocalCargoRepository`: If true, crates will use local cargo repository.
 
 `crates.githubAuthBasic`: The `<username>:<personal-access-token>` or `<username>:<password>` for accessing Github API with increased access rates 5000 req/h. 
 
