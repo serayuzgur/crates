@@ -1,8 +1,8 @@
 import { test, suite } from "mocha";
 import * as assert from "assert";
-import { decidePath } from "./github";
+import { decidePath } from "./index-utils";
 
-suite("GithubAPI Tests", function() {
+suite("Index Utils Tests", function() {
   test("decidePath", function() {
     assert.equal(decidePath("a"), "1/a");
     assert.equal(decidePath('"a"'), "1/a");
