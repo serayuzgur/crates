@@ -8,7 +8,8 @@ import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
 import { decorate } from "./decorations";
 import { status } from "./commands";
-import { versions } from "../api/local_registry";
+import { versions as loVersions, checkCargoRegistry } from "../api/local_registry";
+import { versions as ghVersions } from "../api/github";
 
 export interface Dependency {
   item: Item;
@@ -27,10 +28,14 @@ function parseToml(text: string): Item[] {
   return tomlDependencies;
 }
 
-function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean, githubToken?: string): Promise<Dependency[]> {
+function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean, githubToken?: string, isLocalRegistry?: boolean): Promise<Dependency[]> {
   statusBarItem.setText("👀 Fetching crates.io");
   const responses = dependencies.map(
     (item: Item): Promise<Dependency> => {
+      // Check settings and if local registry enabled control cargo home. Fallback is the github index.
+      const isLocalRegistryAvailable   = isLocalRegistry && checkCargoRegistry();
+      const versions = isLocalRegistryAvailable ? loVersions : ghVersions;
+
       return versions(item.key, githubToken)
         .then((json: any) => {
           return {
@@ -38,7 +43,7 @@ function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean, gi
             versions: json.versions
               .reduce((result: any[], item: any) => {
                 const isPreRelease = !shouldListPreRels && item.num.indexOf("-") !== -1;
-                if (!item.yanked && !isPreRelease ) {
+                if (!item.yanked && !isPreRelease) {
                   result.push(item.num);
                 }
                 return result;
@@ -86,6 +91,7 @@ function parseAndDecorate(editor: TextEditor) {
   const config = workspace.getConfiguration("", editor.document.uri);
   const shouldListPreRels = config.get("crates.listPreReleases");
   const basicAuth = config.get<string>("crates.githubAuthBasic");
+  const isLocalRegistery = config.get<boolean>("crates.useLocalCargoIndex");
   const githubToken = basicAuth ? `Basic ${Buffer.from(basicAuth).toString("base64")}` : undefined;
   try {
     // Parse
@@ -94,7 +100,7 @@ function parseAndDecorate(editor: TextEditor) {
     // Fetch Versions
     fetchCrateVersions(dependencies,
       !!shouldListPreRels,
-      githubToken)
+      githubToken, isLocalRegistery)
       .then(decorateVersions.bind(undefined, editor));
   } catch (e) {
     console.error(e);

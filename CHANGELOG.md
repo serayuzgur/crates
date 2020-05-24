@@ -2,6 +2,15 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+
+
+## 0.5.0
+
+- Dependencies updated.
+- Local registry index PR merged thanks to [ervinoro](https://github.com/ervinoro)
+- New setting added "crates.useLocalCargoIndex" to switch between GithHub and Local index.
+
+
 ## 0.4.8
 
 - Go to DOCS.RS added in popup [#72](https://github.com/serayuzgur/crates/issues/72)
