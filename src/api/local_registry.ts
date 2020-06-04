@@ -14,7 +14,7 @@ import { decidePath, parseVersions } from "./index-utils";
 const exec = util.promisify(require('child_process').exec);
 
 // check for the crates index. If none found switch to github and show error
-const cargoHome = process.env.CARGO_HOME || path.resolve(os.homedir(), ".cargo/");
+const cargoHome = process.env.CARGO_HOME || path.resolve(os.homedir(), "/.cargo/");
 const gitDir = path.resolve(cargoHome, "registry/index/github.com-1ecc6299db9ec823/.git/");
 
 
@@ -24,7 +24,7 @@ export function checkCargoRegistry() {
 
 export const versions = (name: string) => {
   return exec(
-    `git --no-pager --git-dir=${gitDir} show origin/master:${decidePath(name)}`,
+    `git --no-pager --git-dir="${gitDir}" show origin/master:${decidePath(name)}`,
     { maxBuffer: 8 * 1024 * 1024 }  // "8M ought to be enough for anyone."
   )
     .then((buf: { stdout: Buffer, stderr: Buffer; }) => {
