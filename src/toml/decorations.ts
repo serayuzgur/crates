@@ -48,7 +48,8 @@ function decoration(
   const currentVersion = item.value;
   const hasLatest = satisfies(versions[0], currentVersion || "0.0.0");
 
-  const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`### Versions`);
+  const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`#### Versions`);
+  hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
   hoverMessage.isTrusted = true;
 
   if (versions.length > 0) {

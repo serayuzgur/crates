@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/serayuzgur/crates/blob/master/README.md",
   "engines": {
-    "vscode": "1.45.1"
+    "vscode": "^1.45.1"
   },
   "repository": {
     "type": "git",
