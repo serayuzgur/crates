@@ -2,7 +2,9 @@
 name = "asasas"
 version = "0.14.0"
 readme = "README.md"
-description = "This description is somewhat lengthy"
+description = """
+This description is somewhat lengthy
+"""
 
 [package.metadata.docs.rs]
 features = ["icon_loading","osman"]

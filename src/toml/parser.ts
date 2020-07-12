@@ -212,12 +212,19 @@ function parseString(data: string, item: Item, index: number, opener: string): n
   let i = index;
   item.start = index;
   let buff: string[] = [];
+  let multiline = data.substring(i, i + 3) === opener.repeat(3);
+  if (multiline) {
+    i += 2;
+  }
   while (i++ < data.length) {
     const ch = data.charAt(i);
     switch (ch) {
       case '"':
       case "'":
-        if (ch === opener) {
+        if (ch === opener && (!multiline || data.substring(i, i + 3) === opener.repeat(3))) {
+          if (multiline) {
+            i += 2;
+          }
           item.value = buff.join("");
           item.end = i;
           return i;
