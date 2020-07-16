@@ -45,7 +45,7 @@
     "commands": [
       {
         "command": "crates.replaceVersion",
-        "title": "Do not call manualy ! Replace Version of the provided dependency",
+        "title": "Do not call manually ! Replace Version of the provided dependency",
         "category": "👆 Crates"
       },
       {
@@ -72,19 +72,19 @@
           "type": "string",
           "scope": "resource",
           "default": "❗️",
-          "description": "The text to show when dependency has errors."
+          "description": "The text to show when a dependency has errors."
         },
         "crates.upToDateDecorator": {
           "type": "string",
           "scope": "resource",
           "default": "👍",
-          "description": "The text to show when dependency is up to date."
+          "description": "The text to show when a dependency is up to date."
         },
         "crates.latestDecorator": {
           "type": "string",
           "scope": "resource",
           "default": "Latest: ${version}",
-          "description": "The text template to show when dependency is not up to date. ${version} will be replaced by the latest version info."
+          "description": "The text template to show when a dependency is not up to date. ${version} will be replaced by the latest version info."
         },
         "crates.listPreReleases": {
           "type": "boolean",
