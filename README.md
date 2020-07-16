@@ -14,14 +14,14 @@ This is **crates**, an extension for _crates.io_ dependencies. Aims helping deve
 ## Notes
 
 - It is only helpful if you are using dependencies from _crates.io_. Dependencies from _git_ or other platforms are not supported.
-- TOML must be valid. If not crates will not show versions. It will inform you with. status bar and dialog.
+- TOML must be valid. If not, crates will not show versions. It will inform you with the status bar and dialog.
 
 ## Features
 
 **crates** is very simple. It has just two features.
 
 - Displays the latest version of the crate next to it
-- Shows all versions (clickable) on tooltip of the crate hovered.
+- Shows all versions (clickable) on the tooltip of the crate hovered.
 
 Aims to be fast and simple.
 
@@ -39,13 +39,13 @@ It is so **simple** that you do not need any configuration, but if you insist...
 
 `crates.useLocalCargoIndex`: If true, crates will use local cargo repository.
 
-`crates.githubAuthBasic`: The `<username>:<personal-access-token>` or `<username>:<password>` for accessing Github API with increased access rates 5000 req/h. 
+`crates.githubAuthBasic`: The `<username>:<personal-access-token>` or `<username>:<password>` for accessing Github API with increased access rates 5000 req/h.
 
-`crates.upToDateDecorator`: The text to show when dependency is up to date. Default is 👍.
+`crates.upToDateDecorator`: The text to show when a dependency is up to date. Default is 👍.
 
-`crates.latestDecorator`: The text to show when dependency is **not** up to date. Default is `Latest: ${version}`.
+`crates.latestDecorator`: The text to show when a dependency is **not** up to date. Default is `Latest: ${version}`.
 
-`crates.listPreReleases` : If true, pre-release versions will be listed in hover and at decoration. Default is false.
+`crates.listPreReleases`: If true, pre-release versions will be listed in hover and at decoration. The default is false.
 
 ## Known Issues
 
