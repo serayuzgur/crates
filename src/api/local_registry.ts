@@ -6,10 +6,10 @@
 //
 // Furthermore, this api depends on 'git' command being in PATH
 
-import os = require("os");
-import path = require("path");
-import util = require("util");
-import fs = require("fs");
+import * as os from "os";
+import * as path from "path";
+import * as util from "util";
+import * as fs from "fs";
 import { decidePath, parseVersions } from "./index-utils";
 const exec = util.promisify(require('child_process').exec);
 

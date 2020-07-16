@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Helps Rust developers managing dependencies with Cargo.toml. Only works with dependencies from crates.io.",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
@@ -101,38 +101,41 @@
       }
     }
   },
-  "main": "./out/extension",
+  "main": "./dist/extension",
   "scripts": {
     "build": "npm run compile",
-    "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "lint": "tslint -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile",
-    "test": "node ./out/test/runTest.js",
+    "test": "node ./dist/test/runTest.js",
     "test-mocha": "npm run compile && mocha --recursive --require ts-node/register \"./**/*.test.ts\"",
-    "test-mocha-w": "mocha --watch --recursive --require ts-node/register \"./**/*.test.ts\" --watch --watch-extensions ts \"./**/*.test.ts\""
+    "test-mocha-w": "mocha --watch --recursive --require ts-node/register \"./**/*.test.ts\" --watch --watch-extensions ts \"./**/*.test.ts\"",
+    "vscode:prepublish": "webpack --mode production",
+    "webpack": "webpack --mode development",
+    "webpack-dev": "webpack --mode development --watch"
   },
   "devDependencies": {
+    "@types/glob": "7.1.3",
     "@types/mocha": "7.0.2",
-    "@types/node": "14.0.4",
+    "@types/node": "14.0.23",
     "@types/request-promise": "4.1.46",
-    "@types/semver": "7.2.0",
-    "mocha": "7.1.2",
-    "ts-node": "8.10.1",
-    "tslint": "6.1.2",
-    "typescript": "3.9.3",
+    "@types/semver": "7.3.1",
     "@types/vscode": "1.45.1",
-    "vscode-test": "1.3.0",
-    "@types/glob": "7.1.1",
     "glob": "7.1.6",
-    "ts-loader": "7.0.4"
+    "mocha": "7.1.2",
+    "ts-loader": "8.0.1",
+    "ts-node": "8.10.2",
+    "tslint": "6.1.2",
+    "typescript": "3.9.6",
+    "vscode-test": "1.4.0",
+    "webpack": "4.43.0",
+    "webpack-cli": "3.3.12"
   },
   "dependencies": {
-    "compare-versions": "3.6.0",
     "request": "2.88.2",
     "request-promise": "4.2.5",
-    "url-parse": "1.4.7",
-    "semver": "7.3.2"
+    "semver": "7.3.2",
+    "url-parse": "1.4.7"
   }
 }

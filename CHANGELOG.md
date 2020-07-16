@@ -3,6 +3,10 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 
+## 0.5.2
+
+- Bundled with webpack
+
 ## 0.5.1
 
 - local index path bug fixed [#82](https://github.com/serayuzgur/crates/issues/82)
