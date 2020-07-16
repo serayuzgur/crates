@@ -3,7 +3,7 @@
  * Filters active editor files according to the extension.
  */
 import { TextEditor, TextEditorDecorationType, workspace } from "vscode";
-import * as compareVersions from "compare-versions";
+import compareVersions from "./compareVersions";
 import { parse, filterCrates, Item } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
 import { decorate } from "./decorations";
@@ -33,7 +33,7 @@ function fetchCrateVersions(dependencies: Item[], shouldListPreRels: boolean, gi
   const responses = dependencies.map(
     (item: Item): Promise<Dependency> => {
       // Check settings and if local registry enabled control cargo home. Fallback is the github index.
-      const isLocalRegistryAvailable   = isLocalRegistry && checkCargoRegistry();
+      const isLocalRegistryAvailable = isLocalRegistry && checkCargoRegistry();
       const versions = isLocalRegistryAvailable ? loVersions : ghVersions;
 
       return versions(item.key, githubToken)
