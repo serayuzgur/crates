@@ -96,7 +96,7 @@
           "type": "boolean",
           "scope": "resource",
           "default": true,
-          "description": "If true, crates will use local cargo index. (Requires git, cargo and updated creates.io index)"
+          "description": "If true, crates will use local cargo index. (Requires git, cargo and updated crates.io index)"
         }
       }
     }
