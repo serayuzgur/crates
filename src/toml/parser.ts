@@ -49,7 +49,7 @@ export function filterCrates(items: Item[]): Item[] {
   for (let i = 0; i < items.length; i++) {
     let value = items[i];
 
-    if (value.key.endsWith("dependencies")) {
+    if (!value.key.startsWith("package.metadata")&&value.key.endsWith("dependencies")) {
       dependencies = dependencies.concat(findVersion(value, 0));
     } else {
       const dotIndex = value.key.lastIndexOf(".");

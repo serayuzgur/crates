@@ -83,3 +83,7 @@ smithay-client-toolkit = "0.2.4"
 x11-dl = "2"
 parking_lot = "0.7.0"
 percent-encoding = "1.0.0"
+
+
+[package.metadata.winrt.dependencies]
+"Microsoft.Windows.SDK.Contracts" = "10.0.19041.1"
