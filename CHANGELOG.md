@@ -3,6 +3,11 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 
+## 0.5.3
+
+- "package.metadata.*" bug fixed [#94](https://github.com/serayuzgur/crates/issues/94)
+
+
 ## 0.5.2
 
 - Bundled with webpack
