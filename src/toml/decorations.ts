@@ -14,7 +14,7 @@ import {
 import { Item } from "./parser";
 import { Dependency } from "./listener";
 import { status, ReplaceItem } from "./commands";
-import { satisfies } from "semver";
+import { completeVersion, versionInfo } from "./semverUtils";
 
 export const latestVersion = (text: string) =>
   window.createTextEditorDecorationType({
@@ -34,8 +34,8 @@ function decoration(
   editor: TextEditor,
   item: Item,
   versions: string[],
-  upToDateDecorator: string,
-  latestDecorator: string,
+  compatibleDecorator: string,
+  incompatibleDecorator: string,
   errorDecorator: string,
   error?: string,
 ): DecorationOptions {
@@ -45,8 +45,8 @@ function decoration(
   const endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
   const decoPosition = editor.document.offsetAt(endofline);
   const end = item.end;
-  const currentVersion = item.value;
-  const hasLatest = satisfies(versions[0], currentVersion || "0.0.0");
+  const currentVersion = completeVersion(item.value);
+  const semDiff = versionInfo(item.value, versions[0]);
 
   const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`#### Versions`);
   hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
@@ -69,14 +69,23 @@ function decoration(
     };
     const isCurrent = version === currentVersion;
     const encoded = encodeURI(JSON.stringify(replaceData));
-    const docs = (i === 0 || isCurrent) ? `[    (docs)](https://docs.rs/crate/${item.key}/${version})` : "";
+    const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key}/${version})` : "";
     const command = `${isCurrent ? "**" : ""}[${version}](command:crates.replaceVersion?${encoded})${docs}${isCurrent ? "**" : ""}`;
     hoverMessage.appendMarkdown("\n * ");
     hoverMessage.appendMarkdown(command);
   }
 
-  const latestText = latestDecorator.replace("${version}", versions[0]);
-  const contentText = error ? errorDecorator : hasLatest ? upToDateDecorator : latestText;
+  let latestText = compatibleDecorator.replace("${version}","");
+  if (semDiff === "patch") {
+    latestText = compatibleDecorator.replace("${version}", versions[0]);
+  } else if (semDiff === "minor") {
+    latestText = incompatibleDecorator.replace("${version}", versions[0]);
+
+  } else if (semDiff === "major") {
+    latestText = incompatibleDecorator.replace("${version}", versions[0]);
+
+  }
+  const contentText = error ? errorDecorator :  latestText;
 
   const deco = {
     range: new Range(
@@ -104,11 +113,9 @@ export function decorate(
   dependencies: Array<Dependency>,
 ): TextEditorDecorationType {
   const config = workspace.getConfiguration("", editor.document.uri);
-  const upToDateChar = config.get("crates.upToDateDecorator");
-  const latestText = config.get("crates.latestDecorator");
-  const errorText = config.get("crates.errorDecorator");
-  const upToDateDecorator = upToDateChar ? upToDateChar + "" : "";
-  const latestDecorator = latestText ? latestText + "" : "";
+  const compatibleDecorator = config.get<string>("crates.compatibleDecorator") ?? "";
+  const incompatibleDecorator = config.get<string>("crates.incompatibleDecorator") ?? "";
+  const errorText = config.get<string>("crates.errorDecorator");
   const errorDecorator = errorText ? errorText + "" : "";
   const options: DecorationOptions[] = [];
 
@@ -118,8 +125,8 @@ export function decorate(
       editor,
       dependency.item,
       dependency.versions || [],
-      upToDateDecorator,
-      latestDecorator,
+      compatibleDecorator,
+      incompatibleDecorator,
       errorDecorator,
       dependency.error,
     );
@@ -131,6 +138,8 @@ export function decorate(
   editor.setDecorations(lastVerDeco, options);
   return lastVerDeco;
 }
+
+
 
 export default {
   decorate,

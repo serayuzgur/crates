@@ -7,6 +7,7 @@ All notable changes to the "crates" extension will be documented in this file.
 
 - "package.metadata.*" bug fixed [#94](https://github.com/serayuzgur/crates/issues/94)
 - Local registry bug fixed [#95](https://github.com/serayuzgur/crates/issues/95)
+- New semantic decorators added [#86](https://github.com/serayuzgur/crates/issues/86)
 
 ## 0.5.2
 
