@@ -17,7 +17,6 @@ const data: any = {};
 
 function cache(key: string, func: any, url: string, githubToken?: string) {
 
-
   if (!data[key] || data[key].isRejected()) {
     console.log("Fetching dependency: ", key);
     const headers: { [key: string]: string; } = {

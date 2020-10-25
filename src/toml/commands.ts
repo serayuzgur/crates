@@ -2,7 +2,7 @@
  * Commands related to TOML files.
  */
 import { commands, TextEditor, TextEditorEdit, Range } from "vscode";
-import tomlListener from "./listener";
+import tomlListener from "../core/listener";
 
 export interface ReplaceItem {
   item: string;

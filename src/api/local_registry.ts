@@ -2,16 +2,16 @@
 //
 // Nevertheless, this api depends on there being a headless crates.io-index git repo at:
 // CARGO_HOME/registry/index/github.com-1ecc6299db9ec823/.git/
-// The repo isn't updated, and is instead assumed to be updated by cargo reasonably recently.
+// The repo isn"t updated, and is instead assumed to be updated by cargo reasonably recently.
 //
-// Furthermore, this api depends on 'git' command being in PATH
+// Furthermore, this api depends on "git" command being in PATH
 
 import * as os from "os";
 import * as path from "path";
 import * as util from "util";
 import * as fs from "fs";
 import { decidePath, parseVersions } from "./index-utils";
-const exec = util.promisify(require('child_process').exec);
+const exec = util.promisify(require("child_process").exec);
 
 // check for the crates index. If none found switch to github and show error
 const cargoHome = getCargoPath()

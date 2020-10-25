@@ -3,18 +3,15 @@
  */
 import {
   window,
-  workspace,
   DecorationOptions,
   Range,
   TextEditor,
   MarkdownString,
-  TextEditorDecorationType,
 } from "vscode";
 
-import { Item } from "./parser";
-import { Dependency } from "./listener";
-import { status, ReplaceItem } from "./commands";
-import { completeVersion, versionInfo } from "./semverUtils";
+import { completeVersion, versionInfo } from "../semver/semverUtils";
+import Item from "../core/Item";
+import { status, ReplaceItem } from "../toml/commands";
 
 export const latestVersion = (text: string) =>
   window.createTextEditorDecorationType({
@@ -30,7 +27,7 @@ export const latestVersion = (text: string) =>
  * @param version
  * @param versions
  */
-function decoration(
+export default function decoration(
   editor: TextEditor,
   item: Item,
   versions: string[],
@@ -75,7 +72,7 @@ function decoration(
     hoverMessage.appendMarkdown(command);
   }
 
-  let latestText = compatibleDecorator.replace("${version}","");
+  let latestText = compatibleDecorator.replace("${version}", "");
   if (semDiff === "patch") {
     latestText = compatibleDecorator.replace("${version}", versions[0]);
   } else if (semDiff === "minor") {
@@ -85,7 +82,7 @@ function decoration(
     latestText = incompatibleDecorator.replace("${version}", versions[0]);
 
   }
-  const contentText = error ? errorDecorator :  latestText;
+  const contentText = error ? errorDecorator : latestText;
 
   const deco = {
     range: new Range(
@@ -102,45 +99,3 @@ function decoration(
   }
   return deco;
 }
-
-/**
- *
- * @param editor Takes crate info and editor. Decorates the editor.
- * @param dependencies
- */
-export function decorate(
-  editor: TextEditor,
-  dependencies: Array<Dependency>,
-): TextEditorDecorationType {
-  const config = workspace.getConfiguration("", editor.document.uri);
-  const compatibleDecorator = config.get<string>("crates.compatibleDecorator") ?? "";
-  const incompatibleDecorator = config.get<string>("crates.incompatibleDecorator") ?? "";
-  const errorText = config.get<string>("crates.errorDecorator");
-  const errorDecorator = errorText ? errorText + "" : "";
-  const options: DecorationOptions[] = [];
-
-  for (let i = dependencies.length - 1; i > -1; i--) {
-    const dependency: Dependency = dependencies[i];
-    const decor = decoration(
-      editor,
-      dependency.item,
-      dependency.versions || [],
-      compatibleDecorator,
-      incompatibleDecorator,
-      errorDecorator,
-      dependency.error,
-    );
-    if (decor) {
-      options.push(decor);
-    }
-  }
-  const lastVerDeco = latestVersion("VERSION");
-  editor.setDecorations(lastVerDeco, options);
-  return lastVerDeco;
-}
-
-
-
-export default {
-  decorate,
-};

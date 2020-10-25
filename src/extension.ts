@@ -8,7 +8,7 @@ import {
   ExtensionContext,
   TextDocumentChangeEvent,
 } from "vscode";
-import tomlListener from "./toml/listener";
+import tomlListener from "./core/listener";
 import TomlCommands from "./toml/commands";
 
 export function activate(context: ExtensionContext) {
