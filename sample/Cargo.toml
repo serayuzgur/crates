@@ -15,8 +15,8 @@ debug =1
 
 
 [dependencies]
-"lazy_static" = "1.4.0"
-libc = "0.2.45"
+"lazy_static" = " 1.4.0"
+libc = "=0.2.45 "
 image = {version = "0.20.1",optional = true}
 futures = "0.1.21"
 # futures-await = "0.1.0"
@@ -50,7 +50,7 @@ objc = '0.1.7'
 
 [target.'cfg(target_os = "macos")'.dependencies]
 objc = "0.2"
-cocoa = "0.9.2"
+cocoa =  " 0.9.2"
 core-foundation = "0.6.0"
 core-graphics = "0.17.2"
 futures = ""
@@ -78,7 +78,7 @@ features = [
 version = "0.2.8"
 
 [target.'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))'.dependencies]
-wayland-client = {version = "0.21.2",features = ["dlopen","egl","cursor"]}
+wayland-client = {version = " 0.21.2 ",features = ["dlopen","egl","cursor"]}
 smithay-client-toolkit = "0.2.4"
 x11-dl = "2"
 parking_lot = "0.7.0"

@@ -11,8 +11,11 @@ export function completeVersion(version?: string) {
   }
   return newV.join(".");
 }
-export function versionInfo(version: string = "0.0.0", max: string) {  
+export function versionInfo(version: string = "0.0.0", max: string) {
+    
     const current = completeVersion(version).split(" ").join("");
+    console.info("CCC",current)
+
     //TODO: handle operator cases after here
 
   // Handle wildcards
