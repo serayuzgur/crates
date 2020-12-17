@@ -1,6 +1,6 @@
 import { TextEditor, TextEditorDecorationType, workspace, DecorationOptions } from "vscode";
 import { statusBarItem } from "./indicators";
-import Dependency from "../core/dependency";
+import Dependency from "../core/Dependency";
 import decoration, { latestVersion } from "./decoration";
 
 export let decorationHandle: TextEditorDecorationType;
@@ -55,7 +55,7 @@ export default function decorate(editor: TextEditor, dependencies: Array<Depende
 }
 
 
-function loadPref(editor: TextEditor){
+function loadPref(editor: TextEditor) {
   const config = workspace.getConfiguration("", editor.document.uri);
   const compatibleDecorator = config.get<string>("crates.compatibleDecorator") ?? "";
   const incompatibleDecorator = config.get<string>("crates.incompatibleDecorator") ?? "";
