@@ -28,22 +28,22 @@ function parseAndDecorate(editor: TextEditor) {
   const basicAuth = config.get<string>("crates.githubAuthBasic");
   const isLocalRegistery = config.get<boolean>("crates.useLocalCargoIndex");
   const githubToken = basicAuth ? `Basic ${Buffer.from(basicAuth).toString("base64")}` : undefined;
-  try {
-    // Parse
-    const dependencies = parseToml(text);
+  // Handle Promise's catch and normal try/catch the same way with an async closure.
+  (async () => {
+    try {
+      // Parse
+      const dependencies = parseToml(text);
+      const fetchedDeps = await fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken, isLocalRegistery);
 
-    // Fetch Versions
-    fetchCrateVersions(dependencies,
-      !!shouldListPreRels,
-      githubToken, isLocalRegistery)
-      .then(decorate.bind(undefined, editor));
-  } catch (e) {
-    console.error(e);
-    statusBarItem.setText("Cargo.toml is not valid!");
-    if (decorationHandle) {
-      decorationHandle.dispose();
+      decorate(editor, fetchedDeps);
+    } catch (e) {
+      console.error(e);
+      statusBarItem.setText("Cargo.toml is not valid!");
+      if (decorationHandle) {
+        decorationHandle.dispose();
+      }
     }
-  }
+  })();
 }
 
 export default function listener (editor: TextEditor | undefined): void {
