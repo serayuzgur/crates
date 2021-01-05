@@ -3,6 +3,11 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 
+## 0.5.5
+
+- "Incorrectly marking 1.4.0 as incompatible with 1.3" fixed [#101](https://github.com/serayuzgur/crates/pull/101)
+
+
 ## 0.5.4
 
 - Failing all decorators on one error fixed [#111](https://github.com/serayuzgur/crates/pull/111)

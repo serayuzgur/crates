@@ -15,9 +15,9 @@ debug =1
 
 
 [dependencies]
-web-sys="0.3.39"
-"lazy_static" = "1.*    "
-libc = "~0.2.45"
+web-sys="0.3.0"
+"lazy_static" = "1.2"
+libc = "0.1.45"
 image = {version = "xx",optional = true}
 futures = "^0.1.21"
 # futures-await = "0.1.0"
@@ -30,7 +30,7 @@ pin-utils = "0.1.0-alpha.4"
 inkwell="0.0.0"
 
 [dependencies.clap]
-version = "3.0.0"
+version = "2.33"
 default-features = false
 
 [dependencies.nom]
@@ -81,7 +81,7 @@ version = "0.2.8"
 [target.'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))'.dependencies]
 wayland-client = {version = "0.21.2",features = ["dlopen","egl","cursor"]}
 smithay-client-toolkit = "0.2.4"
-x11-dl = "2"
+x11-dl = "1.1.0"
 parking_lot = "0.1.0"
 percent-encoding = "1.0.0"
 
