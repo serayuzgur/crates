@@ -1,6 +1,6 @@
 import { TextEditor, TextEditorDecorationType, workspace, DecorationOptions } from "vscode";
 import { statusBarItem } from "./indicators";
-import Dependency from "../core/dependency";
+import Dependency from "../core/Dependency";
 import decoration, { latestVersion } from "./decoration";
 
 export let decorationHandle: TextEditorDecorationType;
@@ -31,17 +31,22 @@ export default function decorate(editor: TextEditor, dependencies: Array<Depende
 
   for (let i = filtered.length - 1; i > -1; i--) {
     const dependency: Dependency = filtered[i];
-    const decor = decoration(
-      editor,
-      dependency.item,
-      dependency.versions || [],
-      pref.compatibleDecorator,
-      pref.incompatibleDecorator,
-      pref.errorDecorator,
-      dependency.error,
-    );
-    if (decor) {
-      options.push(decor);
+    try {
+      const decor = decoration(
+        editor,
+        dependency.item,
+        dependency.versions || [],
+        pref.compatibleDecorator,
+        pref.incompatibleDecorator,
+        pref.errorDecorator,
+        dependency.error,
+      );
+      if (decor) {
+        options.push(decor);
+      }
+    } catch (e) {
+      console.error(e);
+      errors.push(`Failed to build build decorator (${dependency.item.value})`);
     }
   }
   decorationHandle = latestVersion("VERSION");
@@ -55,7 +60,7 @@ export default function decorate(editor: TextEditor, dependencies: Array<Depende
 }
 
 
-function loadPref(editor: TextEditor){
+function loadPref(editor: TextEditor) {
   const config = workspace.getConfiguration("", editor.document.uri);
   const compatibleDecorator = config.get<string>("crates.compatibleDecorator") ?? "";
   const incompatibleDecorator = config.get<string>("crates.incompatibleDecorator") ?? "";
