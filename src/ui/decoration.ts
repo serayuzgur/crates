@@ -9,9 +9,10 @@ import {
   MarkdownString,
 } from "vscode";
 
-import { completeVersion, versionInfo } from "../semver/semverUtils";
+import { checkVersion } from "../semver/semverUtils";
 import Item from "../core/Item";
 import { status, ReplaceItem } from "../toml/commands";
+import { validRange } from "semver";
 
 export const latestVersion = (text: string) =>
   window.createTextEditorDecorationType({
@@ -42,8 +43,7 @@ export default function decoration(
   const endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
   const decoPosition = editor.document.offsetAt(endofline);
   const end = item.end;
-  const currentVersion = completeVersion(item.value);
-  const semDiff = versionInfo(item.value, versions[0]);
+  const [satisfies, maxSatisfying] = checkVersion(item.value, versions);
 
   const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`#### Versions`);
   hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
@@ -64,7 +64,7 @@ export default function decoration(
       start,
       end,
     };
-    const isCurrent = version === currentVersion;
+    const isCurrent = version === maxSatisfying;
     const encoded = encodeURI(JSON.stringify(replaceData));
     const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key}/${version})` : "";
     const command = `${isCurrent ? "**" : ""}[${version}](command:crates.replaceVersion?${encoded})${docs}${isCurrent ? "**" : ""}`;
@@ -73,15 +73,14 @@ export default function decoration(
   }
 
   let latestText = compatibleDecorator.replace("${version}", "");
-  if (semDiff === "patch") {
-    latestText = compatibleDecorator.replace("${version}", versions[0]);
-  } else if (semDiff === "minor") {
-    latestText = incompatibleDecorator.replace("${version}", versions[0]);
-
-  } else if (semDiff === "major") {
-    latestText = incompatibleDecorator.replace("${version}", versions[0]);
-
-  }
+  if (!validRange(item.value))
+    latestText = errorDecorator.replace("${version}", versions[0]);
+  else if (versions[0] !== maxSatisfying)
+    if (satisfies) {
+      latestText = compatibleDecorator.replace("${version}", versions[0]);
+    } else {
+      latestText = incompatibleDecorator.replace("${version}", versions[0]);
+    }
   const contentText = error ? errorDecorator : latestText;
 
   const deco = {

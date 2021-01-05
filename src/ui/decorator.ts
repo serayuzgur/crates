@@ -53,7 +53,7 @@ export default function decorate(editor: TextEditor, dependencies: Array<Depende
   editor.setDecorations(decorationHandle, options);
 
   if (errors.length) {
-    statusBarItem.setText("⚠️ Completed with errors");
+    statusBarItem.setText("❗️ Completed with errors");
   } else {
     statusBarItem.setText("OK");
   }
@@ -70,6 +70,6 @@ function loadPref(editor: TextEditor) {
     compatibleDecorator,
     incompatibleDecorator,
     errorDecorator,
-  }
+  };
 }
 

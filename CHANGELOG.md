@@ -3,6 +3,14 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 
+## 0.5.4
+
+- Failing all decorators on one error fixed [#111](https://github.com/serayuzgur/crates/pull/111)
+- "spaces in dependencies" fixed [#105](https://github.com/serayuzgur/crates/pull/105)
+- "Support semver symbols" fixed [#104](https://github.com/serayuzgur/crates/pull/104)
+- "Accessibility regression" fixed [#100](https://github.com/serayuzgur/crates/pull/100)
+
+
 ## 0.5.3
 
 - "package.metadata.*" bug fixed [#94](https://github.com/serayuzgur/crates/issues/94)

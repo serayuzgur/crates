@@ -71,19 +71,19 @@
         "crates.errorDecorator": {
           "type": "string",
           "scope": "resource",
-          "default": "❗️",
+          "default": "❗️❗️❗️",
           "description": "The text to show when a dependency has errors."
         },
         "crates.incompatibleDecorator": {
           "type": "string",
           "scope": "resource",
-          "default": "🔴 ${version}",
+          "default": "❌ ${version}",
           "description": "The text template to show when a dependency is not semver compatible. ${version} will be replaced by the latest version info."
         },
         "crates.compatibleDecorator": {
           "type": "string",
           "scope": "resource",
-          "default": "🟢 ${version}",
+          "default": "✅ ${version}",
           "description": "The text template to show when a dependency is semver compatible. ${version} will be replaced by the latest version info."
         },
         "crates.listPreReleases": {
@@ -135,7 +135,7 @@
   "dependencies": {
     "request": "2.88.2",
     "request-promise": "4.2.5",
-    "semver": "7.3.2",
+    "semver": "7.3.4",
     "url-parse": "1.4.7"
   }
 }
