@@ -73,7 +73,7 @@ function parseTables(data: string, parent: Item): Item {
     const ch = data.charAt(i);
     if (isWhiteSpace(ch) || isNewLine(ch)) {
       continue;
-    } else if (ch === "#") {
+    } else if (isComment(ch)) {
       i = parseComment(data, i);
     } else if (ch === "[") {
       item = new Item();
@@ -106,7 +106,7 @@ function parseValues(data: string, parent: Item, index: number): number {
     const ch = data.charAt(i);
     if (isWhiteSpace(ch) || isNewLine(ch) || isComma(ch)) {
       continue;
-    } else if (ch === "#") {
+    } else if (isComment(ch)) {
       i = parseComment(data, i);
     } else if (isParsingKey) {
       if (ch === "[") {
@@ -116,8 +116,6 @@ function parseValues(data: string, parent: Item, index: number): number {
       }
       i = parseKey(data, item, i);
       isParsingKey = false;
-    } else if (ch === "#") {
-      i = parseComment(data, i);
     } else if (ch === '"' || ch === "'") {
       i = parseString(data, item, i, ch);
       item = initNewItem(item, parent, i);
@@ -173,6 +171,8 @@ function parseArray(data: string, parent: Item, index: number): number {
     const ch = data.charAt(i);
     if (isWhiteSpace(ch) || isNewLine(ch) || isComma(ch)) {
       continue;
+    } else if (isComment(ch)) {
+      i = parseComment(data, i);
     } else if (ch === '"' || ch === "'") {
       i = parseString(data, item, i, ch);
       item = initNewItem(item, parent, i);
@@ -346,6 +346,10 @@ function isNewLine(ch: string) {
 
 function isComma(ch: string) {
   return ch === ",";
+}
+
+function isComment(ch: string) {
+  return ch === "#";
 }
 
 function isBoolean(data: string, i: number) {
