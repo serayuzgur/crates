@@ -9,14 +9,16 @@ export function fetchCrateVersions(
   dependencies: Item[],
   shouldListPreRels: boolean,
   githubToken?: string,
-  isLocalRegistry?: boolean): Promise<Dependency[]> {
+  useLocalIndex?: boolean,
+  localIndexHash?: string
+): Promise<Dependency[]> {
   statusBarItem.setText("👀 Fetching crates.io");
+  const isLocalIndexAvailable = useLocalIndex && checkCargoRegistry(localIndexHash);
+  const versions = isLocalIndexAvailable ? loVersions : ghVersions;
+
   const responses = dependencies.map(
     (item: Item): Promise<Dependency> => {
       // Check settings and if local registry enabled control cargo home. Fallback is the github index.
-      const isLocalRegistryAvailable = isLocalRegistry && checkCargoRegistry();
-      const versions = isLocalRegistryAvailable ? loVersions : ghVersions;
-
       return versions(item.key, githubToken)
         .then((json: any) => {
           return {

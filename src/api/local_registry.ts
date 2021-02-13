@@ -14,7 +14,7 @@ import { decidePath, parseVersions } from "./index-utils";
 const exec = util.promisify(require("child_process").exec);
 
 // check for the crates index. If none found switch to github and show error
-const cargoHome = getCargoPath()
+const cargoHome = getCargoPath();
 
 function getCargoPath() {
   // Trailing slash on macos (does not want / at the end) and windows (needs / at end)
@@ -25,11 +25,14 @@ function getCargoPath() {
 
 
 
-const gitDir = path.resolve(cargoHome, "registry/index/github.com-1ecc6299db9ec823/.git/");
+let gitDir = path.resolve(cargoHome, "registry/index/github.com-1ecc6299db9ec823/.git/");
 
 
 
-export function checkCargoRegistry() {
+export function checkCargoRegistry(localIndexHash?: string) {
+  if (localIndexHash) {
+    gitDir = path.resolve(cargoHome, `registry/index/${localIndexHash}/.git/`);
+  }
   return fs.existsSync(gitDir);
 }
 

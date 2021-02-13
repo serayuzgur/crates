@@ -97,6 +97,12 @@
           "scope": "resource",
           "default": true,
           "description": "If true, crates will use local cargo index. (Requires git, cargo and updated crates.io index)"
+        },
+        "crates.localCargoIndexHash": {
+          "type": "string",
+          "scope": "resource",
+          "default": "github.com-1ecc6299db9ec823",
+          "description": "The hash path for crates.io index. Default value goes to official index. Alternative values would support registry source mirror with source replacement setup"
         }
       }
     }

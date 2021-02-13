@@ -26,14 +26,15 @@ function parseAndDecorate(editor: TextEditor) {
   const config = workspace.getConfiguration("", editor.document.uri);
   const shouldListPreRels = config.get("crates.listPreReleases");
   const basicAuth = config.get<string>("crates.githubAuthBasic");
-  const isLocalRegistery = config.get<boolean>("crates.useLocalCargoIndex");
+  const useLocalIndex = config.get<boolean>("crates.useLocalCargoIndex");
+  const localIndexHash = config.get<string>("crates.localCargoIndexHash");
   const githubToken = basicAuth ? `Basic ${Buffer.from(basicAuth).toString("base64")}` : undefined;
   // Handle Promise's catch and normal try/catch the same way with an async closure.
   (async () => {
     try {
       // Parse
       const dependencies = parseToml(text);
-      const fetchedDeps = await fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken, isLocalRegistery);
+      const fetchedDeps = await fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken, useLocalIndex, localIndexHash);
 
       decorate(editor, fetchedDeps);
     } catch (e) {
@@ -46,7 +47,7 @@ function parseAndDecorate(editor: TextEditor) {
   })();
 }
 
-export default function listener (editor: TextEditor | undefined): void {
+export default function listener(editor: TextEditor | undefined): void {
   if (editor) {
     const { fileName } = editor.document;
     if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
