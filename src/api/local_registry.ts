@@ -20,8 +20,6 @@ function getCargoPath() {
   // Trailing slash on macos (does not want / at the end) and windows (needs / at end)
   if (process.env.CARGO_HOME)
     return process.env.CARGO_HOME;
-  if (os.platform() === "win32")
-    return path.resolve(os.homedir(), "/.cargo/");
   return path.resolve(os.homedir(), ".cargo/");
 }
 
