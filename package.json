@@ -83,7 +83,7 @@
         "crates.compatibleDecorator": {
           "type": "string",
           "scope": "resource",
-          "default": "✅ ${version}",
+          "default": "✅",
           "description": "The text template to show when a dependency is semver compatible. ${version} will be replaced by the latest version info."
         },
         "crates.listPreReleases": {

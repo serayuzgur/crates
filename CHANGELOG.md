@@ -6,6 +6,8 @@ All notable changes to the "crates" extension will be documented in this file.
 ## 0.5.6
 
 - Comma handled for ranged versions [#117](https://github.com/serayuzgur/crates/issues/117)
+- Fix for comments with brackets inside arrays  [#115](https://github.com/serayuzgur/crates/pull/115)
+- ${version} is not being replaced for compatible decorator  [#118](https://github.com/serayuzgur/crates/issues/118)
 
 ## 0.5.5
 

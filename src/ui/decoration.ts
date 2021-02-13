@@ -73,7 +73,7 @@ export default function decoration(
     hoverMessage.appendMarkdown(command);
   }
 
-  let latestText = compatibleDecorator.replace("${version}", "");
+  let latestText = compatibleDecorator.replace("${version}", versions[0]);
   if (!validRange(version))
     latestText = errorDecorator.replace("${version}", versions[0]);
   else if (versions[0] !== maxSatisfying)
