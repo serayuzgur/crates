@@ -28,6 +28,7 @@ cookie_rs = {package = "cookie", version = "0.10.1"}
 emoji-clock = { version= "0.1.0", path = "../lib"}
 pin-utils = "0.1.0-alpha.4"
 inkwell="0.0.0"
+crossbeam-utils=">=0.7.2, <=0.9"
 
 [dependencies.clap]
 version = "2.33"
@@ -57,7 +58,7 @@ core-graphics = "0.17.2"
 futures = ""
 
 [target.'cfg(unix)'.dev-dependencies]
-mio = "0.6"
+mio = ">=0.6 <0.7"
 aerosol="0.2.0"
 
 

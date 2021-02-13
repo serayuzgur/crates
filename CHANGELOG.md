@@ -3,6 +3,10 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 
+## 0.5.6
+
+- Comma handled for ranged versions [#117](https://github.com/serayuzgur/crates/issues/117)
+
 ## 0.5.5
 
 - "Incorrectly marking 1.4.0 as incompatible with 1.3" fixed [#101](https://github.com/serayuzgur/crates/pull/101)

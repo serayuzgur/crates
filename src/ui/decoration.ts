@@ -43,7 +43,8 @@ export default function decoration(
   const endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
   const decoPosition = editor.document.offsetAt(endofline);
   const end = item.end;
-  const [satisfies, maxSatisfying] = checkVersion(item.value, versions);
+  const version = item.value?.replace(",", "");
+  const [satisfies, maxSatisfying] = checkVersion(version, versions);
 
   const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`#### Versions`);
   hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
@@ -73,7 +74,7 @@ export default function decoration(
   }
 
   let latestText = compatibleDecorator.replace("${version}", "");
-  if (!validRange(item.value))
+  if (!validRange(version))
     latestText = errorDecorator.replace("${version}", versions[0]);
   else if (versions[0] !== maxSatisfying)
     if (satisfies) {
