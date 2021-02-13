@@ -61,7 +61,7 @@ mio = "0.6"
 [target.'cfg(target_os = "windows")'.dependencies.winapi]
 version = "0.3"
 features = [
-    "winnt",
+    "winnt", # I [❤️] win32
     "winuser",
     "wingdi",
     "shellapi",

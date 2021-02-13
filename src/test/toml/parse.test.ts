@@ -52,8 +52,8 @@ suite("Parser Tests", function() {
     {
       const item = doc.values[doc.values.length - 1];
       const section = tomlFile.substring(item.start, item.end - 1);
-      const desiredSection = tomlFile.substring(1733, 1968);
-      // assert.equal(section.length, desiredSection.length);
+      const desiredSection = tomlFile.substring(1748, 1787);
+      assert.equal(section.length, desiredSection.length);
 
       assert.equal(section, desiredSection);
     }
