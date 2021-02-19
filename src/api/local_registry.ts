@@ -38,7 +38,7 @@ export function checkCargoRegistry(localIndexHash?: string) {
 
 export const versions = (name: string) => {
   return exec(
-    `git --no-pager --git-dir="${gitDir}" show origin/master:${decidePath(name)}`,
+    `git --no-pager --git-dir="${gitDir}" show origin/HEAD:${decidePath(name)}`,
     { maxBuffer: 8 * 1024 * 1024 }  // "8M ought to be enough for anyone."
   )
     .then((buf: { stdout: Buffer, stderr: Buffer; }) => {
