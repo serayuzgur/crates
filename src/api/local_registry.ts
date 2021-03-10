@@ -26,19 +26,22 @@ function getCargoPath() {
 
 
 let gitDir = path.resolve(cargoHome, "registry/index/github.com-1ecc6299db9ec823/.git/");
+let gitBranch = "origin/master";
 
 
-
-export function checkCargoRegistry(localIndexHash?: string) {
+export function checkCargoRegistry(localIndexHash?: string, localGitBranch?: string) {
   if (localIndexHash) {
     gitDir = path.resolve(cargoHome, `registry/index/${localIndexHash}/.git/`);
+  }
+  if (localGitBranch) {
+    gitBranch = localGitBranch;
   }
   return fs.existsSync(gitDir);
 }
 
 export const versions = (name: string) => {
   return exec(
-    `git --no-pager --git-dir="${gitDir}" show origin/HEAD:${decidePath(name)}`,
+    `git --no-pager --git-dir="${gitDir}" show ${gitBranch}:${decidePath(name)}`,
     { maxBuffer: 8 * 1024 * 1024 }  // "8M ought to be enough for anyone."
   )
     .then((buf: { stdout: Buffer, stderr: Buffer; }) => {

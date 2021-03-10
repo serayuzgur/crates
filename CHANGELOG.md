@@ -3,6 +3,11 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 
+## 0.5.7
+
+- Local repository git branch changed to origin/master and also it is changeable from settings  `crates.localCargoIndexBranch`  [#121](https://github.com/serayuzgur/crates/issues/121)
+
+
 ## 0.5.6
 
 - Comma handled for ranged versions [#117](https://github.com/serayuzgur/crates/issues/117)

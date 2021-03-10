@@ -28,13 +28,14 @@ function parseAndDecorate(editor: TextEditor) {
   const basicAuth = config.get<string>("crates.githubAuthBasic");
   const useLocalIndex = config.get<boolean>("crates.useLocalCargoIndex");
   const localIndexHash = config.get<string>("crates.localCargoIndexHash");
+  const localGitBranch = config.get<string>("crates.localCargoIndexBranch");
   const githubToken = basicAuth ? `Basic ${Buffer.from(basicAuth).toString("base64")}` : undefined;
   // Handle Promise's catch and normal try/catch the same way with an async closure.
   (async () => {
     try {
       // Parse
       const dependencies = parseToml(text);
-      const fetchedDeps = await fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken, useLocalIndex, localIndexHash);
+      const fetchedDeps = await fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken, useLocalIndex, localIndexHash, localGitBranch);
 
       decorate(editor, fetchedDeps);
     } catch (e) {

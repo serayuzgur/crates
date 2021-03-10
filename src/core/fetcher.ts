@@ -10,10 +10,11 @@ export function fetchCrateVersions(
   shouldListPreRels: boolean,
   githubToken?: string,
   useLocalIndex?: boolean,
-  localIndexHash?: string
+  localIndexHash?: string,
+  localGitBranch?: string
 ): Promise<Dependency[]> {
   statusBarItem.setText("👀 Fetching crates.io");
-  const isLocalIndexAvailable = useLocalIndex && checkCargoRegistry(localIndexHash);
+  const isLocalIndexAvailable = useLocalIndex && checkCargoRegistry(localIndexHash, localGitBranch);
   const versions = isLocalIndexAvailable ? loVersions : ghVersions;
 
   const responses = dependencies.map(

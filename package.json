@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Helps Rust developers managing dependencies with Cargo.toml. Only works with dependencies from crates.io.",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
@@ -103,6 +103,12 @@
           "scope": "resource",
           "default": "github.com-1ecc6299db9ec823",
           "description": "The hash path for crates.io index. Default value goes to official index. Alternative values would support registry source mirror with source replacement setup"
+        },
+        "crates.localCargoIndexBranch": {
+          "type": "string",
+          "scope": "resource",
+          "default": "origin/master",
+          "description": "The branch for crates.io index. Default value goes to origin/HEAD."
         }
       }
     }
