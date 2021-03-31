@@ -46,7 +46,19 @@ export default function decoration(
   const version = item.value?.replace(",", "");
   const [satisfies, maxSatisfying] = checkVersion(version, versions);
 
-  const hoverMessage = error ? new MarkdownString(`**${error}**`) : new MarkdownString(`#### Versions`);
+  const formatError = (error: string) => {
+    // Markdown does not like newlines in middle of emphasis, or spaces next to emphasis characters.
+    const error_parts = error.split('\n');
+    const markdown = new MarkdownString();
+    // Ignore empty strings
+    error_parts.filter(s => s).forEach(part => {
+      markdown.appendMarkdown("**");
+      markdown.appendText(part.trim()); // Gets rid of Markdown-breaking spaces, then append text safely escaped.
+      markdown.appendMarkdown("**\n\n"); // Put the newlines back
+    });
+    return markdown;
+  };
+  const hoverMessage = error ? formatError(error) : new MarkdownString(`#### Versions`);
   hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
   hoverMessage.isTrusted = true;
 
