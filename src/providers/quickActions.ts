@@ -24,9 +24,8 @@ export default class QuickActions implements CodeActionProvider {
     if (context.only && context.only! !== CodeActionKind.QuickFix)
       return Promise.resolve([]);
 
-    if (document.isDirty) {
+    if (document.isDirty)
       await parseAndDecorate(window.activeTextEditor!, false, false);
-    }
 
     if (
       !dependencies ||
@@ -44,7 +43,7 @@ export default class QuickActions implements CodeActionProvider {
 
     for (let i = 0; i < dependencies.length; i++) {
       const fetchedDep = fetchedDeps[i];
-      if (!fetchedDep.versions) continue;
+      if (!fetchedDep || !fetchedDep.versions) continue;
 
       const dependency = dependencies[i];
 

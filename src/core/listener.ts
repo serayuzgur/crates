@@ -23,7 +23,8 @@ function parseToml(text: string): Item[] {
 
 var dependencies: Item[];
 var fetchedDeps: Dependency[];
-export { dependencies, fetchedDeps };
+var fetchedDepsMap: Map<string, Dependency>;
+export { dependencies, fetchedDeps, fetchedDepsMap };
 
 export async function parseAndDecorate(
   editor: TextEditor,
@@ -45,8 +46,8 @@ export async function parseAndDecorate(
     
     // Parse
     dependencies = parseToml(text);
-    if (fetchDeps)
-      fetchedDeps = await fetchCrateVersions(
+    if (fetchDeps) {
+      const data = fetchCrateVersions(
         dependencies,
         !!shouldListPreRels,
         githubToken,
@@ -54,6 +55,9 @@ export async function parseAndDecorate(
         localIndexHash,
         localGitBranch
       );
+      fetchedDeps = await data[0];
+      fetchedDepsMap = data[1];
+    }
 
     // Fill in crate = "?" with the latest fetched version
     if (wasSaved)
