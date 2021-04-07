@@ -46,7 +46,7 @@ export async function parseAndDecorate(
     
     // Parse
     dependencies = parseToml(text);
-    if (fetchDeps) {
+    if (fetchDeps || !fetchedDeps || !fetchedDepsMap) {
       const data = fetchCrateVersions(
         dependencies,
         !!shouldListPreRels,
