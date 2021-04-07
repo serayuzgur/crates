@@ -42,6 +42,7 @@ export async function parseAndDecorate(
     : undefined;
 
   try {
+    
     // Parse
     dependencies = parseToml(text);
     if (fetchDeps)
@@ -59,6 +60,7 @@ export async function parseAndDecorate(
       await quickFillDependencies(editor, dependencies, fetchedDeps);
 
     decorate(editor, fetchedDeps);
+
   } catch (e) {
     console.error(e);
     statusBarItem.setText("Cargo.toml is not valid!");

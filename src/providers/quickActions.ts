@@ -47,7 +47,6 @@ export default class QuickActions implements CodeActionProvider {
       if (!fetchedDep.versions) continue;
 
       const dependency = dependencies[i];
-      console.log(dependency);
 
       // Check that the cursor/selection matches the range of the TOML version string
       const versionRange = new Range(
@@ -75,7 +74,6 @@ export default class QuickActions implements CodeActionProvider {
       edits++;
 
       lastTitle = `Update ${dependency.key} to ${latestVersion}`;
-      console.log(lastTitle, edits);
       if (!isSelection) break;
     }
 
