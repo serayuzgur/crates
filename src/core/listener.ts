@@ -9,6 +9,7 @@ import { status } from "../toml/commands";
 import Item from "./Item";
 import decorate, { decorationHandle } from "../ui/decorator";
 import { fetchCrateVersions } from "./fetcher";
+import quickFillDependencies from "./quickFill";
 
 function parseToml(text: string): Item[] {
   console.log("Parsing...");
@@ -21,7 +22,7 @@ function parseToml(text: string): Item[] {
 
 
 
-function parseAndDecorate(editor: TextEditor) {
+function parseAndDecorate(editor: TextEditor, wasSaved: boolean = false) {
   const text = editor.document.getText();
   const config = workspace.getConfiguration("", editor.document.uri);
   const shouldListPreRels = config.get("crates.listPreReleases");
@@ -37,6 +38,11 @@ function parseAndDecorate(editor: TextEditor) {
       const dependencies = parseToml(text);
       const fetchedDeps = await fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken, useLocalIndex, localIndexHash, localGitBranch);
 
+      if (wasSaved) {
+        // Fill in crate = "?" with the latest fetched version
+        await quickFillDependencies(editor, dependencies, fetchedDeps);
+      }
+
       decorate(editor, fetchedDeps);
     } catch (e) {
       console.error(e);
@@ -48,14 +54,14 @@ function parseAndDecorate(editor: TextEditor) {
   })();
 }
 
-export default function listener(editor: TextEditor | undefined): void {
+export default function listener(editor: TextEditor | undefined, wasSaved: boolean = false): void {
   if (editor) {
     const { fileName } = editor.document;
     if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
       status.inProgress = true;
       status.replaceItems = [];
       statusBarItem.show();
-      parseAndDecorate(editor);
+      parseAndDecorate(editor, wasSaved);
     } else {
       statusBarItem.hide();
     }
