@@ -14,7 +14,7 @@ import {
 import tomlListener from "./core/listener";
 import TomlCommands from "./toml/commands";
 import QuickActions from "./providers/quickActions";
-import AutoCompletions from "./providers/autoCompletion";
+import { VersionCompletions, FeaturesCompletions } from "./providers/autoCompletion";
 
 export function activate(context: ExtensionContext) {
   context.subscriptions.push(
@@ -46,13 +46,20 @@ export function activate(context: ExtensionContext) {
       { providedCodeActionKinds: [CodeActionKind.QuickFix] }
     ),
 
-    // Register our auto completions provider
+    // Register our versions completions provider
     languages.registerCompletionItemProvider(
       { language: "toml", pattern: "**/[Cc]argo.toml" },
-      new AutoCompletions(),
+      new VersionCompletions(),
       "'", '"', ".", "+", "-",
       "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
-    )
+    ),
+
+    // Register our features auto completions provider
+    languages.registerCompletionItemProvider(
+      { language: "toml", pattern: "**/[Cc]argo.toml" },
+      new FeaturesCompletions(),
+      "'", '"'
+    ),
   );
 
   tomlListener(window.activeTextEditor);

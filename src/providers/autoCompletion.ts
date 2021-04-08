@@ -13,7 +13,8 @@ import {
 
 import { fetchedDepsMap } from "../core/listener";
 
-const RE_VERSION_AUTO_COMPLETE = /^\s*(\S+?)([ \t]*=[ \t]*)(?:(.*?version[ \t]*=[ \t]*)("|')(.*?)\4|("|')(.*?)\6)/;
+const RE_VERSION_AUTO_COMPLETE = /^[ \t]*(?<!#)(\S+?)([ \t]*=[ \t]*)(?:({.*?version[ \t]*=[ \t]*)("|')(.*?)\4|("|')(.*?)\6)/;
+const RE_FEATURES_AUTO_COMPLETE = /^[ \t]*(?<!#)([\S]+?)([ \t]*=[ \t]*.*?{.*?features[ \t]*=[ \t]*\[[ \t]*)(.+?)[ \t]*\]/;
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 export function sortText(i: number): string {
@@ -23,7 +24,7 @@ export function sortText(i: number): string {
   return "z".repeat(columns) + letter;
 }
 
-export default class AutoCompletions implements CompletionItemProvider {
+export class VersionCompletions implements CompletionItemProvider {
   provideCompletionItems(
     document: TextDocument,
     position: Position,
@@ -32,22 +33,21 @@ export default class AutoCompletions implements CompletionItemProvider {
   ): ProviderResult<CompletionItem[] | CompletionList> {
     if (!fetchedDepsMap) return [];
 
-    const match = document
-      .lineAt(position)
-      .text.match(RE_VERSION_AUTO_COMPLETE);
+    const line = document.lineAt(position);
+
+    const match = line.text.match(RE_VERSION_AUTO_COMPLETE);
     if (match) {
       const crate = match[1];
-      var version = match[7] ?? match[5];
+      const version = match[7] ?? match[5];
 
       const fetchedDep = fetchedDepsMap.get(crate);
       if (!fetchedDep || !fetchedDep.versions) return;
 
-      const versionStart =
-        crate.length + match[2].length + (match[3]?.length ?? 0) + 1;
+      const versionStart = crate.length + match[2].length + (match[3]?.length ?? 0) + 1;
       const versionEnd = versionStart + version.length;
 
       if (version.trim().length !== 0) {
-        var filterVersion = version.toLowerCase();
+        const filterVersion = version.toLowerCase();
 
         const range = new Range(
           new Position(position.line, versionStart),
@@ -74,8 +74,41 @@ export default class AutoCompletions implements CompletionItemProvider {
         );
       } else if (position.character !== versionEnd + 1) {
         // Fixes the edge case where auto completion comes up for version = ""|
-        return fetchedDep.completionItems;
+        return fetchedDep.versionCompletionItems;
       }
+    }
+  }
+}
+
+export class FeaturesCompletions implements CompletionItemProvider {
+  provideCompletionItems(
+    document: TextDocument,
+    position: Position,
+    _token: CancellationToken,
+    _context: CompletionContext
+  ): ProviderResult<CompletionItem[] | CompletionList> {
+    if (!fetchedDepsMap) return [];
+
+    const line = document.lineAt(position);
+
+    const featuresMatch = line.text.match(RE_FEATURES_AUTO_COMPLETE);
+    const versionMatch = line.text.match(RE_VERSION_AUTO_COMPLETE);
+    if (featuresMatch && versionMatch) {
+      const crate = featuresMatch[1];
+      const version = versionMatch[7] ?? versionMatch[5];
+
+      const fetchedDep = fetchedDepsMap.get(crate);
+      if (!fetchedDep || !fetchedDep.featureCompletionItems) return;
+
+      const featuresArray = featuresMatch[3];
+      const featuresRange = new Range(
+        new Position(position.line, crate.length + featuresMatch[2].length),
+        new Position(position.line, crate.length + featuresMatch[2].length + featuresArray.length)
+      );
+
+      if (!featuresRange.contains(position)) return;
+
+      return fetchedDep.featureCompletionItems.get(version);
     }
   }
 }

@@ -25,7 +25,11 @@ export function parseVersions(response: string, name: string) {
     try {
       if (rec.trim().length > 0) {
         const parsed = JSON.parse(rec);
-        versions.push({ num: parsed.vers, yanked: parsed.yanked });
+        versions.push({
+          num: parsed.vers,
+          yanked: parsed.yanked,
+          features: Object.keys(parsed.features).filter(feature => feature !== "default").sort()
+        });
       }
     } catch (er) {
       console.log(er, rec);
