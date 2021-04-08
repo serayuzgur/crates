@@ -12,6 +12,7 @@ import {
 } from "vscode";
 
 import { fetchedDepsMap } from "../core/listener";
+import { checkVersion } from "../semver/semverUtils";
 
 const RE_VERSION_AUTO_COMPLETE = /^[ \t]*(?<!#)(\S+?)([ \t]*=[ \t]*)(?:({.*?version[ \t]*=[ \t]*)("|')(.*?)\4|("|')(.*?)\6)/;
 const RE_FEATURES_AUTO_COMPLETE = /^[ \t]*(?<!#)([\S]+?)([ \t]*=[ \t]*.*?{.*?features[ \t]*=[ \t]*\[[ \t]*)(.+?)[ \t]*\]/;
@@ -98,7 +99,7 @@ export class FeaturesCompletions implements CompletionItemProvider {
       const version = versionMatch[7] ?? versionMatch[5];
 
       const fetchedDep = fetchedDepsMap.get(crate);
-      if (!fetchedDep || !fetchedDep.featureCompletionItems) return;
+      if (!fetchedDep || !fetchedDep.featureCompletionItems || !fetchedDep.versions) return;
 
       const featuresArray = featuresMatch[3];
       const featuresRange = new Range(
@@ -108,7 +109,8 @@ export class FeaturesCompletions implements CompletionItemProvider {
 
       if (!featuresRange.contains(position)) return;
 
-      return fetchedDep.featureCompletionItems.get(version);
+      const maxSatisfying = checkVersion(version, fetchedDep.versions)[1] ?? version;
+      return fetchedDep.featureCompletionItems.get(maxSatisfying);
     }
   }
 }
