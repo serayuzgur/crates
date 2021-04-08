@@ -35,7 +35,10 @@ function findCrate(document: TextDocument, line: number): string | undefined {
   }
 }
 
-function findCrateAndVersion(document: TextDocument, line: number): [string, string] | undefined {
+function findCrateAndVersion(
+  document: TextDocument,
+  line: number
+): [string, string] | undefined {
   let crate;
   let version;
 
@@ -89,9 +92,8 @@ export class VersionCompletions implements CompletionItemProvider {
       .lineAt(position)
       .text.match(RE_VERSION_AUTO_COMPLETE);
     if (match) {
-      const tabledHeaderCrateName = findCrate(document, position.line);
-      if (tabledHeaderCrateName && match[1] !== "version") return;
-      const crate = tabledHeaderCrateName ?? match[1];
+      const crate = match[1] === "version" ? findCrate(document, position.line) : match[1];
+      if (!crate) return;
 
       const version = match[7] ?? match[5];
 
@@ -101,8 +103,18 @@ export class VersionCompletions implements CompletionItemProvider {
       const versionStart = match[1].length + match[2].length + (match[3]?.length ?? 0) + 1;
       const versionEnd = versionStart + version.length;
 
+      if (
+        !new Range(
+          new Position(position.line, versionStart),
+          new Position(position.line, versionEnd)
+        ).contains(position)
+      )
+        return;
+
       if (version.trim().length !== 0) {
-        const filterVersion = version.substr(0, versionStart - position.character).toLowerCase();
+        const filterVersion = version
+          .substr(0, versionStart - position.character)
+          .toLowerCase();
 
         const range = new Range(
           new Position(position.line, versionStart),
@@ -145,11 +157,24 @@ export class FeaturesCompletions implements CompletionItemProvider {
     const line = document.lineAt(position);
 
     const featuresMatch = line.text.match(RE_FEATURES_AUTO_COMPLETE);
+    console.log('1');
     if (featuresMatch) {
-      const match = findCrateAndVersion(document, position.line);
-      if (!match) return;
-      const [crate, version] = match;
+      let crate;
+      let version;
+      const versionMatch = line.text.match(RE_VERSION_AUTO_COMPLETE);
+      if (versionMatch) {
+        console.log('a');
+        crate = versionMatch[1];
+        version = versionMatch[7] ?? versionMatch[5];
+      } else {
+        console.log('b');
+        const match = findCrateAndVersion(document, position.line);
+        if (!match) return;
+        [crate, version] = match;
+      }
 
+      console.log('2', crate, version);
+      
       const fetchedDep = fetchedDepsMap.get(crate);
       if (
         !fetchedDep ||
@@ -157,6 +182,7 @@ export class FeaturesCompletions implements CompletionItemProvider {
         !fetchedDep.versions
       )
         return;
+        console.log('4');
 
       const featuresArray = featuresMatch[2];
 
@@ -170,6 +196,7 @@ export class FeaturesCompletions implements CompletionItemProvider {
 
       if (!featuresRange.contains(position)) return;
 
+      console.log('5');
       const maxSatisfying = checkVersion(version, fetchedDep.versions)[1] ?? version;
       return fetchedDep.featureCompletionItems.get(maxSatisfying);
     }
