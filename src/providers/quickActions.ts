@@ -13,6 +13,7 @@ import {
 } from "vscode";
 
 import { dependencies, fetchedDeps, parseAndDecorate } from "../core/listener";
+import { checkVersion } from "../semver/semverUtils";
 
 export default class QuickActions implements CodeActionProvider {
   async provideCodeActions(
@@ -59,9 +60,10 @@ export default class QuickActions implements CodeActionProvider {
         if (!versionRange.contains(range)) continue;
       }
 
-      // It's up to date
+      // Check if an update is required
+      const maxSatisfying = checkVersion(dependency.value, fetchedDep.versions)[1];
       const latestVersion = fetchedDep.versions[0];
-      if (dependency.value === latestVersion) continue;
+      if ((maxSatisfying ?? dependency.value) === latestVersion) continue;
 
       edit.replace(
         document.uri,
