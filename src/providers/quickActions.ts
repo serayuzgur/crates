@@ -14,6 +14,7 @@ import {
 
 import { dependencies, fetchedDeps, parseAndDecorate } from "../core/listener";
 
+
 export default class QuickActions implements CodeActionProvider {
   async provideCodeActions(
     document: TextDocument,
