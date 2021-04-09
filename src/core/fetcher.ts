@@ -32,18 +32,16 @@ export function fetchCrateVersions(
         .then((json: any) => {
           const versions = json.versions
             .reduce((result: any[], item: any) => {
-              const isPreRelease =
-                !shouldListPreRels && item.num.indexOf("-") !== -1;
-              if (!item.yanked && !isPreRelease) {
+              const isPreRelease = !shouldListPreRels && item.num.indexOf("-") !== -1;
+              if (!item.yanked && !isPreRelease)
                 result.push(item.num);
-              }
               return result;
             }, [])
             .sort(compareVersions)
             .reverse();
 
           let i = 0;
-          const completionItems = new CompletionList(
+          const versionCompletionItems = new CompletionList(
             versions.map((version: string) => {
               const completionItem = new CompletionItem(
                 version,
@@ -55,11 +53,24 @@ export function fetchCrateVersions(
             }),
             true
           );
+          
+          let featureCompletionItems: Map<string, CompletionList> = new Map();
+          json.versions.forEach((item: any) => {
+            if (item.features.length > 0) {
+              const isPreRelease = !shouldListPreRels && item.num.indexOf("-") !== -1;
+              if (!item.yanked && !isPreRelease) {
+                featureCompletionItems!.set(item.num, new CompletionList(item.features.map((feature: string) => {
+                  return new CompletionItem(feature, CompletionItemKind.Class);
+                })));
+              }
+            }
+          });
 
           return {
             item,
             versions,
-            completionItems,
+            versionCompletionItems,
+            featureCompletionItems,
           };
         })
         .then((dependency: Dependency) => {
