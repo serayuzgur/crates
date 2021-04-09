@@ -26,7 +26,7 @@ function getCargoPath() {
 
 
 let gitDir = path.resolve(cargoHome, "registry/index/github.com-1ecc6299db9ec823/.git/");
-let gitBranch = "origin/HEAD";
+let gitBranch = "origin/master";
 
 
 export function checkCargoRegistry(localIndexHash?: string, localGitBranch?: string) {
