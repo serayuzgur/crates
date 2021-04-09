@@ -49,52 +49,61 @@ export default function decoration(
   const formatError = (error: string) => {
     // Markdown does not like newlines in middle of emphasis, or spaces next to emphasis characters.
     const error_parts = error.split('\n');
-    const markdown = new MarkdownString();
+    const markdown = new MarkdownString("#### Errors ");
+    markdown.appendMarkdown("\n");
     // Ignore empty strings
     error_parts.filter(s => s).forEach(part => {
-      markdown.appendMarkdown("**");
+      markdown.appendMarkdown("* ");
       markdown.appendText(part.trim()); // Gets rid of Markdown-breaking spaces, then append text safely escaped.
-      markdown.appendMarkdown("**\n\n"); // Put the newlines back
+      markdown.appendMarkdown("\n"); // Put the newlines back
     });
     return markdown;
   };
-  const hoverMessage = error ? formatError(error) : new MarkdownString(`#### Versions`);
-  hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
-  hoverMessage.isTrusted = true;
+  let hoverMessage = new MarkdownString();
+  let contentText = "";
+  if (error) {
+    hoverMessage = formatError(error);
+    // errorDecorator.replace("${version}", versions[0]);
+    contentText = errorDecorator;
+  } else {
+    hoverMessage.appendMarkdown("#### Versions");
+    hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
+    hoverMessage.isTrusted = true;
 
-  if (versions.length > 0) {
-    status.replaceItems.push({
-      item: `"${versions[0]}"`,
-      start,
-      end,
-    });
-  }
-
-  for (let i = 0; i < versions.length; i++) {
-    const version = versions[i];
-    const replaceData: ReplaceItem = {
-      item: `"${version}"`,
-      start,
-      end,
-    };
-    const isCurrent = version === maxSatisfying;
-    const encoded = encodeURI(JSON.stringify(replaceData));
-    const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key}/${version})` : "";
-    const command = `${isCurrent ? "**" : ""}[${version}](command:crates.replaceVersion?${encoded})${docs}${isCurrent ? "**" : ""}`;
-    hoverMessage.appendMarkdown("\n * ");
-    hoverMessage.appendMarkdown(command);
-  }
-
-  let latestText = compatibleDecorator.replace("${version}", versions[0]);
-  if (!validRange(version))
-    latestText = errorDecorator.replace("${version}", versions[0]);
-  else if (versions[0] !== maxSatisfying)
-    if (satisfies) {
-      latestText = compatibleDecorator.replace("${version}", versions[0]);
-    } else {
-      latestText = incompatibleDecorator.replace("${version}", versions[0]);
+    if (versions.length > 0) {
+      status.replaceItems.push({
+        item: `"${versions[0]}"`,
+        start,
+        end,
+      });
     }
-  const contentText = error ? errorDecorator : latestText;
+
+    for (let i = 0; i < versions.length; i++) {
+      const version = versions[i];
+      const replaceData: ReplaceItem = {
+        item: `"${version}"`,
+        start,
+        end,
+      };
+      const isCurrent = version === maxSatisfying;
+      const encoded = encodeURI(JSON.stringify(replaceData));
+      const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key}/${version})` : "";
+      const command = `${isCurrent ? "**" : ""}[${version}](command:crates.replaceVersion?${encoded})${docs}${isCurrent ? "**" : ""}`;
+      hoverMessage.appendMarkdown("\n * ");
+      hoverMessage.appendMarkdown(command);
+    }
+
+    let latestText = compatibleDecorator.replace("${version}", versions[0]);
+    if (!validRange(version))
+      latestText = errorDecorator.replace("${version}", versions[0]);
+    else if (versions[0] !== maxSatisfying)
+      if (satisfies) {
+        latestText = compatibleDecorator.replace("${version}", versions[0]);
+      } else {
+        latestText = incompatibleDecorator.replace("${version}", versions[0]);
+      }
+    contentText = latestText;
+  }
 
   const deco = {
     range: new Range(
