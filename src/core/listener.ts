@@ -9,8 +9,6 @@ import { status } from "../toml/commands";
 import Item from "./Item";
 import decorate, { decorationHandle } from "../ui/decorator";
 import { fetchCrateVersions } from "./fetcher";
-import quickFillDependencies from "./quickFill";
-import Dependency from "./Dependency";
 
 function parseToml(text: string): Item[] {
   console.log("Parsing...");
@@ -21,15 +19,9 @@ function parseToml(text: string): Item[] {
   return tomlDependencies;
 }
 
-var dependencies: Item[];
-var fetchedDeps: Dependency[];
-export { dependencies, fetchedDeps };
 
-export async function parseAndDecorate(
-  editor: TextEditor,
-  wasSaved: boolean = false,
-  fetchDeps: boolean = true
-) {
+
+function parseAndDecorate(editor: TextEditor) {
   const text = editor.document.getText();
   const config = workspace.getConfiguration("", editor.document.uri);
   const shouldListPreRels = config.get("crates.listPreReleases");
@@ -37,50 +29,33 @@ export async function parseAndDecorate(
   const useLocalIndex = config.get<boolean>("crates.useLocalCargoIndex");
   const localIndexHash = config.get<string>("crates.localCargoIndexHash");
   const localGitBranch = config.get<string>("crates.localCargoIndexBranch");
-  const githubToken = basicAuth
-    ? `Basic ${Buffer.from(basicAuth).toString("base64")}`
-    : undefined;
+  const githubToken = basicAuth ? `Basic ${Buffer.from(basicAuth).toString("base64")}` : undefined;
+  // Handle Promise's catch and normal try/catch the same way with an async closure.
+  (async () => {
+    try {
+      // Parse
+      const dependencies = parseToml(text);
+      const fetchedDeps = await fetchCrateVersions(dependencies, !!shouldListPreRels, githubToken, useLocalIndex, localIndexHash, localGitBranch);
 
-  try {
-    
-    // Parse
-    dependencies = parseToml(text);
-    if (fetchDeps)
-      fetchedDeps = await fetchCrateVersions(
-        dependencies,
-        !!shouldListPreRels,
-        githubToken,
-        useLocalIndex,
-        localIndexHash,
-        localGitBranch
-      );
-
-    // Fill in crate = "?" with the latest fetched version
-    if (wasSaved)
-      await quickFillDependencies(editor, dependencies, fetchedDeps);
-
-    decorate(editor, fetchedDeps);
-
-  } catch (e) {
-    console.error(e);
-    statusBarItem.setText("Cargo.toml is not valid!");
-    if (decorationHandle) {
-      decorationHandle.dispose();
+      decorate(editor, fetchedDeps);
+    } catch (e) {
+      console.error(e);
+      statusBarItem.setText("Cargo.toml is not valid!");
+      if (decorationHandle) {
+        decorationHandle.dispose();
+      }
     }
-  }
+  })();
 }
 
-export default async function listener(
-  editor: TextEditor | undefined,
-  wasSaved: boolean = false
-): Promise<void> {
+export default function listener(editor: TextEditor | undefined): void {
   if (editor) {
     const { fileName } = editor.document;
     if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
       status.inProgress = true;
       status.replaceItems = [];
       statusBarItem.show();
-      await parseAndDecorate(editor, wasSaved);
+      parseAndDecorate(editor);
     } else {
       statusBarItem.hide();
     }
@@ -88,5 +63,4 @@ export default async function listener(
   } else {
     console.log("No active editor found.");
   }
-  return Promise.resolve();
 }
