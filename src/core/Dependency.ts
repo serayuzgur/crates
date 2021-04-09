@@ -1,3 +1,4 @@
+import { CompletionList } from "vscode";
 import Item from "./Item";
 
 /**
@@ -6,5 +7,6 @@ import Item from "./Item";
 export default interface Dependency {
   item: Item;
   versions?: Array<string>;
+  completionItems?: CompletionList;
   error?: string;
 }

@@ -13,7 +13,7 @@ import {
 } from "vscode";
 
 import { dependencies, fetchedDeps, parseAndDecorate } from "../core/listener";
-import { checkVersion } from "../semver/semverUtils";
+
 
 export default class QuickActions implements CodeActionProvider {
   async provideCodeActions(
@@ -25,9 +25,8 @@ export default class QuickActions implements CodeActionProvider {
     if (context.only && context.only! !== CodeActionKind.QuickFix)
       return Promise.resolve([]);
 
-    if (document.isDirty) {
+    if (document.isDirty)
       await parseAndDecorate(window.activeTextEditor!, false, false);
-    }
 
     if (
       !dependencies ||
@@ -45,7 +44,7 @@ export default class QuickActions implements CodeActionProvider {
 
     for (let i = 0; i < dependencies.length; i++) {
       const fetchedDep = fetchedDeps[i];
-      if (!fetchedDep.versions) continue;
+      if (!fetchedDep || !fetchedDep.versions) continue;
 
       const dependency = dependencies[i];
 
@@ -60,10 +59,9 @@ export default class QuickActions implements CodeActionProvider {
         if (!versionRange.contains(range)) continue;
       }
 
-      // Check if an update is required
-      const maxSatisfying = checkVersion(dependency.value, fetchedDep.versions)[1];
+      // It's up to date
       const latestVersion = fetchedDep.versions[0];
-      if ((maxSatisfying ?? dependency.value) === latestVersion) continue;
+      if (dependency.value === latestVersion) continue;
 
       edit.replace(
         document.uri,
