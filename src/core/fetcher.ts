@@ -17,13 +17,13 @@ export function fetchCrateVersions(
   useLocalIndex?: boolean,
   localIndexHash?: string,
   localGitBranch?: string
-): [Promise<Dependency[]>, Map<string, Dependency>] {
+): [Promise<Dependency[]>, Map<string, Dependency[]>] {
   statusBarItem.setText("👀 Fetching crates.io");
 
   const isLocalIndexAvailable = useLocalIndex && checkCargoRegistry(localIndexHash, localGitBranch);
   const versions = isLocalIndexAvailable ? loVersions : ghVersions;
 
-  let responsesMap: Map<string, Dependency> = new Map();
+  let responsesMap: Map<string, Dependency[]> = new Map();
 
   const responses = dependencies.map(
     (item: Item): Promise<Dependency> => {
@@ -74,7 +74,12 @@ export function fetchCrateVersions(
           };
         })
         .then((dependency: Dependency) => {
-          responsesMap.set(item.key, dependency);
+          const found = responsesMap.get(item.key);
+          if (found) {
+            found.push(dependency);
+          } else {
+            responsesMap.set(item.key, [dependency]);
+          }
           return dependency;
         })
         .catch((error: Error) => {

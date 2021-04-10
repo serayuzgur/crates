@@ -2,14 +2,14 @@
  * Listener for TOML files.
  * Filters active editor files according to the extension.
  */
-import { TextEditor, workspace } from "vscode";
+import { Position, Range, TextDocument, TextEditor, workspace } from "vscode";
 import { parse, filterCrates } from "../toml/parser";
 import { statusBarItem } from "../ui/indicators";
 import { status } from "../toml/commands";
 import Item from "./Item";
 import decorate, { decorationHandle } from "../ui/decorator";
 import { fetchCrateVersions } from "./fetcher";
-import quickFillDependencies from "./quickFill";
+import { quickFillDependencies } from "../providers/quickFill";
 import Dependency from "./Dependency";
 
 function parseToml(text: string): Item[] {
@@ -23,8 +23,26 @@ function parseToml(text: string): Item[] {
 
 var dependencies: Item[];
 var fetchedDeps: Dependency[];
-var fetchedDepsMap: Map<string, Dependency>;
+var fetchedDepsMap: Map<string, Dependency[]>;
 export { dependencies, fetchedDeps, fetchedDepsMap };
+
+export function getFetchedDependency(document: TextDocument, crate: string, position: Position): Dependency | undefined {
+  const fetchedDep = fetchedDepsMap.get(crate);
+  if (!fetchedDep) return;
+  if (fetchedDep.length === 1) {
+    return fetchedDep[0];
+  } else {
+    for (let i = 0; i < fetchedDep.length; i++) {
+      const range = new Range(
+        document.positionAt(fetchedDep[i].item.start + 1),
+        document.positionAt(fetchedDep[i].item.end - 1)
+      );
+      if (range.contains(position)) {
+        return fetchedDep[i];
+      }
+    }
+  }
+}
 
 export async function parseAndDecorate(
   editor: TextEditor,

@@ -1,5 +1,62 @@
+import { TextDocument } from "vscode";
 import Item from "../core/Item";
 
+export const RE_VERSION = /^[ \t]*(?<!#)(\S+?)([ \t]*=[ \t]*)(?:({.*?version[ \t]*=[ \t]*)("|')(.*?)\4|("|')(.*?)\6)/;
+export const RE_FEATURES = /^[ \t]*(?<!#)((?:[\S]+?[ \t]*=[ \t]*.*?{.*?)?features[ \t]*=[ \t]*\[[ \t]*)(.+?)[ \t]*\]/;
+
+const RE_TABLE_HEADER = /^[ \t]*(?!#)[ \t]*\[[ \t]*(.+?)[ \t]*\][ \t]*$/;
+const RE_TABLE_HEADER_DEPENDENCY = /^(?:.+?\.)?(?:dev-)?dependencies(?:\.([^.]+?))?$/;
+export function findCrate(document: TextDocument, line: number): string | undefined {
+  while (--line >= 0) {
+    const match = document.lineAt(line).text.match(RE_TABLE_HEADER);
+    if (!match) continue;
+    return match[1].match(RE_TABLE_HEADER_DEPENDENCY)?.[1];
+  }
+}
+
+export function findCrateAndVersion(
+  document: TextDocument,
+  line: number
+): [string, string] | undefined {
+  let crate;
+  let version;
+
+  var i = line;
+  while (!crate && --i >= 0) {
+    const lineText = document.lineAt(i).text;
+    const match = lineText.match(RE_TABLE_HEADER);
+    if (!match) {
+      if (!version) {
+        let versionMatch = lineText.match(RE_VERSION);
+        if (versionMatch && versionMatch[1] === "version") {
+          version = versionMatch[7];
+        }
+      }
+    } else {
+      crate = match[1].match(RE_TABLE_HEADER_DEPENDENCY)?.[1];
+    }
+  }
+
+  var i = line;
+  while (!version && ++i < document.lineCount) {
+    const lineText = document.lineAt(i).text;
+    const match = lineText.match(RE_TABLE_HEADER);
+    if (!match) {
+      if (!version) {
+        let versionMatch = lineText.match(RE_VERSION);
+        if (versionMatch && versionMatch[1] === "version") {
+          version = versionMatch[7];
+        }
+      }
+    } else {
+      return;
+    }
+  }
+
+  if (crate && version) {
+    return [crate, version];
+  }
+}
 
 /**
  * Finds all version items with a flat crate=version pair.

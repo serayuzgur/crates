@@ -63,6 +63,8 @@ export default class QuickActions implements CodeActionProvider {
       const latestVersion = fetchedDep.versions[0];
       if (dependency.value === latestVersion) continue;
 
+      dependency.value = latestVersion;
+
       edit.replace(
         document.uri,
         new Range(
