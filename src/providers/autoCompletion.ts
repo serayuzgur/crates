@@ -11,11 +11,10 @@ import {
   TextDocument,
 } from "vscode";
 
-import { fetchedDepsMap } from "../core/listener";
+import { fetchedDepsMap, getFetchedDependency } from "../core/listener";
 import { checkVersion } from "../semver/semverUtils";
 
-const RE_VERSION_AUTO_COMPLETE = /^[ \t]*(?<!#)(\S+?)([ \t]*=[ \t]*)(?:({.*?version[ \t]*=[ \t]*)("|')(.*?)\4|("|')(.*?)\6)/;
-const RE_FEATURES_AUTO_COMPLETE = /^[ \t]*(?<!#)((?:[\S]+?[ \t]*=[ \t]*.*?{.*?)?features[ \t]*=[ \t]*\[[ \t]*)(.+?)[ \t]*\]/;
+import { RE_VERSION, RE_FEATURES, findCrate, findCrateAndVersion } from "../toml/parser";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 export function sortText(i: number): string {
@@ -23,60 +22,6 @@ export function sortText(i: number): string {
   const columns = Math.floor(i / alphabet.length);
   const letter = alphabet[i % alphabet.length];
   return "z".repeat(columns) + letter;
-}
-
-const RE_TABLE_HEADER = /^[ \t]*(?!#)[ \t]*\[[ \t]*(.+?)[ \t]*\][ \t]*$/;
-const RE_TABLE_HEADER_DEPENDENCY = /^(?:.+?\.)?dependencies(?:\.([^.]+?))?$/;
-function findCrate(document: TextDocument, line: number): string | undefined {
-  while (--line >= 0) {
-    const match = document.lineAt(line).text.match(RE_TABLE_HEADER);
-    if (!match) continue;
-    return match[1].match(RE_TABLE_HEADER_DEPENDENCY)?.[1];
-  }
-}
-
-function findCrateAndVersion(
-  document: TextDocument,
-  line: number
-): [string, string] | undefined {
-  let crate;
-  let version;
-
-  var i = line;
-  while (!crate && --i >= 0) {
-    const lineText = document.lineAt(i).text;
-    const match = lineText.match(RE_TABLE_HEADER);
-    if (!match) {
-      if (!version) {
-        let versionMatch = lineText.match(RE_VERSION_AUTO_COMPLETE);
-        if (versionMatch && versionMatch[1] === "version") {
-          version = versionMatch[7];
-        }
-      }
-    } else {
-      crate = match[1].match(RE_TABLE_HEADER_DEPENDENCY)?.[1];
-    }
-  }
-
-  var i = line;
-  while (!version && ++i < document.lineCount) {
-    const lineText = document.lineAt(i).text;
-    const match = lineText.match(RE_TABLE_HEADER);
-    if (!match) {
-      if (!version) {
-        let versionMatch = lineText.match(RE_VERSION_AUTO_COMPLETE);
-        if (versionMatch && versionMatch[1] === "version") {
-          version = versionMatch[7];
-        }
-      }
-    } else {
-      return;
-    }
-  }
-
-  if (crate && version) {
-    return [crate, version];
-  }
 }
 
 export class VersionCompletions implements CompletionItemProvider {
@@ -90,14 +35,14 @@ export class VersionCompletions implements CompletionItemProvider {
 
     const match = document
       .lineAt(position)
-      .text.match(RE_VERSION_AUTO_COMPLETE);
+      .text.match(RE_VERSION);
     if (match) {
       const crate = match[1] === "version" ? findCrate(document, position.line) : match[1];
       if (!crate) return;
 
       const version = match[7] ?? match[5];
 
-      const fetchedDep = fetchedDepsMap.get(crate);
+      const fetchedDep = getFetchedDependency(document, crate, position);
       if (!fetchedDep || !fetchedDep.versions) return;
 
       const versionStart = match[1].length + match[2].length + (match[3]?.length ?? 0) + 1;
@@ -156,33 +101,22 @@ export class FeaturesCompletions implements CompletionItemProvider {
 
     const line = document.lineAt(position);
 
-    const featuresMatch = line.text.match(RE_FEATURES_AUTO_COMPLETE);
-    console.log('1');
+    const featuresMatch = line.text.match(RE_FEATURES);
     if (featuresMatch) {
       let crate;
       let version;
-      const versionMatch = line.text.match(RE_VERSION_AUTO_COMPLETE);
+      const versionMatch = line.text.match(RE_VERSION);
       if (versionMatch) {
-        console.log('a');
         crate = versionMatch[1];
         version = versionMatch[7] ?? versionMatch[5];
       } else {
-        console.log('b');
         const match = findCrateAndVersion(document, position.line);
         if (!match) return;
         [crate, version] = match;
       }
-
-      console.log('2', crate, version);
       
-      const fetchedDep = fetchedDepsMap.get(crate);
-      if (
-        !fetchedDep ||
-        !fetchedDep.featureCompletionItems ||
-        !fetchedDep.versions
-      )
-        return;
-        console.log('4');
+      const fetchedDep = getFetchedDependency(document, crate, position);
+      if (!fetchedDep || !fetchedDep.featureCompletionItems || !fetchedDep.versions) return;
 
       const featuresArray = featuresMatch[2];
 
@@ -196,7 +130,6 @@ export class FeaturesCompletions implements CompletionItemProvider {
 
       if (!featuresRange.contains(position)) return;
 
-      console.log('5');
       const maxSatisfying = checkVersion(version, fetchedDep.versions)[1] ?? version;
       return fetchedDep.featureCompletionItems.get(maxSatisfying);
     }
