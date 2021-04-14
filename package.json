@@ -107,8 +107,7 @@
         "crates.localCargoIndexBranch": {
           "type": "string",
           "scope": "resource",
-          "default": "origin/master",
-          "description": "The branch for crates.io index. Default value goes to origin/master ."
+          "description": "The branch for crates.io index. Default value goes to origin/HEAD if not available then origin/master ."
         }
       }
     }

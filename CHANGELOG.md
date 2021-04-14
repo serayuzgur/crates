@@ -3,6 +3,12 @@
 All notable changes to the "crates" extension will be documented in this file.
 
 
+## 0.5.8
+
+- Better errors at tooltips. [#126](https://github.com/serayuzgur/crates/pull/126)
+- Default local registry branch goes to origin/HEAD and fallback is origin/master.
+
+
 ## 0.5.7
 
 - Local repository git branch changed to origin/master and also it is changeable from settings  `crates.localCargoIndexBranch`  [#121](https://github.com/serayuzgur/crates/issues/121)

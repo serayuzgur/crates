@@ -12,6 +12,7 @@ import * as util from "util";
 import * as fs from "fs";
 import { decidePath, parseVersions } from "./index-utils";
 const exec = util.promisify(require("child_process").exec);
+const execSync = require("child_process").exec;
 
 // check for the crates index. If none found switch to github and show error
 const cargoHome = getCargoPath();
@@ -33,8 +34,11 @@ export function checkCargoRegistry(localIndexHash?: string, localGitBranch?: str
   if (localIndexHash) {
     gitDir = path.resolve(cargoHome, `registry/index/${localIndexHash}/.git/`);
   }
-  if (localGitBranch) {
+  if (localGitBranch && localGitBranch.length > 0) {
     gitBranch = localGitBranch;
+  } else {
+    gitBranch = getDefaultBranch();
+    // if no branch just check origin/HEAD or use origin/master for older versions
   }
   return fs.existsSync(gitDir);
 }
@@ -52,4 +56,20 @@ export const versions = (name: string) => {
       console.error(resp);
       throw resp;
     });
+};
+export const getDefaultBranch = () => {
+  try {
+    const buf: { stdout: Buffer, stderr: Buffer; } = execSync(`git --no-pager --git-dir="${gitDir}" branch --all`, { maxBuffer: 8 * 1024 });
+    const response = buf.stdout.toString();
+    const branches = response.split("\n").map(v => v.replace("*", "").trim()).filter(v => v.length > 0);
+    const hasHead = branches.some(v => v.endsWith("/HEAD"));
+    if (hasHead)
+      return "origin/HEAD";
+    else
+      return "origin/master";
+
+  } catch (resp) {
+    console.error(resp);
+    return "origin/HEAD";
+  };
 };
