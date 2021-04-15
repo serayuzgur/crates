@@ -7,16 +7,12 @@ import {
   workspace,
   ExtensionContext,
   TextDocumentChangeEvent,
-  TextDocument,
   languages,
-  CodeActionKind,
   DocumentSelector,
 } from "vscode";
 import tomlListener from "./core/listener";
 import TomlCommands from "./toml/commands";
-import QuickActions from "./providers/quickActions";
-import { VersionCompletions, FeaturesCompletions } from "./providers/autoCompletion";
-import { quickFillListener } from "./providers/quickFill";
+import { VersionCompletions } from "./providers/autoCompletion";
 
 export function activate(context: ExtensionContext) {
   const documentSelector: DocumentSelector = { language: "toml", pattern: "**/[Cc]argo.toml" };
@@ -32,23 +28,9 @@ export function activate(context: ExtensionContext) {
         if (!e.document.isDirty) {
           tomlListener(window.activeTextEditor);
         }
-        quickFillListener(e);
       }
     }),
 
-    // When the text document is saved, search for "?" versions and replace with the latest
-    workspace.onDidSaveTextDocument((document: TextDocument) => {
-      if (window.activeTextEditor?.document == document && document.languageId === "toml") {
-        tomlListener(window.activeTextEditor, true);
-      }
-    }),
-
-    // Register our Quick Actions provider
-    languages.registerCodeActionsProvider(
-      documentSelector,
-      new QuickActions(),
-      { providedCodeActionKinds: [CodeActionKind.QuickFix] }
-    ),
 
     // Register our versions completions provider
     languages.registerCompletionItemProvider(
@@ -58,12 +40,18 @@ export function activate(context: ExtensionContext) {
       "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
     ),
 
-    // Register our features auto completions provider
-    languages.registerCompletionItemProvider(
-      documentSelector,
-      new FeaturesCompletions(),
-      "'", '"'
-    ),
+    // TODO:  Register our Quick Actions provider
+    // languages.registerCodeActionsProvider(
+    //   documentSelector,
+    //   new QuickActions(),
+    //   { providedCodeActionKinds: [CodeActionKind.QuickFix] }
+    // ),
+    // TODO: Register our features auto completions provider
+    // languages.registerCompletionItemProvider(
+    //   documentSelector,
+    //   new FeaturesCompletions(),
+    //   "'", '"'
+    // ),
   );
 
   tomlListener(window.activeTextEditor);
@@ -72,4 +60,4 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(TomlCommands.replaceVersion);
 }
 
-export function deactivate() {}
+export function deactivate() { }

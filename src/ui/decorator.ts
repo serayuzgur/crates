@@ -12,9 +12,6 @@ export let decorationHandle: TextEditorDecorationType;
  * @param dependencies
  */
 export default function decorate(editor: TextEditor, dependencies: Array<Dependency>) {
-  if (decorationHandle) {
-    decorationHandle.dispose();
-  }
   const pref = loadPref(editor);
 
   const errors: Array<string> = [];
@@ -48,6 +45,9 @@ export default function decorate(editor: TextEditor, dependencies: Array<Depende
       console.error(e);
       errors.push(`Failed to build build decorator (${dependency.item.value})`);
     }
+  }
+  if (decorationHandle) {
+    decorationHandle.dispose();
   }
   decorationHandle = latestVersion("VERSION");
   editor.setDecorations(decorationHandle, options);

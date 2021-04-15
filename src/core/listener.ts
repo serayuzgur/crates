@@ -9,7 +9,6 @@ import { status } from "../toml/commands";
 import Item from "./Item";
 import decorate, { decorationHandle } from "../ui/decorator";
 import { fetchCrateVersions } from "./fetcher";
-import { quickFillDependencies } from "../providers/quickFill";
 import Dependency from "./Dependency";
 
 function parseToml(text: string): Item[] {
@@ -61,7 +60,6 @@ export async function parseAndDecorate(
     : undefined;
 
   try {
-    
     // Parse
     dependencies = parseToml(text);
     if (fetchDeps || !fetchedDeps || !fetchedDepsMap) {
@@ -77,10 +75,6 @@ export async function parseAndDecorate(
       fetchedDepsMap = data[1];
     }
 
-    // Fill in crate = "?" with the latest fetched version
-    if (wasSaved)
-      await quickFillDependencies(editor, dependencies, fetchedDeps);
-
     decorate(editor, fetchedDeps);
 
   } catch (e) {
@@ -92,17 +86,14 @@ export async function parseAndDecorate(
   }
 }
 
-export default async function listener(
-  editor: TextEditor | undefined,
-  wasSaved: boolean = false
-): Promise<void> {
+export default async function listener(editor: TextEditor | undefined): Promise<void> {
   if (editor) {
     const { fileName } = editor.document;
     if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
       status.inProgress = true;
       status.replaceItems = [];
       statusBarItem.show();
-      await parseAndDecorate(editor, wasSaved);
+      await parseAndDecorate(editor);
     } else {
       statusBarItem.hide();
     }

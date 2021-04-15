@@ -40,8 +40,7 @@ export default function decoration(
   // Also handle json valued dependencies
 
   const start = item.start;
-  const endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
-  const decoPosition = editor.document.offsetAt(endofline);
+  let endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
   const end = item.end;
   const version = item.value?.replace(",", "");
   const [satisfies, maxSatisfying] = checkVersion(version, versions);
@@ -92,6 +91,25 @@ export default function decoration(
       hoverMessage.appendMarkdown("\n * ");
       hoverMessage.appendMarkdown(command);
     }
+    if (version == "?") {
+      const version = versions[0];
+      const info: ReplaceItem = {
+        item: `"${version}"`,
+        start,
+        end,
+      };
+      // decoPositon = + version.length;
+      editor.edit((edit) => {
+        edit.replace(
+          new Range(
+            editor.document.positionAt(info.start + 1),
+            editor.document.positionAt(info.end - 1),
+          ),
+          info.item.substr(1, info.item.length - 2),
+        );
+      });
+      editor.document.save();
+    }
 
     let latestText = compatibleDecorator.replace("${version}", versions[0]);
     if (!validRange(version))
@@ -108,14 +126,14 @@ export default function decoration(
   const deco = {
     range: new Range(
       editor.document.positionAt(start),
-      editor.document.positionAt(decoPosition),
+      endofline,
     ),
     hoverMessage,
     renderOptions: {
       after: {},
     },
   };
-  if (contentText.length > 0) {
+  if (version != "?" && contentText.length > 0) {
     deco.renderOptions.after = { contentText };
   }
   return deco;
