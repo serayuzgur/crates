@@ -12,7 +12,7 @@ import * as util from "util";
 import * as fs from "fs";
 import { decidePath, parseVersions } from "./index-utils";
 const exec = util.promisify(require("child_process").exec);
-const execSync = require("child_process").exec;
+const execSync = require("child_process").execSync;
 
 // check for the crates index. If none found switch to github and show error
 const cargoHome = getCargoPath();
@@ -59,10 +59,9 @@ export const versions = (name: string) => {
 };
 export const getDefaultBranch = () => {
   try {
-    const buf: { stdout: Buffer, stderr: Buffer; } = execSync(`git --no-pager --git-dir="${gitDir}" branch --all`, { maxBuffer: 8 * 1024 });
-    const response = buf.stdout.toString();
-    const branches = response.split("\n").map(v => v.replace("*", "").trim()).filter(v => v.length > 0);
-    const hasHead = branches.some(v => v.endsWith("/HEAD"));
+    const response = execSync(`git --no-pager --git-dir="${gitDir}" branch --all`, { maxBuffer: 8 * 1024 }).toString();
+    const branches = response.split("\n").map((v: string) => v.replace("*", "").trim()).filter((v: string | any[]) => v.length > 0);
+    const hasHead = branches.some((v: string) => v.endsWith("/HEAD"));
     if (hasHead)
       return "origin/HEAD";
     else
