@@ -38,8 +38,8 @@ function compareVersions(v1: string, v2: string) {
   var sp2 = s2[s2.length - 1];
 
   if (sp1 && sp2) {
-    const p1 = sp1.split('.');
-    const p2 = sp2.split('.');
+    const p1 = sp1.split('.').map((str) => /^\d+$/.test(str) ? parseInt(str, 10) : str);
+    const p2 = sp2.split('.').map((str) => /^\d+$/.test(str) ? parseInt(str, 10) : str);
     const maxLimit = Math.max(p1.length, p2.length);
     for (let i = 0; i < maxLimit; i++) {
       if (p1[i] === undefined || typeof p2[i] === 'string' && typeof p1[i] === 'number') return -1;
