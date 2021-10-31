@@ -11,10 +11,11 @@ import {
   TextDocument,
 } from "vscode";
 
-import { fetchedDepsMap, getFetchedDependency } from "../core/listener";
+import { dependencies, fetchedDepsMap, getFetchedDependency } from "../core/listener";
+import Item from "../core/Item";
 import { checkVersion } from "../semver/semverUtils";
 
-import { RE_VERSION, RE_FEATURES, findCrate, findCrateAndVersion } from "../toml/parser";
+import { RE_VERSION, findCrate } from "../toml/parser";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 export function sortText(i: number): string {
@@ -70,8 +71,8 @@ export class VersionCompletions implements CompletionItemProvider {
         return new CompletionList(
           (filterVersion.length > 0
             ? fetchedDep.versions.filter((version) =>
-                version.toLowerCase().startsWith(filterVersion)
-              )
+              version.toLowerCase().startsWith(filterVersion)
+            )
             : fetchedDep.versions
           ).map((version) => {
             const item = new CompletionItem(version, CompletionItemKind.Class);
@@ -97,38 +98,21 @@ export class FeaturesCompletions implements CompletionItemProvider {
     _token: CancellationToken,
     _context: CompletionContext
   ): ProviderResult<CompletionItem[] | CompletionList> {
-    if (!fetchedDepsMap) return;
+    if (!fetchedDepsMap || !dependencies) return;
 
-    const line = document.lineAt(position);
+    const dependency = dependencies.find((i) => {
+      let features: Item = i.values.find((v) => v.key == 'features');
+      // somehow the current position's line is the same as feature's end line even if it's a multiline feature table
+      return features && position.line == document.positionAt(features.end).line;
+    });
 
-    const featuresMatch = line.text.match(RE_FEATURES);
-    if (featuresMatch) {
-      let crate;
-      let version;
-      const versionMatch = line.text.match(RE_VERSION);
-      if (versionMatch) {
-        crate = versionMatch[1];
-        version = versionMatch[7] ?? versionMatch[5];
-      } else {
-        const match = findCrateAndVersion(document, position.line);
-        if (!match) return;
-        [crate, version] = match;
-      }
-      
+    if (dependency) {
+      const crate = dependency.key;
+      const version = dependency.value;
+      if (!version) return;
+
       const fetchedDep = getFetchedDependency(document, crate, position);
       if (!fetchedDep || !fetchedDep.featureCompletionItems || !fetchedDep.versions) return;
-
-      const featuresArray = featuresMatch[2];
-
-      const featuresStart = featuresMatch[1].length;
-      const featuresEnd = featuresStart + featuresArray.length;
-
-      const featuresRange = new Range(
-        new Position(position.line, featuresStart),
-        new Position(position.line, featuresEnd)
-      );
-
-      if (!featuresRange.contains(position)) return;
 
       const maxSatisfying = checkVersion(version, fetchedDep.versions)[1] ?? version;
       return fetchedDep.featureCompletionItems.get(maxSatisfying);

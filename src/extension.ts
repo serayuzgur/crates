@@ -12,7 +12,7 @@ import {
 } from "vscode";
 import tomlListener from "./core/listener";
 import TomlCommands from "./toml/commands";
-import { VersionCompletions } from "./providers/autoCompletion";
+import { FeaturesCompletions, VersionCompletions } from "./providers/autoCompletion";
 
 export function activate(context: ExtensionContext) {
   const documentSelector: DocumentSelector = { language: "toml", pattern: "**/[Cc]argo.toml" };
@@ -46,12 +46,13 @@ export function activate(context: ExtensionContext) {
     //   new QuickActions(),
     //   { providedCodeActionKinds: [CodeActionKind.QuickFix] }
     // ),
-    // TODO: Register our features auto completions provider
-    // languages.registerCompletionItemProvider(
-    //   documentSelector,
-    //   new FeaturesCompletions(),
-    //   "'", '"'
-    // ),
+
+    // Register our features completion provider
+    languages.registerCompletionItemProvider(
+      documentSelector,
+      new FeaturesCompletions(),
+      "'", '"'
+    ),
   );
 
   tomlListener(window.activeTextEditor);
