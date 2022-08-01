@@ -1,6 +1,6 @@
 # crates
 <div align="center">
-  <h2>Using crates plugin in your company? Consider <a href="https://www.patreon.com/bePatron?u=11468905">sponsoring me</a> and get priority support in the issues.</h2>
+  <h2>Using crates plugin in your company? Consider sponsoring me via <a href="https://www.patreon.com/bePatron?u=11468905"> on patreon </a> or use Github and get priority support in the issues.</h2>
 </div>
 
 [![Become a Patron !](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=11468905)
