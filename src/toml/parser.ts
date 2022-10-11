@@ -67,6 +67,7 @@ export function findVersion(item: Item, level: number): Item[] {
   let dependencies: Item[] = [];
   for (let i = 0; i < item.values.length; i++) {
     let value = item.values[i];
+    if (value.key.endsWith("workspace")) continue;
     if (value.values.length > 0) {
       dependencies = dependencies.concat(findVersion(value, level + 1));
     } else if (level === 0) {
@@ -89,7 +90,7 @@ export function filterCrates(items: Item[]): Item[] {
   for (let i = 0; i < items.length; i++) {
     let value = items[i];
 
-    if (!value.key.startsWith("package.metadata")&&value.key.endsWith("dependencies")) {
+    if (!value.key.startsWith("package.metadata") && value.key.endsWith("dependencies")) {
       dependencies = dependencies.concat(findVersion(value, 0));
     } else {
       const dotIndex = value.key.lastIndexOf(".");
