@@ -86,3 +86,6 @@ percent-encoding = "1.0.1"
 
 [dependencies.libb]
 version = "0.2.42"
+[dependencies.tokio_1]
+package = "tokio"
+version = "1.25"
