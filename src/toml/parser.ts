@@ -61,24 +61,34 @@ export function findCrateAndVersion(
 /**
  * Finds all version items with a flat crate=version pair.
  * @param item Item to search in
- * @param level Level of depth in search.
  */
-export function findVersion(item: Item, level: number): Item[] {
+function findVersion(item: Item): Item[] {
   let dependencies: Item[] = [];
-  for (let i = 0; i < item.values.length; i++) {
-    let value = item.values[i];
-    if (value.key.endsWith("workspace")) continue;
-    if (value.values.length > 0) {
-      dependencies = dependencies.concat(findVersion(value, level + 1));
-    } else if (level === 0) {
-      dependencies.push(value);
-    } else if (value.key === "version") {
-      const mock = new Item(value);
-      mock.key = item.key;
-      dependencies.push(mock);
+  for (const field of item.values) {
+    if (field.key.endsWith(".workspace")) continue;
+    if (field.values.length > 0) {
+      const dependency = findVersionTable(field);
+      if (dependency) dependencies.push(dependency);
+    } else if (field.value != null) {
+      dependencies.push(field)
     }
   }
   return dependencies;
+}
+
+function findVersionTable(table: Item): Item | null {
+  let item = null
+  let itemName = null;
+  for (const field of table.values) {
+    if (field.key === "workspace") return null;
+    if (field.key === "version") {
+      item = new Item(field);
+      item.key = table.key;
+    }
+    if (field.key === "package") itemName = field.value;
+  }
+  if (item && itemName) item.key = itemName;
+  return item;
 }
 
 /**
@@ -91,14 +101,15 @@ export function filterCrates(items: Item[]): Item[] {
     let value = items[i];
 
     if (!value.key.startsWith("package.metadata") && value.key.endsWith("dependencies")) {
-      dependencies = dependencies.concat(findVersion(value, 0));
+      dependencies = dependencies.concat(findVersion(value));
     } else {
       const dotIndex = value.key.lastIndexOf(".");
       const wordIndex = dotIndex - 12;
       if (value.key.indexOf("dependencies") === wordIndex) {
         const mock = new Item(value);
         mock.key = value.key.substring(dotIndex + 1);
-        dependencies = dependencies.concat(findVersion(mock, 1));
+        const dependency = findVersionTable(mock);
+        if (dependency) dependencies.push(dependency);
       }
     }
   }

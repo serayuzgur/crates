@@ -28,7 +28,10 @@ suite("Parser Tests", function() {
       "target.'cfg(unix)'.dev-dependencies",
       "target.'cfg(target_os = \"windows\")'.dependencies.winapi",
       'target.\'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))\'.dependencies',
+      "dependencies.libb",
+      "dependencies.tokio_1",
     ];
+    assert.strictEqual(doc.values.length, expected.length);
     const actual = [];
     for (let i = 0; i < expected.length; i++) {
       const item = doc.values[i];
@@ -50,7 +53,7 @@ suite("Parser Tests", function() {
       assert.equal(section, desiredSection);
     }
     {
-      const item = doc.values[doc.values.length - 1];
+      const item = doc.values[15];
       const section = tomlFile.substring(item.start, item.end - 1);
       const desiredSection = tomlFile.substring(1853, 1891);
       assert.equal(section.length, desiredSection.length);
@@ -61,7 +64,7 @@ suite("Parser Tests", function() {
 
   test("Read Values", function() {
     const doc = parse(tomlFile);
-    const expected = [4, 1, 1, 1, 9, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1];
+    const expected = [4, 1, 1, 1, 9, 2, 2, 1, 1, 1, 1, 5, 1, 2, 5, 1, 2];
 
     assert.equal(doc.values.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
@@ -112,6 +115,7 @@ suite("Parser Tests", function() {
       'parking_lot = "0.6.2"',
       'percent-encoding = "1.0.1"',
       'libb = "0.2.42"',
+      'tokio = "1.25"',
     ];
 
     const actual = filterCrates(doc.values);
