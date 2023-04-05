@@ -1,15 +1,15 @@
 # crates
+
 <div align="center">
   <h2>Using crates plugin in your company? Consider sponsoring me via <a href="https://www.patreon.com/bePatron?u=11468905"> on patreon </a> or use Github and get priority support in the issues.</h2>
 </div>
 
 [![Become a Patron !](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=11468905)
 
-[![Visual Studio Marketplace Version](https://vsmarketplacebadge.apphb.com/version/serayuzgur.crates.svg)](https://vsmarketplacebadge.apphb.com/version/serayuzgur.crates.svg)
-[![Visual Studio Marketplace Installs](https://vsmarketplacebadge.apphb.com/installs-short/serayuzgur.crates.svg)](https://vsmarketplacebadge.apphb.com/installs-short/serayuzgur.crates.svg)
-[![Visual Studio Marketplace Rating](https://vsmarketplacebadge.apphb.com/rating-short/serayuzgur.crates.svg)](https://vsmarketplacebadge.apphb.com/rating-short/serayuzgur.crates.svg)
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/v/serayuzgur.crates)
+[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/i/serayuzgur.crates)
+[![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/r/serayuzgur.crates)
 [![GitHub stars](https://img.shields.io/github/stars/serayuzgur/crates.svg)](https://github.com/serayuzgur/crates/stargazers)
-
 
 Hello Rust & VSCode lovers,
 

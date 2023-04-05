@@ -59,7 +59,7 @@ futures = ""
 
 [target.'cfg(unix)'.dev-dependencies]
 mio = ">=0.6 <0.7"
-aerosol="0.2.0"
+aerosol="0.3.0"
 
 
 [target.'cfg(target_os = "windows")'.dependencies.winapi]
@@ -93,3 +93,7 @@ percent-encoding = "1.0.0"
 [dependencies.web-sys]
 features = ['Document', 'Element', 'HtmlElement', 'Node', 'Window', 'Headers', 'Request', 'RequestInit', 'RequestMode', 'Response']
 version = "*"
+
+[dependencies.tokio_1]
+package = "tokio"
+version = "1.12.0"
