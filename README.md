@@ -43,15 +43,15 @@ It is so **simple** that you do not need any configuration, but if you insist...
 
 `crates.useLocalCargoIndex`: If true, crates will use local cargo repository.
 
-`crates.localCargoIndexHash`: he hash path for crates.io index. Default value goes to official index. Alternative values would support registry source mirror with source replacement setup.
+`crates.localCargoIndexHash`: The hash path for crates.io index. Default value goes to official index. Alternative values would support registry source mirror with source replacement setup.
 
 `crates.githubAuthBasic`: The `<username>:<personal-access-token>` or `<username>:<password>` for accessing Github API with increased access rates 5000 req/h.
 
-`crates.errorDecorator`: The text to show when a dependency has errors. Default is ❗️❗️❗️.
+`crates.errorDecorator`: The text to show when a dependency has errors. Default is `❗️❗️❗`.
 
-`crates.compatibleDecorator`: The text template to show when a dependency is semver compatible. ${version} will be replaced by the latest version info. Default is '✅'
+`crates.compatibleDecorator`: The text template to show when a dependency is semver compatible. `${version}` will be replaced by the latest version info. Default is `✅`
 
-`crates.incompatibleDecorator`: The text template to show when a dependency is not semver compatible. ${version} will be replaced by the latest version info. Default is '❌ ${version}'
+`crates.incompatibleDecorator`: The text template to show when a dependency is not semver compatible. `${version}` will be replaced by the latest version info. Default is `❌ ${version}`
 
 `crates.listPreReleases`: If true, pre-release versions will be listed in hover and at decoration. The default is false.
 
