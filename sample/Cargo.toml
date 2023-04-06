@@ -90,10 +90,6 @@ percent-encoding = "1.0.0"
 [package.metadata.winrt.dependencies]
 "Microsoft.Windows.SDK.Contracts" = "10.0.19041.1"
 
-[dependencies.web-sys]
-features = ['Document', 'Element', 'HtmlElement', 'Node', 'Window', 'Headers', 'Request', 'RequestInit', 'RequestMode', 'Response']
-version = "*"
-
 [dependencies.tokio_1]
 package = "tokio"
 version = "1.12.0"
