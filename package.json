@@ -1,8 +1,8 @@
 {
   "name": "crates",
   "displayName": "crates",
-  "description": "Helps Rust developers managing dependencies with Cargo.toml. Only works with dependencies from crates.io.",
-  "version": "0.5.11",
+  "description": "Helps Rust developers managing dependencies with Cargo.toml.",
+  "version": "0.6.0",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/serayuzgur/crates/blob/master/README.md",
   "engines": {
-    "vscode": "^1.77.0"
+    "vscode": "^1.79.1"
   },
   "repository": {
     "type": "git",
@@ -58,11 +58,6 @@
       "type": "object",
       "title": "Crates",
       "properties": {
-        "crates.githubAuthBasic": {
-          "type": "string",
-          "scope": "resource",
-          "description": "The <username>:<personal-access-token> or <username>:<password> for accessing Github API."
-        },
         "crates.errorDecorator": {
           "type": "string",
           "scope": "resource",
@@ -110,7 +105,7 @@
   "main": "./out/main.js",
   "scripts": {
     "vscode:prepublish": "npm run esbuild-base -- --minify",
-    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=esm --platform=node --metafile=meta.json",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test-compile": "tsc -p ./"
@@ -118,22 +113,18 @@
   "devDependencies": {
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
-    "@types/node": "16.x",
-    "@types/request-promise": "4.1.48",
-    "@types/vscode": "^1.77.0",
-    "@typescript-eslint/eslint-plugin": "^5.56.0",
-    "@typescript-eslint/parser": "^5.56.0",
-    "@vscode/test-electron": "^2.3.0",
-    "esbuild": "0.17.15",
-    "eslint": "^8.36.0",
-    "glob": "^8.1.0",
+    "@types/node": "20.3.3",
+    "@types/vscode": "^1.79.1",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "@vscode/test-electron": "^2.3.3",
+    "esbuild": "0.18.11",
+    "eslint": "^8.44.0",
+    "glob": "^10.3.1",
     "mocha": "^10.2.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
-    "request": "2.88.2",
-    "request-promise": "4.2.6",
-    "semver": "7.3.8",
-    "url-parse": "1.5.10"
+    "semver": "7.5.3"
   }
 }

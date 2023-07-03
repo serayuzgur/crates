@@ -5,7 +5,6 @@ import {
   versions as loVersions,
   checkCargoRegistry,
 } from "../api/local_registry";
-import { versions as ghVersions } from "../api/github";
 import compareVersions from "../semver/compareVersions";
 import { CompletionItem, CompletionItemKind, CompletionList } from "vscode";
 import { sortText } from "../providers/autoCompletion";
@@ -13,22 +12,19 @@ import { sortText } from "../providers/autoCompletion";
 export function fetchCrateVersions(
   dependencies: Item[],
   shouldListPreRels: boolean,
-  githubToken?: string,
-  useLocalIndex?: boolean,
   localIndexHash?: string,
   localGitBranch?: string
 ): [Promise<Dependency[]>, Map<string, Dependency[]>] {
   statusBarItem.setText("👀 Fetching crates.io");
 
-  const isLocalIndexAvailable = useLocalIndex && checkCargoRegistry(localIndexHash, localGitBranch);
-  const versions = isLocalIndexAvailable ? loVersions : ghVersions;
+  const versions = loVersions;
 
   let responsesMap: Map<string, Dependency[]> = new Map();
 
   const responses = dependencies.map(
     (item: Item): Promise<Dependency> => {
       // Check settings and if local registry enabled control cargo home. Fallback is the github index.
-      return versions(item.key, githubToken)
+      return versions(item.key)
         .then((json: any) => {
           const versions = json.versions
             .reduce((result: any[], item: any) => {
@@ -53,7 +49,7 @@ export function fetchCrateVersions(
             }),
             true
           );
-          
+
           let featureCompletionItems: Map<string, CompletionList> = new Map();
           json.versions.forEach((item: any) => {
             if (item.features.length > 0) {

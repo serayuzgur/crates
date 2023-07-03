@@ -52,12 +52,8 @@ export async function parseAndDecorate(
   const config = workspace.getConfiguration("", editor.document.uri);
   const shouldListPreRels = config.get("crates.listPreReleases");
   const basicAuth = config.get<string>("crates.githubAuthBasic");
-  const useLocalIndex = config.get<boolean>("crates.useLocalCargoIndex");
   const localIndexHash = config.get<string>("crates.localCargoIndexHash");
   const localGitBranch = config.get<string>("crates.localCargoIndexBranch");
-  const githubToken = basicAuth
-    ? `Basic ${Buffer.from(basicAuth).toString("base64")}`
-    : undefined;
 
   try {
     // Parse
@@ -66,8 +62,6 @@ export async function parseAndDecorate(
       const data = fetchCrateVersions(
         dependencies,
         !!shouldListPreRels,
-        githubToken,
-        useLocalIndex,
         localIndexHash,
         localGitBranch
       );
