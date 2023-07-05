@@ -1,0 +1,1424 @@
+{
+  "inputs": {
+    "src/core/Item.ts": {
+      "bytes": 437,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/toml/parser.ts": {
+      "bytes": 10198,
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/core/Item.ts",
+          "kind": "import-statement",
+          "original": "../core/Item"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/ui/indicators.ts": {
+      "bytes": 605,
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/toml/commands.ts": {
+      "bytes": 2163,
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/core/listener.ts",
+          "kind": "import-statement",
+          "original": "../core/listener"
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/semver/internal/constants.js": {
+      "bytes": 859,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/semver/internal/debug.js": {
+      "bytes": 226,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/semver/internal/re.js": {
+      "bytes": 7686,
+      "imports": [
+        {
+          "path": "node_modules/semver/internal/constants.js",
+          "kind": "require-call",
+          "original": "./constants"
+        },
+        {
+          "path": "node_modules/semver/internal/debug.js",
+          "kind": "require-call",
+          "original": "./debug"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/internal/parse-options.js": {
+      "bytes": 324,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/semver/internal/identifiers.js": {
+      "bytes": 410,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/semver/classes/semver.js": {
+      "bytes": 8756,
+      "imports": [
+        {
+          "path": "node_modules/semver/internal/debug.js",
+          "kind": "require-call",
+          "original": "../internal/debug"
+        },
+        {
+          "path": "node_modules/semver/internal/constants.js",
+          "kind": "require-call",
+          "original": "../internal/constants"
+        },
+        {
+          "path": "node_modules/semver/internal/re.js",
+          "kind": "require-call",
+          "original": "../internal/re"
+        },
+        {
+          "path": "node_modules/semver/internal/parse-options.js",
+          "kind": "require-call",
+          "original": "../internal/parse-options"
+        },
+        {
+          "path": "node_modules/semver/internal/identifiers.js",
+          "kind": "require-call",
+          "original": "../internal/identifiers"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/parse.js": {
+      "bytes": 317,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/valid.js": {
+      "bytes": 162,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/parse.js",
+          "kind": "require-call",
+          "original": "./parse"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/clean.js": {
+      "bytes": 191,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/parse.js",
+          "kind": "require-call",
+          "original": "./parse"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/inc.js": {
+      "bytes": 464,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/diff.js": {
+      "bytes": 1612,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/parse.js",
+          "kind": "require-call",
+          "original": "./parse.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/major.js": {
+      "bytes": 122,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/minor.js": {
+      "bytes": 122,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/patch.js": {
+      "bytes": 122,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/prerelease.js": {
+      "bytes": 220,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/parse.js",
+          "kind": "require-call",
+          "original": "./parse"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/compare.js": {
+      "bytes": 156,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/rcompare.js": {
+      "bytes": 118,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./compare"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/compare-loose.js": {
+      "bytes": 118,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./compare"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/compare-build.js": {
+      "bytes": 267,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/sort.js": {
+      "bytes": 147,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare-build.js",
+          "kind": "require-call",
+          "original": "./compare-build"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/rsort.js": {
+      "bytes": 149,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare-build.js",
+          "kind": "require-call",
+          "original": "./compare-build"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/gt.js": {
+      "bytes": 110,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./compare"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/lt.js": {
+      "bytes": 110,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./compare"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/eq.js": {
+      "bytes": 112,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./compare"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/neq.js": {
+      "bytes": 114,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./compare"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/gte.js": {
+      "bytes": 113,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./compare"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/lte.js": {
+      "bytes": 113,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./compare"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/cmp.js": {
+      "bytes": 947,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/eq.js",
+          "kind": "require-call",
+          "original": "./eq"
+        },
+        {
+          "path": "node_modules/semver/functions/neq.js",
+          "kind": "require-call",
+          "original": "./neq"
+        },
+        {
+          "path": "node_modules/semver/functions/gt.js",
+          "kind": "require-call",
+          "original": "./gt"
+        },
+        {
+          "path": "node_modules/semver/functions/gte.js",
+          "kind": "require-call",
+          "original": "./gte"
+        },
+        {
+          "path": "node_modules/semver/functions/lt.js",
+          "kind": "require-call",
+          "original": "./lt"
+        },
+        {
+          "path": "node_modules/semver/functions/lte.js",
+          "kind": "require-call",
+          "original": "./lte"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/coerce.js": {
+      "bytes": 1513,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        },
+        {
+          "path": "node_modules/semver/functions/parse.js",
+          "kind": "require-call",
+          "original": "./parse"
+        },
+        {
+          "path": "node_modules/semver/internal/re.js",
+          "kind": "require-call",
+          "original": "../internal/re"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/yallist/iterator.js": {
+      "bytes": 207,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/yallist/yallist.js": {
+      "bytes": 8411,
+      "imports": [
+        {
+          "path": "node_modules/yallist/iterator.js",
+          "kind": "require-call",
+          "original": "./iterator.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/lru-cache/index.js": {
+      "bytes": 8186,
+      "imports": [
+        {
+          "path": "node_modules/yallist/yallist.js",
+          "kind": "require-call",
+          "original": "yallist"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/classes/range.js": {
+      "bytes": 14507,
+      "imports": [
+        {
+          "path": "node_modules/lru-cache/index.js",
+          "kind": "require-call",
+          "original": "lru-cache"
+        },
+        {
+          "path": "node_modules/semver/internal/parse-options.js",
+          "kind": "require-call",
+          "original": "../internal/parse-options"
+        },
+        {
+          "path": "node_modules/semver/classes/comparator.js",
+          "kind": "require-call",
+          "original": "./comparator"
+        },
+        {
+          "path": "node_modules/semver/internal/debug.js",
+          "kind": "require-call",
+          "original": "../internal/debug"
+        },
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "./semver"
+        },
+        {
+          "path": "node_modules/semver/internal/re.js",
+          "kind": "require-call",
+          "original": "../internal/re"
+        },
+        {
+          "path": "node_modules/semver/internal/constants.js",
+          "kind": "require-call",
+          "original": "../internal/constants"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/classes/comparator.js": {
+      "bytes": 3617,
+      "imports": [
+        {
+          "path": "node_modules/semver/internal/parse-options.js",
+          "kind": "require-call",
+          "original": "../internal/parse-options"
+        },
+        {
+          "path": "node_modules/semver/internal/re.js",
+          "kind": "require-call",
+          "original": "../internal/re"
+        },
+        {
+          "path": "node_modules/semver/functions/cmp.js",
+          "kind": "require-call",
+          "original": "../functions/cmp"
+        },
+        {
+          "path": "node_modules/semver/internal/debug.js",
+          "kind": "require-call",
+          "original": "../internal/debug"
+        },
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "./semver"
+        },
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "./range"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/functions/satisfies.js": {
+      "bytes": 233,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/to-comparators.js": {
+      "bytes": 268,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/max-satisfying.js": {
+      "bytes": 579,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        },
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/min-satisfying.js": {
+      "bytes": 577,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        },
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/min-version.js": {
+      "bytes": 1500,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        },
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range"
+        },
+        {
+          "path": "node_modules/semver/functions/gt.js",
+          "kind": "require-call",
+          "original": "../functions/gt"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/valid.js": {
+      "bytes": 312,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/outside.js": {
+      "bytes": 2190,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "../classes/semver"
+        },
+        {
+          "path": "node_modules/semver/classes/comparator.js",
+          "kind": "require-call",
+          "original": "../classes/comparator"
+        },
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range"
+        },
+        {
+          "path": "node_modules/semver/functions/satisfies.js",
+          "kind": "require-call",
+          "original": "../functions/satisfies"
+        },
+        {
+          "path": "node_modules/semver/functions/gt.js",
+          "kind": "require-call",
+          "original": "../functions/gt"
+        },
+        {
+          "path": "node_modules/semver/functions/lt.js",
+          "kind": "require-call",
+          "original": "../functions/lt"
+        },
+        {
+          "path": "node_modules/semver/functions/lte.js",
+          "kind": "require-call",
+          "original": "../functions/lte"
+        },
+        {
+          "path": "node_modules/semver/functions/gte.js",
+          "kind": "require-call",
+          "original": "../functions/gte"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/gtr.js": {
+      "bytes": 217,
+      "imports": [
+        {
+          "path": "node_modules/semver/ranges/outside.js",
+          "kind": "require-call",
+          "original": "./outside"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/ltr.js": {
+      "bytes": 213,
+      "imports": [
+        {
+          "path": "node_modules/semver/ranges/outside.js",
+          "kind": "require-call",
+          "original": "./outside"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/intersects.js": {
+      "bytes": 210,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/simplify.js": {
+      "bytes": 1341,
+      "imports": [
+        {
+          "path": "node_modules/semver/functions/satisfies.js",
+          "kind": "require-call",
+          "original": "../functions/satisfies.js"
+        },
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "../functions/compare.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/ranges/subset.js": {
+      "bytes": 7510,
+      "imports": [
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "../classes/range.js"
+        },
+        {
+          "path": "node_modules/semver/classes/comparator.js",
+          "kind": "require-call",
+          "original": "../classes/comparator.js"
+        },
+        {
+          "path": "node_modules/semver/functions/satisfies.js",
+          "kind": "require-call",
+          "original": "../functions/satisfies.js"
+        },
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "../functions/compare.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/semver/index.js": {
+      "bytes": 2616,
+      "imports": [
+        {
+          "path": "node_modules/semver/internal/re.js",
+          "kind": "require-call",
+          "original": "./internal/re"
+        },
+        {
+          "path": "node_modules/semver/internal/constants.js",
+          "kind": "require-call",
+          "original": "./internal/constants"
+        },
+        {
+          "path": "node_modules/semver/classes/semver.js",
+          "kind": "require-call",
+          "original": "./classes/semver"
+        },
+        {
+          "path": "node_modules/semver/internal/identifiers.js",
+          "kind": "require-call",
+          "original": "./internal/identifiers"
+        },
+        {
+          "path": "node_modules/semver/functions/parse.js",
+          "kind": "require-call",
+          "original": "./functions/parse"
+        },
+        {
+          "path": "node_modules/semver/functions/valid.js",
+          "kind": "require-call",
+          "original": "./functions/valid"
+        },
+        {
+          "path": "node_modules/semver/functions/clean.js",
+          "kind": "require-call",
+          "original": "./functions/clean"
+        },
+        {
+          "path": "node_modules/semver/functions/inc.js",
+          "kind": "require-call",
+          "original": "./functions/inc"
+        },
+        {
+          "path": "node_modules/semver/functions/diff.js",
+          "kind": "require-call",
+          "original": "./functions/diff"
+        },
+        {
+          "path": "node_modules/semver/functions/major.js",
+          "kind": "require-call",
+          "original": "./functions/major"
+        },
+        {
+          "path": "node_modules/semver/functions/minor.js",
+          "kind": "require-call",
+          "original": "./functions/minor"
+        },
+        {
+          "path": "node_modules/semver/functions/patch.js",
+          "kind": "require-call",
+          "original": "./functions/patch"
+        },
+        {
+          "path": "node_modules/semver/functions/prerelease.js",
+          "kind": "require-call",
+          "original": "./functions/prerelease"
+        },
+        {
+          "path": "node_modules/semver/functions/compare.js",
+          "kind": "require-call",
+          "original": "./functions/compare"
+        },
+        {
+          "path": "node_modules/semver/functions/rcompare.js",
+          "kind": "require-call",
+          "original": "./functions/rcompare"
+        },
+        {
+          "path": "node_modules/semver/functions/compare-loose.js",
+          "kind": "require-call",
+          "original": "./functions/compare-loose"
+        },
+        {
+          "path": "node_modules/semver/functions/compare-build.js",
+          "kind": "require-call",
+          "original": "./functions/compare-build"
+        },
+        {
+          "path": "node_modules/semver/functions/sort.js",
+          "kind": "require-call",
+          "original": "./functions/sort"
+        },
+        {
+          "path": "node_modules/semver/functions/rsort.js",
+          "kind": "require-call",
+          "original": "./functions/rsort"
+        },
+        {
+          "path": "node_modules/semver/functions/gt.js",
+          "kind": "require-call",
+          "original": "./functions/gt"
+        },
+        {
+          "path": "node_modules/semver/functions/lt.js",
+          "kind": "require-call",
+          "original": "./functions/lt"
+        },
+        {
+          "path": "node_modules/semver/functions/eq.js",
+          "kind": "require-call",
+          "original": "./functions/eq"
+        },
+        {
+          "path": "node_modules/semver/functions/neq.js",
+          "kind": "require-call",
+          "original": "./functions/neq"
+        },
+        {
+          "path": "node_modules/semver/functions/gte.js",
+          "kind": "require-call",
+          "original": "./functions/gte"
+        },
+        {
+          "path": "node_modules/semver/functions/lte.js",
+          "kind": "require-call",
+          "original": "./functions/lte"
+        },
+        {
+          "path": "node_modules/semver/functions/cmp.js",
+          "kind": "require-call",
+          "original": "./functions/cmp"
+        },
+        {
+          "path": "node_modules/semver/functions/coerce.js",
+          "kind": "require-call",
+          "original": "./functions/coerce"
+        },
+        {
+          "path": "node_modules/semver/classes/comparator.js",
+          "kind": "require-call",
+          "original": "./classes/comparator"
+        },
+        {
+          "path": "node_modules/semver/classes/range.js",
+          "kind": "require-call",
+          "original": "./classes/range"
+        },
+        {
+          "path": "node_modules/semver/functions/satisfies.js",
+          "kind": "require-call",
+          "original": "./functions/satisfies"
+        },
+        {
+          "path": "node_modules/semver/ranges/to-comparators.js",
+          "kind": "require-call",
+          "original": "./ranges/to-comparators"
+        },
+        {
+          "path": "node_modules/semver/ranges/max-satisfying.js",
+          "kind": "require-call",
+          "original": "./ranges/max-satisfying"
+        },
+        {
+          "path": "node_modules/semver/ranges/min-satisfying.js",
+          "kind": "require-call",
+          "original": "./ranges/min-satisfying"
+        },
+        {
+          "path": "node_modules/semver/ranges/min-version.js",
+          "kind": "require-call",
+          "original": "./ranges/min-version"
+        },
+        {
+          "path": "node_modules/semver/ranges/valid.js",
+          "kind": "require-call",
+          "original": "./ranges/valid"
+        },
+        {
+          "path": "node_modules/semver/ranges/outside.js",
+          "kind": "require-call",
+          "original": "./ranges/outside"
+        },
+        {
+          "path": "node_modules/semver/ranges/gtr.js",
+          "kind": "require-call",
+          "original": "./ranges/gtr"
+        },
+        {
+          "path": "node_modules/semver/ranges/ltr.js",
+          "kind": "require-call",
+          "original": "./ranges/ltr"
+        },
+        {
+          "path": "node_modules/semver/ranges/intersects.js",
+          "kind": "require-call",
+          "original": "./ranges/intersects"
+        },
+        {
+          "path": "node_modules/semver/ranges/simplify.js",
+          "kind": "require-call",
+          "original": "./ranges/simplify"
+        },
+        {
+          "path": "node_modules/semver/ranges/subset.js",
+          "kind": "require-call",
+          "original": "./ranges/subset"
+        }
+      ],
+      "format": "cjs"
+    },
+    "src/semver/semverUtils.ts": {
+      "bytes": 351,
+      "imports": [
+        {
+          "path": "node_modules/semver/index.js",
+          "kind": "import-statement",
+          "original": "semver"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/ui/decoration.ts": {
+      "bytes": 4212,
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/semver/semverUtils.ts",
+          "kind": "import-statement",
+          "original": "../semver/semverUtils"
+        },
+        {
+          "path": "../core/Item",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/toml/commands.ts",
+          "kind": "import-statement",
+          "original": "../toml/commands"
+        },
+        {
+          "path": "node_modules/semver/index.js",
+          "kind": "import-statement",
+          "original": "semver"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/ui/decorator.ts": {
+      "bytes": 2241,
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/ui/indicators.ts",
+          "kind": "import-statement",
+          "original": "./indicators"
+        },
+        {
+          "path": "../core/Dependency",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/ui/decoration.ts",
+          "kind": "import-statement",
+          "original": "./decoration"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/api/crates-server-index.ts": {
+      "bytes": 1364,
+      "imports": [
+        {
+          "path": "util",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "http",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "child_process",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "child_process",
+          "kind": "require-call",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/semver/compareVersions.ts": {
+      "bytes": 2760,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/providers/autoCompletion.ts": {
+      "bytes": 4339,
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/core/listener.ts",
+          "kind": "import-statement",
+          "original": "../core/listener"
+        },
+        {
+          "path": "src/semver/semverUtils.ts",
+          "kind": "import-statement",
+          "original": "../semver/semverUtils"
+        },
+        {
+          "path": "src/toml/parser.ts",
+          "kind": "import-statement",
+          "original": "../toml/parser"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/core/fetcher.ts": {
+      "bytes": 4423,
+      "imports": [
+        {
+          "path": "./Item",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "./Dependency",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/ui/indicators.ts",
+          "kind": "import-statement",
+          "original": "../ui/indicators"
+        },
+        {
+          "path": "src/api/crates-server-index.ts",
+          "kind": "import-statement",
+          "original": "../api/crates-server-index"
+        },
+        {
+          "path": "src/semver/compareVersions.ts",
+          "kind": "import-statement",
+          "original": "../semver/compareVersions"
+        },
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/providers/autoCompletion.ts",
+          "kind": "import-statement",
+          "original": "../providers/autoCompletion"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/core/listener.ts": {
+      "bytes": 3036,
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/toml/parser.ts",
+          "kind": "import-statement",
+          "original": "../toml/parser"
+        },
+        {
+          "path": "src/ui/indicators.ts",
+          "kind": "import-statement",
+          "original": "../ui/indicators"
+        },
+        {
+          "path": "src/toml/commands.ts",
+          "kind": "import-statement",
+          "original": "../toml/commands"
+        },
+        {
+          "path": "./Item",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/ui/decorator.ts",
+          "kind": "import-statement",
+          "original": "../ui/decorator"
+        },
+        {
+          "path": "src/core/fetcher.ts",
+          "kind": "import-statement",
+          "original": "./fetcher"
+        },
+        {
+          "path": "./Dependency",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/extension.ts": {
+      "bytes": 1855,
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "src/core/listener.ts",
+          "kind": "import-statement",
+          "original": "./core/listener"
+        },
+        {
+          "path": "src/toml/commands.ts",
+          "kind": "import-statement",
+          "original": "./toml/commands"
+        },
+        {
+          "path": "src/providers/autoCompletion.ts",
+          "kind": "import-statement",
+          "original": "./providers/autoCompletion"
+        }
+      ],
+      "format": "esm"
+    }
+  },
+  "outputs": {
+    "out/main.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 197944
+    },
+    "out/main.js": {
+      "imports": [
+        {
+          "path": "vscode",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "vscode",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "vscode",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "vscode",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "vscode",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "vscode",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "util",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "http",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "child_process",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "child_process",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "vscode",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "vscode",
+          "kind": "require-call",
+          "external": true
+        }
+      ],
+      "exports": [],
+      "entryPoint": "src/extension.ts",
+      "inputs": {
+        "node_modules/semver/internal/constants.js": {
+          "bytesInOutput": 755
+        },
+        "node_modules/semver/internal/debug.js": {
+          "bytesInOutput": 328
+        },
+        "node_modules/semver/internal/re.js": {
+          "bytesInOutput": 4836
+        },
+        "node_modules/semver/internal/parse-options.js": {
+          "bytesInOutput": 448
+        },
+        "node_modules/semver/internal/identifiers.js": {
+          "bytesInOutput": 564
+        },
+        "node_modules/semver/classes/semver.js": {
+          "bytesInOutput": 8323
+        },
+        "node_modules/semver/functions/parse.js": {
+          "bytesInOutput": 474
+        },
+        "node_modules/semver/functions/valid.js": {
+          "bytesInOutput": 291
+        },
+        "node_modules/semver/functions/clean.js": {
+          "bytesInOutput": 320
+        },
+        "node_modules/semver/functions/inc.js": {
+          "bytesInOutput": 618
+        },
+        "node_modules/semver/functions/diff.js": {
+          "bytesInOutput": 1249
+        },
+        "node_modules/semver/functions/major.js": {
+          "bytesInOutput": 226
+        },
+        "node_modules/semver/functions/minor.js": {
+          "bytesInOutput": 226
+        },
+        "node_modules/semver/functions/patch.js": {
+          "bytesInOutput": 226
+        },
+        "node_modules/semver/functions/prerelease.js": {
+          "bytesInOutput": 357
+        },
+        "node_modules/semver/functions/compare.js": {
+          "bytesInOutput": 261
+        },
+        "node_modules/semver/functions/rcompare.js": {
+          "bytesInOutput": 237
+        },
+        "node_modules/semver/functions/compare-loose.js": {
+          "bytesInOutput": 247
+        },
+        "node_modules/semver/functions/compare-build.js": {
+          "bytesInOutput": 406
+        },
+        "node_modules/semver/functions/sort.js": {
+          "bytesInOutput": 258
+        },
+        "node_modules/semver/functions/rsort.js": {
+          "bytesInOutput": 262
+        },
+        "node_modules/semver/functions/gt.js": {
+          "bytesInOutput": 217
+        },
+        "node_modules/semver/functions/lt.js": {
+          "bytesInOutput": 217
+        },
+        "node_modules/semver/functions/eq.js": {
+          "bytesInOutput": 219
+        },
+        "node_modules/semver/functions/neq.js": {
+          "bytesInOutput": 223
+        },
+        "node_modules/semver/functions/gte.js": {
+          "bytesInOutput": 222
+        },
+        "node_modules/semver/functions/lte.js": {
+          "bytesInOutput": 222
+        },
+        "node_modules/semver/functions/cmp.js": {
+          "bytesInOutput": 1200
+        },
+        "node_modules/semver/functions/coerce.js": {
+          "bytesInOutput": 1209
+        },
+        "node_modules/yallist/iterator.js": {
+          "bytesInOutput": 344
+        },
+        "node_modules/yallist/yallist.js": {
+          "bytesInOutput": 9890
+        },
+        "node_modules/lru-cache/index.js": {
+          "bytesInOutput": 8322
+        },
+        "node_modules/semver/classes/range.js": {
+          "bytesInOutput": 12141
+        },
+        "node_modules/semver/classes/comparator.js": {
+          "bytesInOutput": 3703
+        },
+        "node_modules/semver/functions/satisfies.js": {
+          "bytesInOutput": 380
+        },
+        "node_modules/semver/ranges/to-comparators.js": {
+          "bytesInOutput": 334
+        },
+        "node_modules/semver/ranges/max-satisfying.js": {
+          "bytesInOutput": 704
+        },
+        "node_modules/semver/ranges/min-satisfying.js": {
+          "bytesInOutput": 701
+        },
+        "node_modules/semver/ranges/min-version.js": {
+          "bytesInOutput": 1616
+        },
+        "node_modules/semver/ranges/valid.js": {
+          "bytesInOutput": 340
+        },
+        "node_modules/semver/ranges/outside.js": {
+          "bytesInOutput": 2042
+        },
+        "node_modules/semver/ranges/gtr.js": {
+          "bytesInOutput": 243
+        },
+        "node_modules/semver/ranges/ltr.js": {
+          "bytesInOutput": 243
+        },
+        "node_modules/semver/ranges/intersects.js": {
+          "bytesInOutput": 343
+        },
+        "node_modules/semver/ranges/simplify.js": {
+          "bytesInOutput": 1403
+        },
+        "node_modules/semver/ranges/subset.js": {
+          "bytesInOutput": 5449
+        },
+        "node_modules/semver/index.js": {
+          "bytesInOutput": 2536
+        },
+        "src/extension.ts": {
+          "bytesInOutput": 1743
+        },
+        "src/core/listener.ts": {
+          "bytesInOutput": 2287
+        },
+        "src/core/Item.ts": {
+          "bytesInOutput": 321
+        },
+        "src/toml/parser.ts": {
+          "bytesInOutput": 7476
+        },
+        "src/ui/indicators.ts": {
+          "bytesInOutput": 280
+        },
+        "src/toml/commands.ts": {
+          "bytesInOutput": 1802
+        },
+        "src/ui/decorator.ts": {
+          "bytesInOutput": 1769
+        },
+        "src/ui/decoration.ts": {
+          "bytesInOutput": 3404
+        },
+        "src/semver/semverUtils.ts": {
+          "bytesInOutput": 337
+        },
+        "src/api/crates-server-index.ts": {
+          "bytesInOutput": 1159
+        },
+        "src/semver/compareVersions.ts": {
+          "bytesInOutput": 2498
+        },
+        "src/core/fetcher.ts": {
+          "bytesInOutput": 3656
+        },
+        "src/providers/autoCompletion.ts": {
+          "bytesInOutput": 2149
+        }
+      },
+      "bytes": 108444
+    }
+  }
+}

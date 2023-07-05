@@ -58,6 +58,23 @@
       "type": "object",
       "title": "Crates",
       "properties": {
+        "crates.listPreReleases": {
+          "type": "boolean",
+          "scope": "resource",
+          "default": false,
+          "description": "If true, pre-release versions will be available."
+        },
+        "crates.localCargoIndexHash": {
+          "type": "string",
+          "scope": "resource",
+          "default": "github.com-1ecc6299db9ec823",
+          "description": "The hash path for crates.io index. Default value goes to official index. Alternative values would support registry source mirror with source replacement setu. (Requires git, cargo and updated crates.io index)"
+        },
+        "crates.localCargoIndexBranch": {
+          "type": "string",
+          "scope": "resource",
+          "description": "The branch for crates.io index. Default value goes to origin/HEAD if not available then origin/master.  (Requires git, cargo and updated crates.io index)"
+        },
         "crates.errorDecorator": {
           "type": "string",
           "scope": "resource",
@@ -75,29 +92,6 @@
           "scope": "resource",
           "default": "✅",
           "description": "The text template to show when a dependency is semver compatible. ${version} will be replaced by the latest version info."
-        },
-        "crates.listPreReleases": {
-          "type": "boolean",
-          "scope": "resource",
-          "default": false,
-          "description": "If true, pre-release versions will be available."
-        },
-        "crates.useLocalCargoIndex": {
-          "type": "boolean",
-          "scope": "resource",
-          "default": true,
-          "description": "If true, crates will use local cargo index. (Requires git, cargo and updated crates.io index)"
-        },
-        "crates.localCargoIndexHash": {
-          "type": "string",
-          "scope": "resource",
-          "default": "github.com-1ecc6299db9ec823",
-          "description": "The hash path for crates.io index. Default value goes to official index. Alternative values would support registry source mirror with source replacement setup"
-        },
-        "crates.localCargoIndexBranch": {
-          "type": "string",
-          "scope": "resource",
-          "description": "The branch for crates.io index. Default value goes to origin/HEAD if not available then origin/master ."
         }
       }
     }
@@ -105,7 +99,7 @@
   "main": "./out/main.js",
   "scripts": {
     "vscode:prepublish": "npm run esbuild-base -- --minify",
-    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=esm --platform=node --metafile=meta.json",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node --metafile=meta.json",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test-compile": "tsc -p ./"
