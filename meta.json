@@ -937,7 +937,7 @@
       "format": "esm"
     },
     "src/ui/decoration.ts": {
-      "bytes": 4212,
+      "bytes": 4230,
       "imports": [
         {
           "path": "vscode",
@@ -993,52 +993,6 @@
       ],
       "format": "esm"
     },
-    "src/api/index-utils.ts": {
-      "bytes": 1031,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/api/local_registry.ts": {
-      "bytes": 2633,
-      "imports": [
-        {
-          "path": "os",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "path",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "util",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "fs",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "src/api/index-utils.ts",
-          "kind": "import-statement",
-          "original": "./index-utils"
-        },
-        {
-          "path": "child_process",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "child_process",
-          "kind": "require-call",
-          "external": true
-        }
-      ],
-      "format": "esm"
-    },
     "src/api/crates-index-server.ts": {
       "bytes": 1264,
       "imports": [
@@ -1087,7 +1041,7 @@
       "format": "esm"
     },
     "src/core/fetcher.ts": {
-      "bytes": 5973,
+      "bytes": 4719,
       "imports": [
         {
           "path": "./Item",
@@ -1103,11 +1057,6 @@
           "path": "src/ui/status-bar.ts",
           "kind": "import-statement",
           "original": "../ui/status-bar"
-        },
-        {
-          "path": "src/api/local_registry.ts",
-          "kind": "import-statement",
-          "original": "../api/local_registry"
         },
         {
           "path": "src/api/crates-index-server.ts",
@@ -1210,7 +1159,7 @@
       "imports": [],
       "exports": [],
       "inputs": {},
-      "bytes": 206475
+      "bytes": 197650
     },
     "out/main.js": {
       "imports": [
@@ -1241,36 +1190,6 @@
         },
         {
           "path": "vscode",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "os",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "path",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "util",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "fs",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "child_process",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "child_process",
           "kind": "require-call",
           "external": true
         },
@@ -1461,31 +1380,25 @@
           "bytesInOutput": 1747
         },
         "src/ui/decoration.ts": {
-          "bytesInOutput": 3404
+          "bytesInOutput": 3422
         },
         "src/semver/semverUtils.ts": {
           "bytesInOutput": 337
         },
-        "src/api/local_registry.ts": {
-          "bytesInOutput": 1761
-        },
-        "src/api/index-utils.ts": {
-          "bytesInOutput": 996
-        },
         "src/api/crates-index-server.ts": {
-          "bytesInOutput": 1034
+          "bytesInOutput": 1031
         },
         "src/semver/compareVersions.ts": {
           "bytesInOutput": 2498
         },
         "src/core/fetcher.ts": {
-          "bytesInOutput": 4817
+          "bytesInOutput": 2230
         },
         "src/providers/autoCompletion.ts": {
           "bytesInOutput": 2149
         }
       },
-      "bytes": 112564
+      "bytes": 107148
     }
   }
 }

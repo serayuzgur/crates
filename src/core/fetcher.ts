@@ -2,10 +2,6 @@ import Item from "./Item";
 import Dependency from "./Dependency";
 import { StatusBar } from "../ui/status-bar";
 import {
-  checkCargoRegistry,
-  versions as loVersions,
-} from "../api/local_registry";
-import {
   versions as ciVersions
 } from "../api/crates-index-server";
 import compareVersions from "../semver/compareVersions";
@@ -23,35 +19,11 @@ export function fetchCrateVersions(dependencies: Item[]): [Promise<Dependency[]>
   let transformer = transformServerResponse(versions, shouldListPreRels);
   if (!indexServerURL) {
     window.setStatusBarMessage("Crates index server URL is not configured. Looking local index", 2000);
-    // use local registry if no index server is configured
-    const localIndexHash = config.get<string>("crates.localCargoIndexHash");
-    const localGitBranch = config.get<string>("crates.localCargoIndexBranch");
-    const isLocalIndexAvailable = checkCargoRegistry(localIndexHash, localGitBranch);
-    if (!isLocalIndexAvailable) {
-      window.showWarningMessage("Given Local Cargo index hash or branch is not available. Please check your configuration.");
-      const isDefaultLocalIndexAvailable = checkCargoRegistry("github.com-1ecc6299db9ec823", localGitBranch);
-      if (!isDefaultLocalIndexAvailable) {
-        StatusBar.setText("Error", "Default Local Cargo index is not available. Please run `cargo fetch` to download it.");
-        return [Promise.resolve([]), new Map()];
-      }
-      versions = loVersions;
-      transformer = transformLocalRegistryResponse(versions, shouldListPreRels);
-    }
-
   }
   let responsesMap: Map<string, Dependency[]> = new Map();
 
   const responses = dependencies.map(transformer);
 
-  // .then((dependency: Dependency) => {
-  //   const found = responsesMap.get(item.key);
-  //   if (found) {
-  //     found.push(dependency);
-  //   } else {
-  //     responsesMap.set(item.key, [dependency]);
-  //   }
-  //   return dependency;
-  // })
   return [Promise.all(responses), responsesMap];
 }
 

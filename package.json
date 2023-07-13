@@ -64,17 +64,6 @@
           "default": false,
           "description": "If true, pre-release versions will be available."
         },
-        "crates.localCargoIndexHash": {
-          "type": "string",
-          "scope": "resource",
-          "default": "github.com-1ecc6299db9ec823",
-          "description": "The hash path for crates.io index. Default value goes to official index. Alternative values would support registry source mirror with source replacement setu. (Requires git, cargo and updated crates.io index)"
-        },
-        "crates.localCargoIndexBranch": {
-          "type": "string",
-          "scope": "resource",
-          "description": "The branch for crates.io index. Default value goes to origin/HEAD if not available then origin/master.  (Requires git, cargo and updated crates.io index)"
-        },
         "crates.indexServerURL": {
           "type": "string",
           "scope": "resource",

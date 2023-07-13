@@ -43,10 +43,6 @@ While Crates works out-of-the-box without any configuration, we also offer a few
 
 - `crates.indexServerURL`: Specify a custom URL for the crates.io index server. The default value connects to the official index.
 
-- `crates.useLocalCargoIndex`: Activate this option to use a local cargo repository.
-
-- `crates.localCargoIndexHash`: Define the hash path for the crates.io index. By default, it uses the official index. This option supports registry source mirror setups with source replacement.
-
 - `crates.errorDecorator`: Customize the text displayed when a dependency has errors. The default is `❗️❗️❗`.
 
 - `crates.compatibleDecorator`: Define the text template to show when a dependency is semver compatible. `${version}` will be replaced by the latest version info. The default is `✅`.
