@@ -86,7 +86,7 @@ export default function decoration(
       };
       const isCurrent = version === maxSatisfying;
       const encoded = encodeURI(JSON.stringify(replaceData));
-      const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key}/${version})` : "";
+      const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key.replace(/"/g, "")}/${version})` : "";
       const command = `${isCurrent ? "**" : ""}[${version}](command:crates.replaceVersion?${encoded})${docs}${isCurrent ? "**" : ""}`;
       hoverMessage.appendMarkdown("\n * ");
       hoverMessage.appendMarkdown(command);
