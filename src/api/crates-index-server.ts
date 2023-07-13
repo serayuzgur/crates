@@ -1,4 +1,4 @@
-import * as http from 'http';
+import * as https from 'https';
 import { workspace } from "vscode";
 
 export const versions = (name: string) => {
@@ -9,7 +9,7 @@ export const versions = (name: string) => {
   name = name.replace(/"/g, "");
 
   return new Promise(function (resolve, reject) {
-    var req = http.get(`${indexServerURL}/index/versions/${name}`, function (res) {
+    var req = https.get(`${indexServerURL}/index/versions/${name}`, function (res) {
       // reject on bad status
       if (!res.statusCode) {
         reject(new Error('statusCode=' + res.statusCode));
