@@ -1,5 +1,5 @@
 import { TextEditor, TextEditorDecorationType, workspace, DecorationOptions } from "vscode";
-import { statusBarItem } from "./indicators";
+import { StatusBar } from "./status-bar";
 import Dependency from "../core/Dependency";
 import decoration, { latestVersion } from "./decoration";
 
@@ -12,7 +12,7 @@ export let decorationHandle: TextEditorDecorationType;
  * @param dependencies
  */
 export default function decorate(editor: TextEditor, dependencies: Array<Dependency>) {
-  const pref = loadPref(editor);
+  const pref = loadPref();
 
   const errors: Array<string> = [];
   const filtered = dependencies.filter((dep: Dependency) => {
@@ -53,15 +53,16 @@ export default function decorate(editor: TextEditor, dependencies: Array<Depende
   editor.setDecorations(decorationHandle, options);
 
   if (errors.length) {
-    statusBarItem.setText("❗️ Completed with errors");
+    StatusBar.setText("Error", `Completed with errors
+${errors.join('\n')}`);
   } else {
-    statusBarItem.setText("OK");
+    StatusBar.setText("Info");
   }
 }
 
 
-function loadPref(editor: TextEditor) {
-  const config = workspace.getConfiguration("", editor.document.uri);
+function loadPref() {
+  const config = workspace.getConfiguration("");
   const compatibleDecorator = config.get<string>("crates.compatibleDecorator") ?? "";
   const incompatibleDecorator = config.get<string>("crates.incompatibleDecorator") ?? "";
   const errorText = config.get<string>("crates.errorDecorator");

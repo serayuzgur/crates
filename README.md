@@ -1,70 +1,77 @@
-# crates
+# Crates: Simplify Dependency Management in Rust & VSCode
 
-<div align="center">
-  <h2>Using crates plugin in your company? Consider sponsoring me via <a href="https://www.patreon.com/bePatron?u=11468905"> on patreon </a> or use Github and get priority support in the issues.</h2>
-</div>
-
-[![Become a Patron !](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=11468905)
-
+[![Become a Patron](https://img.shields.io/badge/Support%20Us%20on-Patreon-orange.svg)](https://www.patreon.com/bePatron?u=11468905)
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/v/serayuzgur.crates)
 [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/i/serayuzgur.crates)
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/r/serayuzgur.crates)
 [![GitHub stars](https://img.shields.io/github/stars/serayuzgur/crates.svg)](https://github.com/serayuzgur/crates/stargazers)
 
-Hello Rust & VSCode lovers,
+Welcome to **Crates**, the ultimate Rust extension for VSCode! Simplify your dependency management with ease while using Cargo.toml for your project.
 
-This is **crates**, an extension for _crates.io_ dependencies. Aims helping developers to manage dependencies while using _Cargo.toml_.
+## Why Crates?
 
-## Notes
+Are you tired of manually managing your Rust dependencies? Crates is here to save the day! Whether you're a seasoned Rust developer or just getting started, our extension is designed to make your life easier and your coding experience more enjoyable.
 
-- It is only helpful if you are using dependencies from _crates.io_. Dependencies from _git_ or other platforms are not supported.
-- TOML must be valid. If not, crates will not show versions. It will inform you with the status bar and dialog.
+## Key Features
 
-## Features
+Crates offers a range of powerful features to streamline your Rust development workflow:
 
-**crates** is very simple. It has just two features.
+1. **Latest Version Display**: Crates shows you the latest version of a crate right next to it, helping you stay up-to-date with the latest releases.
 
-- Displays the latest version of the crate next to it
-- Shows all versions (clickable) on the tooltip of the crate hovered.
+2. **Detailed Version Information**: Hover over a crate to view all available versions, making it easier for you to select the appropriate one for your project.
 
-Aims to be fast and simple.
+3. **Crev Integration**: Access valuable code reviews and community collaboration through the integration with [Crev](https://web.crev.dev/). Get feedback and make informed decisions about the crates you depend on.
+   ![Crev Integration](https://github.com/serayuzgur/crates/raw/master/screenshots/crev_dev.png)
+
+4. **Doc.rs Integration**: Explore comprehensive documentation for Rust, including crates, libraries, and more, with the seamless integration of [Doc.rs](https://doc.rs/). Gain in-depth knowledge and insights to enhance your coding experience.
+   ![Doc.rs Integration](https://github.com/serayuzgur/crates/raw/master/screenshots/docs_rs.png)
+
+## Screenshots
 
 ### Update Single Dependency
 
-![update](https://github.com/serayuzgur/crates/raw/master/update.gif)
+![Update Single Dependency](https://github.com/serayuzgur/crates/raw/master/update.gif)
 
-### Update All Dependencies (lazy mode)
+### Update All Dependencies (Lazy Mode)
 
-![updateAll](https://github.com/serayuzgur/crates/raw/master/updateAll.gif)
+![Update All Dependencies](https://github.com/serayuzgur/crates/raw/master/screenshots/update_all.png)
 
-### Simple settings
+### Tooltip with Version Information
 
-It is so **simple** that you do not need any configuration, but if you insist...
+![Tooltip with Version Information](https://github.com/serayuzgur/crates/raw/master/screenshots/tooltip.png)
 
-`crates.useLocalCargoIndex`: If true, crates will use local cargo repository.
+## Getting Started
 
-`crates.localCargoIndexHash`: The hash path for crates.io index. Default value goes to official index. Alternative values would support registry source mirror with source replacement setup.
+Using Crates is incredibly simple. Just install the extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates), and you're ready to go!
 
-`crates.githubAuthBasic`: The `<username>:<personal-access-token>` or `<username>:<password>` for accessing Github API with increased access rates 5000 req/h.
+## Configuration Options
 
-`crates.errorDecorator`: The text to show when a dependency has errors. Default is `❗️❗️❗`.
+While Crates works out-of-the-box without any configuration, we also offer a few customizable options:
 
-`crates.compatibleDecorator`: The text template to show when a dependency is semver compatible. `${version}` will be replaced by the latest version info. Default is `✅`
+- `crates.listPreReleases`: Enable this option to list pre-release versions in hover and decorations. By default, it is set to false.
 
-`crates.incompatibleDecorator`: The text template to show when a dependency is not semver compatible. `${version}` will be replaced by the latest version info. Default is `❌ ${version}`
+- `crates.indexServerURL`: Specify a custom URL for the crates.io index server. The default value connects to the official index.
 
-`crates.listPreReleases`: If true, pre-release versions will be listed in hover and at decoration. The default is false.
+- `crates.useLocalCargoIndex`: Activate this option to use a local cargo repository.
+
+- `crates.localCargoIndexHash`: Define the hash path for the crates.io index. By default, it uses the official index. This option supports registry source mirror setups with source replacement.
+
+- `crates.errorDecorator`: Customize the text displayed when a dependency has errors. The default is `❗️❗️❗`.
+
+- `crates.compatibleDecorator`: Define the text template to show when a dependency is semver compatible. `${version}` will be replaced by the latest version info. The default is `✅`.
+
+- `crates.incompatibleDecorator`: Set the text template to show when a dependency is not semver compatible. `${version}` will be replaced by the latest version info. The default is `❌ ${version}`.
 
 ## Known Issues
 
-- All glitches will be cleared on save.
+Any minor issues or glitches you encounter will automatically be resolved when you save your work.
 
-## Thanks to
+## Show Your Support
 
-[@ademozay](https://github.com/ademozay)
+If you find Crates valuable and want to support its development, please consider becoming a Patron on [Patreon](https://www.patreon.com/bePatron?u=11468905). Your contribution will enable us to continue improving Crates and providing priority support to our patrons.
 
-[@userzimmermann](https://github.com/userzimmermann)
+---
 
-[@RensAlthuis](https://github.com/RensAlthuis)
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=3c1a47ab4694&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
-oli-obk (First Patron)
+Help us simplify Rust dependency management with Crates, and let's make coding in Rust even more enjoyable! Together, we can achieve great things.

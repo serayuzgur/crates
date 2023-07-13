@@ -75,6 +75,12 @@
           "scope": "resource",
           "description": "The branch for crates.io index. Default value goes to origin/HEAD if not available then origin/master.  (Requires git, cargo and updated crates.io index)"
         },
+        "crates.indexServerURL": {
+          "type": "string",
+          "scope": "resource",
+          "description": "URL of the crates.io index server. Default value goes to official index. Alternative values would be onpremise index servers.",
+          "default": "http://localhost:3000"
+        },
         "crates.errorDecorator": {
           "type": "string",
           "scope": "resource",

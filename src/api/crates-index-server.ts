@@ -1,17 +1,15 @@
-import * as util from "util";
 import * as http from 'http';
-const exec = util.promisify(require("child_process").exec);
-const execSync = require("child_process").execSync;
+import { workspace } from "vscode";
 
 export const versions = (name: string) => {
+  const config = workspace.getConfiguration("");
+  const indexServerURL = config.get<string>("crates.indexServerURL") ?? "";
+
+  // clean dirty names
   name = name.replace(/"/g, "");
+
   return new Promise(function (resolve, reject) {
-    var req = http.request({
-      host: 'localhost',
-      port: 3000,
-      path: `/versions/${name}`,
-      method: 'GET'
-    }, function (res) {
+    var req = http.get(`${indexServerURL}/index/versions/${name}`, function (res) {
       // reject on bad status
       if (!res.statusCode) {
         reject(new Error('statusCode=' + res.statusCode));
@@ -32,8 +30,6 @@ export const versions = (name: string) => {
         } catch (e) {
           reject(e);
         }
-        let versions = body.versions;
-        console.log({ name, versions });
         resolve(body);
       });
     });
