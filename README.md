@@ -1,10 +1,13 @@
 # Crates: Simplify Dependency Management in Rust & VSCode
 
 [![Become a Patron](https://img.shields.io/badge/Support%20Us%20on-Patreon-orange.svg)](https://www.patreon.com/bePatron?u=11468905)
+[![GitHub Sponsors](https://img.shields.io/badge/Support%20Us%20on-GitHub-red.svg)](https://github.com/sponsors/serayuzgur)
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/v/serayuzgur.crates)
 [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/i/serayuzgur.crates)
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/r/serayuzgur.crates)
 [![GitHub stars](https://img.shields.io/github/stars/serayuzgur/crates.svg)](https://github.com/serayuzgur/crates/stargazers)
+
+## Crates: Simplify Dependency Management in Rust & VSCode
 
 Welcome to **Crates**, the ultimate Rust extension for VSCode! Simplify your dependency management with ease while using Cargo.toml for your project.
 
@@ -16,29 +19,17 @@ Are you tired of manually managing your Rust dependencies? Crates is here to sav
 
 Crates offers a range of powerful features to streamline your Rust development workflow:
 
-1. **Latest Version Display**: Crates shows you the latest version of a crate right next to it, helping you stay up-to-date with the latest releases.
+1. **Version Information**: Crates provides comprehensive version information to keep you informed about the crates in your project. This includes a tooltip with detailed version details and inline visual feedback for quick reference and decision-making.
+   ![Tooltip with Version Information](https://github.com/serayuzgur/crates/raw/master/screenshots/tooltip.png)
 
-2. **Detailed Version Information**: Hover over a crate to view all available versions, making it easier for you to select the appropriate one for your project.
+2. **Shortcut Commands**: Update all dependencies with just one command for a seamless workflow.
+   ![Update All Dependencies](https://github.com/serayuzgur/crates/raw/master/screenshots/update_all.png)
 
 3. **Crev Integration**: Access valuable code reviews and community collaboration through the integration with [Crev](https://web.crev.dev/). Get feedback and make informed decisions about the crates you depend on.
    ![Crev Integration](https://github.com/serayuzgur/crates/raw/master/screenshots/crev_dev.png)
 
 4. **Doc.rs Integration**: Explore comprehensive documentation for Rust, including crates, libraries, and more, with the seamless integration of [Doc.rs](https://doc.rs/). Gain in-depth knowledge and insights to enhance your coding experience.
    ![Doc.rs Integration](https://github.com/serayuzgur/crates/raw/master/screenshots/docs_rs.png)
-
-## Screenshots
-
-### Update Single Dependency
-
-![Update Single Dependency](https://github.com/serayuzgur/crates/raw/master/update.gif)
-
-### Update All Dependencies (Lazy Mode)
-
-![Update All Dependencies](https://github.com/serayuzgur/crates/raw/master/screenshots/update_all.png)
-
-### Tooltip with Version Information
-
-![Tooltip with Version Information](https://github.com/serayuzgur/crates/raw/master/screenshots/tooltip.png)
 
 ## Getting Started
 
@@ -68,7 +59,7 @@ Any minor issues or glitches you encounter will automatically be resolved when y
 
 ## Show Your Support
 
-If you find Crates valuable and want to support its development, please consider becoming a Patron on [Patreon](https://www.patreon.com/bePatron?u=11468905). Your contribution will enable us to continue improving Crates and providing priority support to our patrons.
+If you find Crates valuable and want to support its development, please consider becoming a Patron on [Patreon](https://www.patreon.com/bePatron?u=11468905) or a GitHub Sponsor on [GitHub](https://github.com/sponsors/serayuzgur). Your contribution will enable us to continue improving Crates and providing priority support to our patrons.
 
 ---
 
