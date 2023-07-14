@@ -2,9 +2,9 @@
  * Listener for TOML files.
  * Filters active editor files according to the extension.
  */
-import { Position, Range, TextDocument, TextEditor, workspace } from "vscode";
+import { Position, Range, TextDocument, TextEditor } from "vscode";
 import { parse, filterCrates } from "../toml/parser";
-import { statusBarItem } from "../ui/indicators";
+import { StatusBar } from "../ui/status-bar";
 import { status } from "../toml/commands";
 import Item from "./Item";
 import decorate, { decorationHandle } from "../ui/decorator";
@@ -16,7 +16,6 @@ function parseToml(text: string): Item[] {
   const toml = parse(text);
   const tomlDependencies = filterCrates(toml.values);
   console.log("Parsed");
-  statusBarItem.setText("Cargo.toml parsed");
   return tomlDependencies;
 }
 
@@ -45,41 +44,26 @@ export function getFetchedDependency(document: TextDocument, crate: string, posi
 
 export async function parseAndDecorate(
   editor: TextEditor,
-  wasSaved: boolean = false,
+  _wasSaved: boolean = false,
   fetchDeps: boolean = true
 ) {
   const text = editor.document.getText();
-  const config = workspace.getConfiguration("", editor.document.uri);
-  const shouldListPreRels = config.get("crates.listPreReleases");
-  const basicAuth = config.get<string>("crates.githubAuthBasic");
-  const useLocalIndex = config.get<boolean>("crates.useLocalCargoIndex");
-  const localIndexHash = config.get<string>("crates.localCargoIndexHash");
-  const localGitBranch = config.get<string>("crates.localCargoIndexBranch");
-  const githubToken = basicAuth
-    ? `Basic ${Buffer.from(basicAuth).toString("base64")}`
-    : undefined;
-
   try {
     // Parse
+    StatusBar.setText("Loading", "Parsing Cargo.toml");
     dependencies = parseToml(text);
     if (fetchDeps || !fetchedDeps || !fetchedDepsMap) {
-      const data = fetchCrateVersions(
-        dependencies,
-        !!shouldListPreRels,
-        githubToken,
-        useLocalIndex,
-        localIndexHash,
-        localGitBranch
-      );
+      const data = fetchCrateVersions(dependencies);
       fetchedDeps = await data[0];
       fetchedDepsMap = data[1];
     }
 
     decorate(editor, fetchedDeps);
+    // StatusBar.setText("Info", "Done");
 
   } catch (e) {
     console.error(e);
-    statusBarItem.setText("Cargo.toml is not valid!");
+    StatusBar.setText("Error", "Cargo.toml is not valid!");
     if (decorationHandle) {
       decorationHandle.dispose();
     }
@@ -92,10 +76,10 @@ export default async function listener(editor: TextEditor | undefined): Promise<
     if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
       status.inProgress = true;
       status.replaceItems = [];
-      statusBarItem.show();
+      StatusBar.show();
       await parseAndDecorate(editor);
     } else {
-      statusBarItem.hide();
+      StatusBar.hide();
     }
     status.inProgress = false;
   } else {

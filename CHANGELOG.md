@@ -2,32 +2,37 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.6.0
+
+- github support removed.
+- local index support removed.
+- crates-index-server support added.
+- doc.rs bug with dependency names quoted fixed.
+- better error messages, ui and logging.
+- dependencies updated.
+- minor bug fixes.
 
 ## 0.5.8
 
 - Better errors at tooltips. [#126](https://github.com/serayuzgur/crates/pull/126)
 - Default local registry branch goes to origin/HEAD and fallback is origin/master.
-- Using "?" as  version auto updates to latest version on save. Thanks to [William](https://github.com/WilliamVenner)
+- Using "?" as version auto updates to latest version on save. Thanks to [William](https://github.com/WilliamVenner)
 - Version auto complete is now available [#130](https://github.com/serayuzgur/crates/pull/130). Thanks to [William](https://github.com/WilliamVenner)
-
-
 
 ## 0.5.7
 
-- Local repository git branch changed to origin/master and also it is changeable from settings  `crates.localCargoIndexBranch`  [#121](https://github.com/serayuzgur/crates/issues/121)
-
+- Local repository git branch changed to origin/master and also it is changeable from settings `crates.localCargoIndexBranch` [#121](https://github.com/serayuzgur/crates/issues/121)
 
 ## 0.5.6
 
 - Comma handled for ranged versions [#117](https://github.com/serayuzgur/crates/issues/117)
-- Fix for comments with brackets inside arrays  [#115](https://github.com/serayuzgur/crates/pull/115)
-- ${version} is not being replaced for compatible decorator  [#118](https://github.com/serayuzgur/crates/issues/118)
-- Support alternative local index  [#109](https://github.com/serayuzgur/crates/issues/109)
+- Fix for comments with brackets inside arrays [#115](https://github.com/serayuzgur/crates/pull/115)
+- ${version} is not being replaced for compatible decorator [#118](https://github.com/serayuzgur/crates/issues/118)
+- Support alternative local index [#109](https://github.com/serayuzgur/crates/issues/109)
 
 ## 0.5.5
 
 - "Incorrectly marking 1.4.0 as incompatible with 1.3" fixed [#101](https://github.com/serayuzgur/crates/pull/101)
-
 
 ## 0.5.4
 
@@ -36,10 +41,9 @@ All notable changes to the "crates" extension will be documented in this file.
 - "Support semver symbols" fixed [#104](https://github.com/serayuzgur/crates/pull/104)
 - "Accessibility regression" fixed [#100](https://github.com/serayuzgur/crates/pull/100)
 
-
 ## 0.5.3
 
-- "package.metadata.*" bug fixed [#94](https://github.com/serayuzgur/crates/issues/94)
+- "package.metadata.\*" bug fixed [#94](https://github.com/serayuzgur/crates/issues/94)
 - Local registry bug fixed [#95](https://github.com/serayuzgur/crates/issues/95)
 - New semantic decorators added [#86](https://github.com/serayuzgur/crates/issues/86)
 
@@ -58,11 +62,10 @@ All notable changes to the "crates" extension will be documented in this file.
 - Local registry index PR merged thanks to [ervinoro](https://github.com/ervinoro)
 - New setting added "crates.useLocalCargoIndex" to switch between GithHub and Local index.
 
-
 ## 0.4.8
 
 - Go to DOCS.RS added in popup [#72](https://github.com/serayuzgur/crates/issues/72)
-- "0.0.0" version is included now  [#73](https://github.com/serayuzgur/crates/issues/73)
+- "0.0.0" version is included now [#73](https://github.com/serayuzgur/crates/issues/73)
 
 ## 0.4.7
 
@@ -76,8 +79,6 @@ All notable changes to the "crates" extension will be documented in this file.
 - Alert always happen when I add deps to Cargo.toml [#59](https://github.com/serayuzgur/crates/issues/59)
 - `No versions found` error should be less intrusive [#58](https://github.com/serayuzgur/crates/issues/58)
 - alternative registries are not taken into account [#41](https://github.com/serayuzgur/crates/issues/41)
-
-
 
 ## 0.4.5
 
