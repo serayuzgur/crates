@@ -994,10 +994,10 @@
       "format": "esm"
     },
     "src/api/crates-index-server.ts": {
-      "bytes": 1264,
+      "bytes": 1267,
       "imports": [
         {
-          "path": "http",
+          "path": "https",
           "kind": "import-statement",
           "external": true
         },
@@ -1041,7 +1041,7 @@
       "format": "esm"
     },
     "src/core/fetcher.ts": {
-      "bytes": 4719,
+      "bytes": 2938,
       "imports": [
         {
           "path": "./Item",
@@ -1159,7 +1159,7 @@
       "imports": [],
       "exports": [],
       "inputs": {},
-      "bytes": 197650
+      "bytes": 195898
     },
     "out/main.js": {
       "imports": [
@@ -1194,7 +1194,7 @@
           "external": true
         },
         {
-          "path": "http",
+          "path": "https",
           "kind": "require-call",
           "external": true
         },
@@ -1386,19 +1386,19 @@
           "bytesInOutput": 337
         },
         "src/api/crates-index-server.ts": {
-          "bytesInOutput": 1031
+          "bytesInOutput": 1034
         },
         "src/semver/compareVersions.ts": {
           "bytesInOutput": 2498
         },
         "src/core/fetcher.ts": {
-          "bytesInOutput": 2230
+          "bytesInOutput": 2353
         },
         "src/providers/autoCompletion.ts": {
           "bytesInOutput": 2149
         }
       },
-      "bytes": 107148
+      "bytes": 107274
     }
   }
 }
