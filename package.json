@@ -114,6 +114,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "node-cache": "5.1.2",
     "semver": "7.5.3"
   }
 }
