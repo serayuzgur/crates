@@ -1026,7 +1026,7 @@
       "format": "cjs"
     },
     "src/api/crates-index-server.ts": {
-      "bytes": 1540,
+      "bytes": 1484,
       "imports": [
         {
           "path": "https",
@@ -1165,7 +1165,7 @@
       "format": "esm"
     },
     "src/extension.ts": {
-      "bytes": 1855,
+      "bytes": 2030,
       "imports": [
         {
           "path": "vscode",
@@ -1196,7 +1196,7 @@
       "imports": [],
       "exports": [],
       "inputs": {},
-      "bytes": 242669
+      "bytes": 242832
     },
     "out/main.js": {
       "imports": [
@@ -1410,7 +1410,7 @@
           "bytesInOutput": 255
         },
         "src/extension.ts": {
-          "bytesInOutput": 1743
+          "bytesInOutput": 1936
         },
         "src/core/listener.ts": {
           "bytesInOutput": 1857
@@ -1437,7 +1437,7 @@
           "bytesInOutput": 337
         },
         "src/api/crates-index-server.ts": {
-          "bytesInOutput": 1340
+          "bytesInOutput": 1284
         },
         "src/semver/compareVersions.ts": {
           "bytesInOutput": 2498
@@ -1449,7 +1449,7 @@
           "bytesInOutput": 2149
         }
       },
-      "bytes": 131035
+      "bytes": 131172
     }
   }
 }

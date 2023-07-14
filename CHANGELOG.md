@@ -7,8 +7,10 @@ All notable changes to the "crates" extension will be documented in this file.
 - github support removed.
 - local index support removed.
 - crates-index-server support added.
-- crates-index-server is now default index.
 - doc.rs bug with dependency names quoted fixed.
+- better error messages, ui and logging.
+- dependencies updated.
+- minor bug fixes.
 
 ## 0.5.8
 
