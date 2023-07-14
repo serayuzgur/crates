@@ -1165,7 +1165,7 @@
       "format": "esm"
     },
     "src/extension.ts": {
-      "bytes": 2030,
+      "bytes": 1855,
       "imports": [
         {
           "path": "vscode",
@@ -1192,12 +1192,6 @@
     }
   },
   "outputs": {
-    "out/main.js.map": {
-      "imports": [],
-      "exports": [],
-      "inputs": {},
-      "bytes": 242832
-    },
     "out/main.js": {
       "imports": [
         {
@@ -1260,196 +1254,196 @@
       "entryPoint": "src/extension.ts",
       "inputs": {
         "node_modules/semver/internal/constants.js": {
-          "bytesInOutput": 755
+          "bytesInOutput": 352
         },
         "node_modules/semver/internal/debug.js": {
-          "bytesInOutput": 328
+          "bytesInOutput": 192
         },
         "node_modules/semver/internal/re.js": {
-          "bytesInOutput": 4836
+          "bytesInOutput": 3204
         },
         "node_modules/semver/internal/parse-options.js": {
-          "bytesInOutput": 448
+          "bytesInOutput": 124
         },
         "node_modules/semver/internal/identifiers.js": {
-          "bytesInOutput": 564
+          "bytesInOutput": 216
         },
         "node_modules/semver/classes/semver.js": {
-          "bytesInOutput": 8323
+          "bytesInOutput": 3836
         },
         "node_modules/semver/functions/parse.js": {
-          "bytesInOutput": 474
+          "bytesInOutput": 149
         },
         "node_modules/semver/functions/valid.js": {
-          "bytesInOutput": 291
+          "bytesInOutput": 96
         },
         "node_modules/semver/functions/clean.js": {
-          "bytesInOutput": 320
+          "bytesInOutput": 124
         },
         "node_modules/semver/functions/inc.js": {
-          "bytesInOutput": 618
+          "bytesInOutput": 190
         },
         "node_modules/semver/functions/diff.js": {
-          "bytesInOutput": 1249
+          "bytesInOutput": 403
         },
         "node_modules/semver/functions/major.js": {
-          "bytesInOutput": 226
+          "bytesInOutput": 74
         },
         "node_modules/semver/functions/minor.js": {
-          "bytesInOutput": 226
+          "bytesInOutput": 74
         },
         "node_modules/semver/functions/patch.js": {
-          "bytesInOutput": 226
+          "bytesInOutput": 74
         },
         "node_modules/semver/functions/prerelease.js": {
-          "bytesInOutput": 357
+          "bytesInOutput": 120
         },
         "node_modules/semver/functions/compare.js": {
-          "bytesInOutput": 261
+          "bytesInOutput": 90
         },
         "node_modules/semver/functions/rcompare.js": {
-          "bytesInOutput": 237
+          "bytesInOutput": 68
         },
         "node_modules/semver/functions/compare-loose.js": {
-          "bytesInOutput": 247
+          "bytesInOutput": 67
         },
         "node_modules/semver/functions/compare-build.js": {
-          "bytesInOutput": 406
+          "bytesInOutput": 131
         },
         "node_modules/semver/functions/sort.js": {
-          "bytesInOutput": 258
+          "bytesInOutput": 82
         },
         "node_modules/semver/functions/rsort.js": {
-          "bytesInOutput": 262
+          "bytesInOutput": 82
         },
         "node_modules/semver/functions/gt.js": {
-          "bytesInOutput": 217
+          "bytesInOutput": 70
         },
         "node_modules/semver/functions/lt.js": {
-          "bytesInOutput": 217
+          "bytesInOutput": 70
         },
         "node_modules/semver/functions/eq.js": {
-          "bytesInOutput": 219
+          "bytesInOutput": 72
         },
         "node_modules/semver/functions/neq.js": {
-          "bytesInOutput": 223
+          "bytesInOutput": 72
         },
         "node_modules/semver/functions/gte.js": {
-          "bytesInOutput": 222
+          "bytesInOutput": 71
         },
         "node_modules/semver/functions/lte.js": {
-          "bytesInOutput": 222
+          "bytesInOutput": 71
         },
         "node_modules/semver/functions/cmp.js": {
-          "bytesInOutput": 1200
+          "bytesInOutput": 519
         },
         "node_modules/semver/functions/coerce.js": {
-          "bytesInOutput": 1209
+          "bytesInOutput": 528
         },
         "node_modules/yallist/iterator.js": {
-          "bytesInOutput": 344
+          "bytesInOutput": 145
         },
         "node_modules/yallist/yallist.js": {
-          "bytesInOutput": 9890
+          "bytesInOutput": 4648
         },
         "node_modules/lru-cache/index.js": {
-          "bytesInOutput": 8326
+          "bytesInOutput": 3541
         },
         "node_modules/semver/classes/range.js": {
-          "bytesInOutput": 12144
+          "bytesInOutput": 5028
         },
         "node_modules/semver/classes/comparator.js": {
-          "bytesInOutput": 3703
+          "bytesInOutput": 1767
         },
         "node_modules/semver/functions/satisfies.js": {
-          "bytesInOutput": 380
+          "bytesInOutput": 110
         },
         "node_modules/semver/ranges/to-comparators.js": {
-          "bytesInOutput": 334
+          "bytesInOutput": 126
         },
         "node_modules/semver/ranges/max-satisfying.js": {
-          "bytesInOutput": 704
+          "bytesInOutput": 209
         },
         "node_modules/semver/ranges/min-satisfying.js": {
-          "bytesInOutput": 701
+          "bytesInOutput": 208
         },
         "node_modules/semver/ranges/min-version.js": {
-          "bytesInOutput": 1616
+          "bytesInOutput": 552
         },
         "node_modules/semver/ranges/valid.js": {
-          "bytesInOutput": 340
+          "bytesInOutput": 111
         },
         "node_modules/semver/ranges/outside.js": {
-          "bytesInOutput": 2042
+          "bytesInOutput": 681
         },
         "node_modules/semver/ranges/gtr.js": {
-          "bytesInOutput": 243
+          "bytesInOutput": 73
         },
         "node_modules/semver/ranges/ltr.js": {
-          "bytesInOutput": 243
+          "bytesInOutput": 73
         },
         "node_modules/semver/ranges/intersects.js": {
-          "bytesInOutput": 343
+          "bytesInOutput": 106
         },
         "node_modules/semver/ranges/simplify.js": {
-          "bytesInOutput": 1403
+          "bytesInOutput": 430
         },
         "node_modules/semver/ranges/subset.js": {
-          "bytesInOutput": 5449
+          "bytesInOutput": 2146
         },
         "node_modules/semver/index.js": {
-          "bytesInOutput": 2536
+          "bytesInOutput": 954
         },
         "node_modules/clone/clone.js": {
-          "bytesInOutput": 6761
+          "bytesInOutput": 2426
         },
         "node_modules/node-cache/lib/node_cache.js": {
-          "bytesInOutput": 16444
+          "bytesInOutput": 6492
         },
         "node_modules/node-cache/index.js": {
-          "bytesInOutput": 255
+          "bytesInOutput": 86
         },
         "src/extension.ts": {
-          "bytesInOutput": 1936
+          "bytesInOutput": 590
         },
         "src/core/listener.ts": {
-          "bytesInOutput": 1857
+          "bytesInOutput": 849
         },
         "src/core/Item.ts": {
-          "bytesInOutput": 321
+          "bytesInOutput": 190
         },
         "src/toml/parser.ts": {
-          "bytesInOutput": 7476
+          "bytesInOutput": 3367
         },
         "src/ui/status-bar.ts": {
-          "bytesInOutput": 968
+          "bytesInOutput": 597
         },
         "src/toml/commands.ts": {
-          "bytesInOutput": 1802
+          "bytesInOutput": 987
         },
         "src/ui/decorator.ts": {
-          "bytesInOutput": 1747
+          "bytesInOutput": 857
         },
         "src/ui/decoration.ts": {
-          "bytesInOutput": 3422
+          "bytesInOutput": 1570
         },
         "src/semver/semverUtils.ts": {
-          "bytesInOutput": 337
+          "bytesInOutput": 156
         },
         "src/api/crates-index-server.ts": {
-          "bytesInOutput": 1284
+          "bytesInOutput": 659
         },
         "src/semver/compareVersions.ts": {
-          "bytesInOutput": 2498
+          "bytesInOutput": 1506
         },
         "src/core/fetcher.ts": {
-          "bytesInOutput": 2230
+          "bytesInOutput": 936
         },
         "src/providers/autoCompletion.ts": {
-          "bytesInOutput": 2149
+          "bytesInOutput": 932
         }
       },
-      "bytes": 131172
+      "bytes": 55021
     }
   }
 }

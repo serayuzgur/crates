@@ -59,6 +59,6 @@ If you find Crates valuable and want to support its development, please consider
 
 ---
 
-[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=3c1a47ab4694&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+[<img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.png" width="201px"/>](https://www.digitalocean.com/?refcode=3c1a47ab4694&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 Help us simplify Rust dependency management with Crates, and let's make coding in Rust even more enjoyable! Together, we can achieve great things.
