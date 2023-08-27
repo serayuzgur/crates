@@ -6,7 +6,7 @@
       "format": "esm"
     },
     "src/toml/parser.ts": {
-      "bytes": 10198,
+      "bytes": 10420,
       "imports": [
         {
           "path": "vscode",
@@ -1413,7 +1413,7 @@
           "bytesInOutput": 190
         },
         "src/toml/parser.ts": {
-          "bytesInOutput": 3367
+          "bytesInOutput": 3450
         },
         "src/ui/status-bar.ts": {
           "bytesInOutput": 597
@@ -1443,7 +1443,7 @@
           "bytesInOutput": 932
         }
       },
-      "bytes": 55021
+      "bytes": 55104
     }
   }
 }
