@@ -2,24 +2,32 @@ import Item from "./Item";
 import Dependency from "./Dependency";
 import { StatusBar } from "../ui/status-bar";
 import {
-  versions as ciVersions
+  sparseIndexServerURL,
+  versions as sparseVersions
+} from "../api/sparse-index-server";
+import {
+  versions as cratesVersions
 } from "../api/crates-index-server";
 import compareVersions from "../semver/compareVersions";
 import { CompletionItem, CompletionItemKind, CompletionList, workspace, window } from "vscode";
 import { sortText } from "../providers/autoCompletion";
+import { CrateMetadatas } from "../api/crateMetadatas";
 
 export function fetchCrateVersions(dependencies: Item[]): [Promise<Dependency[]>, Map<string, Dependency[]>] {
-  StatusBar.setText("Loading", "👀 Fetching crates.io");
-
   // load config
   const config = workspace.getConfiguration("");
   const shouldListPreRels = !!config.get("crates.listPreReleases");
-  const indexServerURL = config.get<string>("crates.indexServerURL");
-  let versions = ciVersions;
-  let transformer = transformServerResponse(versions, shouldListPreRels);
-  if (!indexServerURL) {
-    window.setStatusBarMessage("Crates index server URL is not configured. Looking local index", 2000);
+  const indexServerURL = config.get<string>("crates.indexServerURL") ?? sparseIndexServerURL;
+
+  StatusBar.setText("Loading", "👀 Fetching " + indexServerURL.replace(/^https?:\/\//, ''));
+
+  let versions;
+  if (indexServerURL.startsWith(sparseIndexServerURL)) {
+    versions = sparseVersions;
+  } else {
+    versions = cratesVersions;
   }
+  let transformer = transformServerResponse(versions, shouldListPreRels);
   let responsesMap: Map<string, Dependency[]> = new Map();
 
   const responses = dependencies.map(transformer);
@@ -28,7 +36,7 @@ export function fetchCrateVersions(dependencies: Item[]): [Promise<Dependency[]>
 }
 
 
-function transformServerResponse(versions: (name: string) => Promise<unknown>, shouldListPreRels: boolean): (i: Item) => Promise<Dependency> {
+function transformServerResponse(versions: (name: string) => Promise<CrateMetadatas>, shouldListPreRels: boolean): (i: Item) => Promise<Dependency> {
   return function (item: Item): Promise<Dependency> {
     return versions(item.key).then((crate: any) => {
       const versions = crate.versions.reduce((result: any[], item: string) => {

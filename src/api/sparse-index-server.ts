@@ -5,9 +5,10 @@ import { CrateMetadatas } from './crateMetadatas';
 import NodeCache from "node-cache";
 const cache = new NodeCache({ stdTTL: 60 * 10 });
 
+export const sparseIndexServerURL = "https://index.crates.io";
 export const versions = (name: string) => {
   const config = workspace.getConfiguration("");
-  const indexServerURL = config.get<string>("crates.indexServerURL") ?? "";
+  const indexServerURL = config.get<string>("crates.indexServerURL") ?? sparseIndexServerURL;
 
   // clean dirty names
   name = name.replace(/"/g, "");
@@ -18,7 +19,17 @@ export const versions = (name: string) => {
       resolve(cached);
       return;
     }
-    var req = https.get(`${indexServerURL}/index/versions/${name}`, function (res) {
+    // compute sparse index prefix
+    var prefix;
+    var lower_name = name.toLowerCase();
+    if (lower_name.length <= 2) {
+      prefix = lower_name.length;
+    } else if (lower_name.length == 3) {
+      prefix = "3/" + lower_name.substring(0, 1);
+    } else {
+      prefix = lower_name.substring(0, 2) + "/" + lower_name.substring(2, 4);
+    }
+    var req = https.get(`${indexServerURL}/${prefix}/${lower_name}`, function (res) {
       // reject on bad status
       if (!res.statusCode) {
         reject(new Error('statusCode=' + res.statusCode));
@@ -36,7 +47,16 @@ export const versions = (name: string) => {
       // resolve on end
       res.on('end', function () {
         try {
-          crate_metadatas = JSON.parse(Buffer.concat(body).toString());
+          var body_lines = Buffer.concat(body).toString().split('\n').filter(n => n);
+          var body_array: any = [];
+          for (var line of body_lines) {
+            body_array.push(JSON.parse(line));
+          }
+          crate_metadatas = {
+            name: name,
+            versions: body_array.map((e: any) => e.vers),
+            features: Object.keys(body_array.at(-1).features).filter(feature => feature !== "default")
+          };
           cache.set(name, crate_metadatas);
         } catch (e) {
           reject(e);
