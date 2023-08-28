@@ -173,8 +173,12 @@ function parseValues(data: string, parent: Item, index: number): number {
   let isParsingKey = true;
   while (i++ < data.length) {
     const ch = data.charAt(i);
+    const ch_git_range = data.substring(i, i + 7);
     if (isWhiteSpace(ch) || isNewLine(ch) || isComma(ch)) {
       continue;
+    } else if (ch_git_range === "<<<<<<<" || ch_git_range === ">>>>>>>" || ch_git_range === "=======") {
+      // skip git conflict lines
+      i = parseComment(data, i);
     } else if (isComment(ch)) {
       i = parseComment(data, i);
     } else if (isParsingKey) {
