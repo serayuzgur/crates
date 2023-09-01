@@ -1,14 +1,10 @@
 import * as https from 'https';
-import { workspace } from "vscode";
 import { CrateMetadatas } from './crateMetadatas';
-
 import NodeCache from "node-cache";
+
 const cache = new NodeCache({ stdTTL: 60 * 10 });
 
-export const versions = (name: string) => {
-  const config = workspace.getConfiguration("");
-  const indexServerURL = config.get<string>("crates.indexServerURL") ?? "";
-
+export const versions = (name: string, indexServerURL: string) => {
   // clean dirty names
   name = name.replace(/"/g, "");
 

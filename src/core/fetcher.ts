@@ -2,6 +2,7 @@ import Item from "./Item";
 import Dependency from "./Dependency";
 import { StatusBar } from "../ui/status-bar";
 import {
+  isSparseCompatible,
   sparseIndexServerURL,
   versions as sparseVersions
 } from "../api/sparse-index-server";
@@ -13,32 +14,39 @@ import { CompletionItem, CompletionItemKind, CompletionList, workspace, window }
 import { sortText } from "../providers/autoCompletion";
 import { CrateMetadatas } from "../api/crateMetadatas";
 
-export function fetchCrateVersions(dependencies: Item[]): [Promise<Dependency[]>, Map<string, Dependency[]>] {
+export async function fetchCrateVersions(dependencies: Item[]): Promise<[Promise<Dependency[]>, Map<string, Dependency[]>]> {
   // load config
   const config = workspace.getConfiguration("");
   const shouldListPreRels = !!config.get("crates.listPreReleases");
-  const indexServerURL = config.get<string>("crates.indexServerURL") ?? sparseIndexServerURL;
+  var indexServerURL = config.get<string>("crates.indexServerURL") ?? sparseIndexServerURL;
+
+  var versions;
+  try {
+    if (await isSparseCompatible(indexServerURL)) {
+      console.log("Using sparse compatible index " + indexServerURL);
+      versions = sparseVersions;
+    } else {
+      console.log("Using cis index " + indexServerURL);
+      versions = cratesVersions;
+    }
+  } catch (e) {
+    console.error(`Could not check index compatibility for url "${indexServerURL}" (using sparse instead) : ${e}`);
+    indexServerURL = sparseIndexServerURL;
+    versions = sparseVersions;
+  }
 
   StatusBar.setText("Loading", "👀 Fetching " + indexServerURL.replace(/^https?:\/\//, ''));
 
-  let versions;
-  if (indexServerURL.startsWith(sparseIndexServerURL)) {
-    versions = sparseVersions;
-  } else {
-    versions = cratesVersions;
-  }
-  let transformer = transformServerResponse(versions, shouldListPreRels);
+  let transformer = transformServerResponse(versions, shouldListPreRels, indexServerURL);
   let responsesMap: Map<string, Dependency[]> = new Map();
-
   const responses = dependencies.map(transformer);
-
   return [Promise.all(responses), responsesMap];
 }
 
 
-function transformServerResponse(versions: (name: string) => Promise<CrateMetadatas>, shouldListPreRels: boolean): (i: Item) => Promise<Dependency> {
+function transformServerResponse(versions: (name: string, indexServerURL: string) => Promise<CrateMetadatas>, shouldListPreRels: boolean, indexServerURL: string): (i: Item) => Promise<Dependency> {
   return function (item: Item): Promise<Dependency> {
-    return versions(item.key).then((crate: any) => {
+    return versions(item.key, indexServerURL).then((crate: any) => {
       const versions = crate.versions.reduce((result: any[], item: string) => {
         const isPreRelease = !shouldListPreRels && item.indexOf("-") !== -1;
         if (!isPreRelease)

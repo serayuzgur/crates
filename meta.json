@@ -1026,15 +1026,10 @@
       "format": "cjs"
     },
     "src/api/sparse-index-server.ts": {
-      "bytes": 2451,
+      "bytes": 3047,
       "imports": [
         {
           "path": "https",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "vscode",
           "kind": "import-statement",
           "external": true
         },
@@ -1052,15 +1047,10 @@
       "format": "esm"
     },
     "src/api/crates-index-server.ts": {
-      "bytes": 1643,
+      "bytes": 1505,
       "imports": [
         {
           "path": "https",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "vscode",
           "kind": "import-statement",
           "external": true
         },
@@ -1109,7 +1099,7 @@
       "format": "esm"
     },
     "src/core/fetcher.ts": {
-      "bytes": 3029,
+      "bytes": 3490,
       "imports": [
         {
           "path": "./Item",
@@ -1160,7 +1150,7 @@
       "format": "esm"
     },
     "src/core/listener.ts": {
-      "bytes": 2623,
+      "bytes": 2629,
       "imports": [
         {
           "path": "vscode",
@@ -1276,17 +1266,7 @@
           "external": true
         },
         {
-          "path": "vscode",
-          "kind": "require-call",
-          "external": true
-        },
-        {
           "path": "https",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "vscode",
           "kind": "require-call",
           "external": true
         },
@@ -1458,7 +1438,7 @@
           "bytesInOutput": 590
         },
         "src/core/listener.ts": {
-          "bytesInOutput": 849
+          "bytesInOutput": 855
         },
         "src/core/Item.ts": {
           "bytesInOutput": 190
@@ -1482,22 +1462,22 @@
           "bytesInOutput": 156
         },
         "src/api/sparse-index-server.ts": {
-          "bytesInOutput": 963
+          "bytesInOutput": 1164
         },
         "src/api/crates-index-server.ts": {
-          "bytesInOutput": 661
+          "bytesInOutput": 564
         },
         "src/semver/compareVersions.ts": {
           "bytesInOutput": 1506
         },
         "src/core/fetcher.ts": {
-          "bytesInOutput": 890
+          "bytesInOutput": 1104
         },
         "src/providers/autoCompletion.ts": {
           "bytesInOutput": 932
         }
       },
-      "bytes": 56023
+      "bytes": 56347
     }
   }
 }

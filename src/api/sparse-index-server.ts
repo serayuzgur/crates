@@ -1,15 +1,11 @@
 import * as https from 'https';
-import { workspace } from "vscode";
 import { CrateMetadatas } from './crateMetadatas';
-
 import NodeCache from "node-cache";
-const cache = new NodeCache({ stdTTL: 60 * 10 });
 
 export const sparseIndexServerURL = "https://index.crates.io";
-export const versions = (name: string) => {
-  const config = workspace.getConfiguration("");
-  const indexServerURL = config.get<string>("crates.indexServerURL") ?? sparseIndexServerURL;
+const cache = new NodeCache({ stdTTL: 60 * 10 });
 
+export const versions = (name: string, indexServerURL: string) => {
   // clean dirty names
   name = name.replace(/"/g, "");
 
@@ -73,3 +69,28 @@ export const versions = (name: string) => {
     req.end();
   });
 };
+
+// Check if `config.json` exists at root of `indexServerURL`
+export async function isSparseCompatible(indexServerURL: string): Promise<boolean> {
+  return new Promise<boolean>(function (resolve, reject) {
+    const cached = cache.get<boolean>(indexServerURL);
+    if (cached) {
+      resolve(cached);
+      return;
+    }
+
+    var req = https.get(`${indexServerURL}/config.json`, (res) => {
+      if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300 && res.headers['content-type'] === "application/json") {
+        cache.set(indexServerURL, true);
+        resolve(true);
+      } else {
+        cache.set(indexServerURL, false);
+        resolve(false);
+      }
+    }).on('error', (e) => {
+      reject(e);
+    });
+
+    req.end();
+  });
+}
