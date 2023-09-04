@@ -39,6 +39,8 @@ Using Crates is incredibly simple. Just install the extension from the [Visual S
 
 While Crates works out-of-the-box without any configuration, we also offer a few customizable options:
 
+### settings.json
+
 - `crates.listPreReleases`: Enable this option to list pre-release versions in hover and decorations. By default, it is set to false.
 
 - `crates.indexServerURL`: Specify a custom URL for the crates.io index server. The default value connects to the official index.
@@ -48,6 +50,10 @@ While Crates works out-of-the-box without any configuration, we also offer a few
 - `crates.compatibleDecorator`: Define the text template to show when a dependency is semver compatible. `${version}` will be replaced by the latest version info. The default is `✅`.
 
 - `crates.incompatibleDecorator`: Set the text template to show when a dependency is not semver compatible. `${version}` will be replaced by the latest version info. The default is `❌ ${version}`.
+
+### Cargo.toml
+
+- `# crates: disable-check`: Disable version check for this specific dependency.
 
 ## Known Issues
 
