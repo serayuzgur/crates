@@ -1,18 +1,15 @@
 import * as https from 'https';
-import { workspace } from "vscode";
-
+import { CrateMetadatas } from './crateMetadatas';
 import NodeCache from "node-cache";
+
 const cache = new NodeCache({ stdTTL: 60 * 10 });
 
-export const versions = (name: string) => {
-  const config = workspace.getConfiguration("");
-  const indexServerURL = config.get<string>("crates.indexServerURL") ?? "";
-
+export const versions = (name: string, indexServerURL: string) => {
   // clean dirty names
   name = name.replace(/"/g, "");
 
-  return new Promise(function (resolve, reject) {
-    const cached = cache.get(name);
+  return new Promise<CrateMetadatas>(function (resolve, reject) {
+    const cached = cache.get<CrateMetadatas>(name);
     if (cached) {
       resolve(cached);
       return;
@@ -27,6 +24,7 @@ export const versions = (name: string) => {
         return reject(new Error('statusCode=' + res.statusCode));
       }
       // cumulate data
+      var crate_metadatas: CrateMetadatas;
       var body: any = [];
       res.on('data', function (chunk) {
         body.push(chunk);
@@ -34,12 +32,12 @@ export const versions = (name: string) => {
       // resolve on end
       res.on('end', function () {
         try {
-          body = JSON.parse(Buffer.concat(body).toString());
-          cache.set(name, body);
+          crate_metadatas = JSON.parse(Buffer.concat(body).toString());
+          cache.set(name, crate_metadatas);
         } catch (e) {
           reject(e);
         }
-        resolve(body);
+        resolve(crate_metadatas);
       });
     });
     // reject on request error

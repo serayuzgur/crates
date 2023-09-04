@@ -53,7 +53,7 @@ export async function parseAndDecorate(
     StatusBar.setText("Loading", "Parsing Cargo.toml");
     dependencies = parseToml(text);
     if (fetchDeps || !fetchedDeps || !fetchedDepsMap) {
-      const data = fetchCrateVersions(dependencies);
+      const data = await fetchCrateVersions(dependencies);
       fetchedDeps = await data[0];
       fetchedDepsMap = data[1];
     }

@@ -29,6 +29,7 @@ emoji-clock = { version= "0.1.0", path = "../lib"}
 pin-utils = "0.1.0"
 inkwell="0.1.0-llvm8sample"
 crossbeam-utils="0.8.5"
+Inflector = "0.11.4"
 
 [dependencies.clap]
 version = "3.0.0-beta.2"

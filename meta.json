@@ -1025,8 +1025,8 @@
       ],
       "format": "cjs"
     },
-    "src/api/crates-index-server.ts": {
-      "bytes": 1484,
+    "src/api/sparse-index-server.ts": {
+      "bytes": 3047,
       "imports": [
         {
           "path": "https",
@@ -1034,7 +1034,28 @@
           "external": true
         },
         {
-          "path": "vscode",
+          "path": "./crateMetadatas",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/node-cache/index.js",
+          "kind": "import-statement",
+          "original": "node-cache"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/api/crates-index-server.ts": {
+      "bytes": 1505,
+      "imports": [
+        {
+          "path": "https",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "./crateMetadatas",
           "kind": "import-statement",
           "external": true
         },
@@ -1078,7 +1099,7 @@
       "format": "esm"
     },
     "src/core/fetcher.ts": {
-      "bytes": 2814,
+      "bytes": 3490,
       "imports": [
         {
           "path": "./Item",
@@ -1094,6 +1115,11 @@
           "path": "src/ui/status-bar.ts",
           "kind": "import-statement",
           "original": "../ui/status-bar"
+        },
+        {
+          "path": "src/api/sparse-index-server.ts",
+          "kind": "import-statement",
+          "original": "../api/sparse-index-server"
         },
         {
           "path": "src/api/crates-index-server.ts",
@@ -1114,12 +1140,17 @@
           "path": "src/providers/autoCompletion.ts",
           "kind": "import-statement",
           "original": "../providers/autoCompletion"
+        },
+        {
+          "path": "../api/crateMetadatas",
+          "kind": "import-statement",
+          "external": true
         }
       ],
       "format": "esm"
     },
     "src/core/listener.ts": {
-      "bytes": 2623,
+      "bytes": 2629,
       "imports": [
         {
           "path": "vscode",
@@ -1235,7 +1266,7 @@
           "external": true
         },
         {
-          "path": "vscode",
+          "path": "https",
           "kind": "require-call",
           "external": true
         },
@@ -1407,7 +1438,7 @@
           "bytesInOutput": 590
         },
         "src/core/listener.ts": {
-          "bytesInOutput": 849
+          "bytesInOutput": 855
         },
         "src/core/Item.ts": {
           "bytesInOutput": 190
@@ -1430,20 +1461,23 @@
         "src/semver/semverUtils.ts": {
           "bytesInOutput": 156
         },
+        "src/api/sparse-index-server.ts": {
+          "bytesInOutput": 1164
+        },
         "src/api/crates-index-server.ts": {
-          "bytesInOutput": 659
+          "bytesInOutput": 564
         },
         "src/semver/compareVersions.ts": {
           "bytesInOutput": 1506
         },
         "src/core/fetcher.ts": {
-          "bytesInOutput": 936
+          "bytesInOutput": 1104
         },
         "src/providers/autoCompletion.ts": {
           "bytesInOutput": 932
         }
       },
-      "bytes": 55104
+      "bytes": 56347
     }
   }
 }
