@@ -143,7 +143,7 @@ function parseTables(data: string, parent: Item): Item {
     if (isWhiteSpace(ch) || isNewLine(ch)) {
       continue;
     } else if (isComment(ch)) {
-      i = parseComment(data, i);
+      i = skipLineData(data, i);
     } else if (ch === "[") {
       item = new Item();
       item.start = i;
@@ -169,18 +169,21 @@ function parseTables(data: string, parent: Item): Item {
 function parseValues(data: string, parent: Item, index: number): number {
   let i = index;
   let item = new Item();
+  let last_ch = "";
 
   let isParsingKey = true;
   while (i++ < data.length) {
     const ch = data.charAt(i);
-    const ch_git_range = data.substring(i, i + 7);
+    let current_line = "";
+    if (isNewLine(last_ch)) {
+      current_line = getLine(data, i);
+    }
+    last_ch = ch;
+
     if (isWhiteSpace(ch) || isNewLine(ch) || isComma(ch)) {
       continue;
-    } else if (ch_git_range === "<<<<<<<" || ch_git_range === ">>>>>>>" || ch_git_range === "=======") {
-      // skip git conflict lines
-      i = parseComment(data, i);
-    } else if (isComment(ch)) {
-      i = parseComment(data, i);
+    } else if (isComment(ch) || isGitConflictLine(current_line) || isDisabledLine(current_line)) {
+      i = skipLineData(data, i);
     } else if (isParsingKey) {
       if (ch === "[") {
         return --i;
@@ -245,7 +248,7 @@ function parseArray(data: string, parent: Item, index: number): number {
     if (isWhiteSpace(ch) || isNewLine(ch) || isComma(ch)) {
       continue;
     } else if (isComment(ch)) {
-      i = parseComment(data, i);
+      i = skipLineData(data, i);
     } else if (ch === '"' || ch === "'") {
       i = parseString(data, item, i, ch);
       item = initNewItem(item, parent, i);
@@ -293,11 +296,11 @@ function parseString(data: string, item: Item, index: number, opener: string): n
 }
 
 /**
- * Parse comment
+ * Skip data until '\n'
  * @param data
  * @param index
  */
-function parseComment(data: string, index: number): number {
+function skipLineData(data: string, index: number): number {
   let i = index;
   while (i++ < data.length) {
     const ch = data.charAt(i);
@@ -306,6 +309,25 @@ function parseComment(data: string, index: number): number {
     }
   }
   return i;
+}
+
+/**
+ * Get current line data
+ * @param data
+ * @param index
+ */
+function getLine(data: string, index: number): string {
+  let i = index;
+  let line: string = "";
+  while (i < data.length) {
+    const ch = data.charAt(i);
+    if (isNewLine(ch)) {
+      return line;
+    }
+    line += ch;
+    i++;
+  }
+  return line;
 }
 
 /**
@@ -428,10 +450,19 @@ function isComment(ch: string) {
 function isBoolean(data: string, i: number) {
   return data.substring(i, i + 4) === "true" || data.substring(i, i + 5) === "false";
 }
+
 function isNumber(data: string, i: number) {
   const ch = data.charAt(i);
   if (ch === "+" || ch === "-") {
     return true;
   }
   return parseInt(data.charAt(i), 10);
+}
+
+function isGitConflictLine(line: string) {
+  return line.startsWith("<<<<<<<") || line.startsWith(">>>>>>>") || line.startsWith("=======");
+}
+
+function isDisabledLine(line: string) {
+  return line.replace(/\s/g, '').endsWith("#crates:disable-check");
 }

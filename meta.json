@@ -6,7 +6,7 @@
       "format": "esm"
     },
     "src/toml/parser.ts": {
-      "bytes": 10420,
+      "bytes": 10986,
       "imports": [
         {
           "path": "vscode",
@@ -1378,7 +1378,7 @@
           "bytesInOutput": 4648
         },
         "node_modules/lru-cache/index.js": {
-          "bytesInOutput": 3541
+          "bytesInOutput": 3549
         },
         "node_modules/semver/classes/range.js": {
           "bytesInOutput": 5028
@@ -1444,7 +1444,7 @@
           "bytesInOutput": 190
         },
         "src/toml/parser.ts": {
-          "bytesInOutput": 3450
+          "bytesInOutput": 3680
         },
         "src/ui/status-bar.ts": {
           "bytesInOutput": 597
@@ -1477,7 +1477,7 @@
           "bytesInOutput": 932
         }
       },
-      "bytes": 56347
+      "bytes": 56585
     }
   }
 }
