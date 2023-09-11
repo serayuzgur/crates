@@ -2,6 +2,11 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.6.2
+
+- sparse index support with custom url support added. [BarbossHack](https://github.com/BarbossHack)
+- ignore line support for spesific dependencies. [BarbossHack](https://github.com/BarbossHack)
+
 ## 0.6.0
 
 - github support removed.
