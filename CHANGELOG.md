@@ -2,6 +2,12 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.6.3
+
+- sparse index yanked fixed. [BarbossHack](https://github.com/BarbossHack)
+- better prerelease check. [BarbossHack](https://github.com/BarbossHack)
+
+
 ## 0.6.2
 
 - sparse index support with custom url support added. [BarbossHack](https://github.com/BarbossHack)
