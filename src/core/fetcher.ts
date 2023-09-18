@@ -48,7 +48,7 @@ function transformServerResponse(versions: (name: string, indexServerURL: string
   return function (item: Item): Promise<Dependency> {
     return versions(item.key, indexServerURL).then((crate: any) => {
       const versions = crate.versions.reduce((result: any[], item: string) => {
-        const isPreRelease = !shouldListPreRels && item.indexOf("-") !== -1;
+        const isPreRelease = !shouldListPreRels && (item.indexOf("-alpha") !== -1 || item.indexOf("-beta") !== -1 || item.indexOf("-rc") !== -1 || item.indexOf("-pre") !== -1);
         if (!isPreRelease)
           result.push(item);
         return result;

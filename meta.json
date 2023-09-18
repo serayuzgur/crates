@@ -1099,7 +1099,7 @@
       "format": "esm"
     },
     "src/core/fetcher.ts": {
-      "bytes": 3490,
+      "bytes": 3590,
       "imports": [
         {
           "path": "./Item",
@@ -1471,7 +1471,7 @@
           "bytesInOutput": 1506
         },
         "src/core/fetcher.ts": {
-          "bytesInOutput": 1104
+          "bytesInOutput": 1183
         },
         "src/providers/autoCompletion.ts": {
           "bytesInOutput": 932
