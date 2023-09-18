@@ -1026,7 +1026,7 @@
       "format": "cjs"
     },
     "src/api/sparse-index-server.ts": {
-      "bytes": 3047,
+      "bytes": 3086,
       "imports": [
         {
           "path": "https",
@@ -1462,7 +1462,7 @@
           "bytesInOutput": 156
         },
         "src/api/sparse-index-server.ts": {
-          "bytesInOutput": 1164
+          "bytesInOutput": 1189
         },
         "src/api/crates-index-server.ts": {
           "bytesInOutput": 564
@@ -1477,7 +1477,7 @@
           "bytesInOutput": 932
         }
       },
-      "bytes": 56664
+      "bytes": 56610
     }
   }
 }
