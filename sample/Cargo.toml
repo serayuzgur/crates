@@ -31,6 +31,7 @@ inkwell="0.1.0-llvm8sample"
 crossbeam-utils="0.8.5"
 Inflector = "0.11.4"
 block-modes = "0.8.1" # crates: disable-check
+tracing = "=0.1.37"
 
 [dependencies.clap]
 version = "3.0.0-beta.2"

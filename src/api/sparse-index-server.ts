@@ -50,7 +50,7 @@ export const versions = (name: string, indexServerURL: string) => {
           }
           crate_metadatas = {
             name: name,
-            versions: body_array.map((e: any) => e.vers),
+            versions: body_array.filter((e: any) => e.yanked === false).map((e: any) => e.vers),
             features: Object.keys(body_array.at(-1).features).filter(feature => feature !== "default")
           };
           cache.set(name, crate_metadatas);
