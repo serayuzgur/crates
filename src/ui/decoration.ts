@@ -65,6 +65,7 @@ export default function decoration(
     // errorDecorator.replace("${version}", versions[0]);
     contentText = errorDecorator;
   } else {
+    hoverMessage.appendMarkdown(`[View Crate](https://crates.io/crates/${item.key.replace(/"/g, "")})`);
     hoverMessage.appendMarkdown("#### Versions");
     hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
     hoverMessage.isTrusted = true;
