@@ -2,6 +2,10 @@
 
 All notable changes to the "crates" extension will be documented in this file.
 
+## 0.6.4
+
+- Added color options for decoration options
+
 ## 0.6.3
 
 - sparse index yanked fixed. [BarbossHack](https://github.com/BarbossHack)

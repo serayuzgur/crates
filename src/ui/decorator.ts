@@ -1,10 +1,10 @@
-import { TextEditor, TextEditorDecorationType, workspace, DecorationOptions } from "vscode";
+import { TextEditor, TextEditorDecorationType, workspace, DecorationOptions, DecorationInstanceRenderOptions } from "vscode";
 import { StatusBar } from "./status-bar";
 import Dependency from "../core/Dependency";
+import DecorationPreferences from "../core/DecorationText";
 import decoration, { latestVersion } from "./decoration";
 
 export let decorationHandle: TextEditorDecorationType;
-
 
 /**
  *
@@ -29,13 +29,11 @@ export default function decorate(editor: TextEditor, dependencies: Array<Depende
   for (let i = filtered.length - 1; i > -1; i--) {
     const dependency: Dependency = filtered[i];
     try {
-      const decor = decoration(
+      let decor = decoration(
         editor,
         dependency.item,
         dependency.versions || [],
-        pref.compatibleDecorator,
-        pref.incompatibleDecorator,
-        pref.errorDecorator,
+        pref,
         dependency.error,
       );
       if (decor) {
@@ -63,14 +61,30 @@ ${errors.join('\n')}`);
 
 function loadPref() {
   const config = workspace.getConfiguration("");
-  const compatibleDecorator = config.get<string>("crates.compatibleDecorator") ?? "";
-  const incompatibleDecorator = config.get<string>("crates.incompatibleDecorator") ?? "";
+  const compatibleDecoratorText = config.get<string>("crates.compatibleDecorator") ?? "";
+  let compatibleDecoratorCss = config.get<DecorationInstanceRenderOptions>("crates.compatibleDecoratorCss") ?? {};
   const errorText = config.get<string>("crates.errorDecorator");
-  const errorDecorator = errorText ? errorText + "" : "";
+  let errorDecoratorCss = config.get<DecorationInstanceRenderOptions>("crates.errorDecoratorCss") ?? {};
+  const incompatibleDecoratorText = config.get<string>("crates.incompatibleDecorator") ?? "";
+  let incompatibleDecoratorCss = config.get<DecorationInstanceRenderOptions>("crates.incompatibleDecoratorCss") ?? {};
+  const errorDecoratorText = errorText ? errorText + "" : "";
+  if(compatibleDecoratorCss.after == undefined) {
+    compatibleDecoratorCss.after = {}
+  }
+  if(incompatibleDecoratorCss.after == undefined) {
+    incompatibleDecoratorCss.after = {}
+  }
+  if(errorDecoratorCss.after == undefined) {
+    errorDecoratorCss.after = {}
+  }
+  compatibleDecoratorCss.after.contentText = compatibleDecoratorText;
+  incompatibleDecoratorCss.after.contentText = incompatibleDecoratorText;
+  errorDecoratorCss.after.contentText = errorDecoratorText;
+
   return {
-    compatibleDecorator,
-    incompatibleDecorator,
-    errorDecorator,
+    compatibleDecoratorCss: compatibleDecoratorCss,
+    incompatibleDecoratorCss: incompatibleDecoratorCss,
+    errorDecoratorCss: errorDecoratorCss
   };
 }
 
