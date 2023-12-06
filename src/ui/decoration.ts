@@ -7,12 +7,14 @@ import {
   Range,
   TextEditor,
   MarkdownString,
+  DecorationInstanceRenderOptions
 } from "vscode";
 
 import { checkVersion } from "../semver/semverUtils";
 import Item from "../core/Item";
 import { status, ReplaceItem } from "../toml/commands";
 import { validRange } from "semver";
+import DecorationPreferences from "../core/DecorationText";
 
 export const latestVersion = (text: string) =>
   window.createTextEditorDecorationType({
@@ -32,9 +34,7 @@ export default function decoration(
   editor: TextEditor,
   item: Item,
   versions: string[],
-  compatibleDecorator: string,
-  incompatibleDecorator: string,
-  errorDecorator: string,
+  decorationPreferences: DecorationPreferences,
   error?: string,
 ): DecorationOptions {
   // Also handle json valued dependencies
@@ -59,11 +59,11 @@ export default function decoration(
     return markdown;
   };
   let hoverMessage = new MarkdownString();
-  let contentText = "";
+  let contentCss = {} as DecorationInstanceRenderOptions;
   if (error) {
     hoverMessage = formatError(error);
     // errorDecorator.replace("${version}", versions[0]);
-    contentText = errorDecorator;
+    contentCss = decorationPreferences.errorDecoratorCss;
   } else {
     hoverMessage.appendMarkdown(`[View Crate](https://crates.io/crates/${item.key.replace(/"/g, "")})`);
     hoverMessage.appendMarkdown("#### Versions");
@@ -112,16 +112,21 @@ export default function decoration(
       editor.document.save();
     }
 
-    let latestText = compatibleDecorator.replace("${version}", versions[0]);
-    if (!validRange(version))
-      latestText = errorDecorator.replace("${version}", versions[0]);
-    else if (versions[0] !== maxSatisfying)
+    let latestCss = decorationPreferences.compatibleDecoratorCss;
+  
+    if (!validRange(version)) {
+      latestCss = decorationPreferences.errorDecoratorCss;
+    }
+    else if (versions[0] !== maxSatisfying) {
       if (satisfies) {
-        latestText = compatibleDecorator.replace("${version}", versions[0]);
+        latestCss = decorationPreferences.compatibleDecoratorCss;
       } else {
-        latestText = incompatibleDecorator.replace("${version}", versions[0]);
+        latestCss = decorationPreferences.incompatibleDecoratorCss;
       }
-    contentText = latestText;
+      latestCss.after!.contentText = latestCss.after!.contentText!.replace("${version}", versions[0])
+    }
+
+    contentCss = latestCss;
   }
 
   const deco = {
@@ -130,12 +135,10 @@ export default function decoration(
       endofline,
     ),
     hoverMessage,
-    renderOptions: {
-      after: {},
-    },
+    renderOptions: contentCss,
   };
-  if (version != "?" && contentText.length > 0) {
-    deco.renderOptions.after = { contentText };
-  }
+  // if (version != "?" && contentText.length > 0) {
+  //   deco.renderOptions.after = { contentText };
+  // }
   return deco;
 }

@@ -76,17 +76,123 @@
           "default": "❗️❗️❗️",
           "description": "The text to show when a dependency has errors."
         },
+        "crates.errorDecoratorCss": {
+          "type": "object",
+          "default": null,
+          "properties": {
+            "after": {
+              "type": "object",
+              "default": null,
+              "scope": "resource",
+              "description": "Text styling",
+              "properties": {
+                "color": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": "#ffffffff",
+                  "format": "color",
+                  "description": "css color"
+                },
+                "border": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": "2px ",
+                  "description": "css border"
+                },
+                "backgroundColor": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": "#00000000",
+                  "format": "color",
+                  "description": "css background-color"
+                }
+              }
+            },
+            "description": "Text that appears at the end of the line"
+          },
+          "description": "CSS to be applied to a line when there is a dependency error"
+        },
         "crates.incompatibleDecorator": {
           "type": "string",
           "scope": "resource",
           "default": "❌ ${version}",
           "description": "The text template to show when a dependency is not semver compatible. ${version} will be replaced by the latest version info."
         },
+        "crates.incompatibleDecoratorCss": {
+          "type": "object",
+          "default": null,
+          "properties": {
+            "after": {
+              "type": "object",
+              "default": null,
+              "scope": "resource",
+              "description": "Text styling",
+              "properties": {
+                "color": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": "#ffffffff",
+                  "format": "color",
+                  "description": "css color"
+                },
+                "border": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": "",
+                  "description": "css border"
+                },
+                "backgroundColor": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": "#00000000",
+                  "format": "color",
+                  "description": "css background-color"
+                }
+              }
+            }
+          },
+          "description": "CSS to be applied to an incompatible line"
+        },
         "crates.compatibleDecorator": {
           "type": "string",
           "scope": "resource",
           "default": "✅",
           "description": "The text template to show when a dependency is semver compatible. ${version} will be replaced by the latest version info."
+        },
+        "crates.compatibleDecoratorCss": {
+          "type": "object",
+          "default": null,
+          "properties": {
+            "after": {
+              "type": "object",
+              "default": null,
+              "scope": "resource",
+              "description": "Text styling",
+              "properties": {
+                "color": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": "#ffffffff",
+                  "format": "color",
+                  "description": "css color"
+                },
+                "border": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": null,
+                  "description": "css border"
+                },
+                "backgroundColor": {
+                  "type": "string",
+                  "scope": "resource",
+                  "default": "#00000000",
+                  "format": "color",
+                  "description": "css background-color"
+                }
+              }
+            }
+          },
+          "description": "CSS to be applied to a compatible line"
         }
       }
     }
@@ -99,6 +205,7 @@
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test-compile": "tsc -p ./"
   },
+  "types": "vscode",
   "devDependencies": {
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
