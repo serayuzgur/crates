@@ -937,7 +937,7 @@
       "format": "esm"
     },
     "src/ui/decoration.ts": {
-      "bytes": 4516,
+      "bytes": 4481,
       "imports": [
         {
           "path": "vscode",
@@ -1237,7 +1237,7 @@
       "imports": [],
       "exports": [],
       "inputs": {},
-      "bytes": 251756
+      "bytes": 251698
     },
     "out/main.js": {
       "imports": [
@@ -1472,7 +1472,7 @@
           "bytesInOutput": 2392
         },
         "src/ui/decoration.ts": {
-          "bytesInOutput": 3461
+          "bytesInOutput": 3427
         },
         "src/semver/semverUtils.ts": {
           "bytesInOutput": 337
@@ -1493,7 +1493,7 @@
           "bytesInOutput": 2149
         }
       },
-      "bytes": 135396
+      "bytes": 135362
     }
   }
 }

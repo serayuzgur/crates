@@ -65,9 +65,8 @@ export default function decoration(
     // errorDecorator.replace("${version}", versions[0]);
     contentCss = decorationPreferences.errorDecoratorCss;
   } else {
-    hoverMessage.appendMarkdown(`[View Crate](https://crates.io/crates/${item.key.replace(/"/g, "")})`);
     hoverMessage.appendMarkdown("#### Versions");
-    hoverMessage.appendMarkdown(` _( [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
+    hoverMessage.appendMarkdown(` _( [View Crate](https://crates.io/crates/${item.key.replace(/"/g, "")}) | [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
     hoverMessage.isTrusted = true;
 
     if (versions.length > 0) {
@@ -113,7 +112,7 @@ export default function decoration(
     }
 
     let latestCss = decorationPreferences.compatibleDecoratorCss;
-  
+
     if (!validRange(version)) {
       latestCss = decorationPreferences.errorDecoratorCss;
     }
@@ -123,7 +122,7 @@ export default function decoration(
       } else {
         latestCss = decorationPreferences.incompatibleDecoratorCss;
       }
-      latestCss.after!.contentText = latestCss.after!.contentText!.replace("${version}", versions[0])
+      latestCss.after!.contentText = latestCss.after!.contentText!.replace("${version}", versions[0]);
     }
 
     contentCss = latestCss;
