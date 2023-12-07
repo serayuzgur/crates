@@ -1,7 +1,6 @@
 import { TextEditor, TextEditorDecorationType, workspace, DecorationOptions, DecorationInstanceRenderOptions } from "vscode";
 import { StatusBar } from "./status-bar";
 import Dependency from "../core/Dependency";
-import DecorationPreferences from "../core/DecorationText";
 import decoration, { latestVersion } from "./decoration";
 
 export let decorationHandle: TextEditorDecorationType;
@@ -33,7 +32,7 @@ export default function decorate(editor: TextEditor, dependencies: Array<Depende
         editor,
         dependency.item,
         dependency.versions || [],
-        pref,
+        JSON.parse(JSON.stringify(pref)),
         dependency.error,
       );
       if (decor) {

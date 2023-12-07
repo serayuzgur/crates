@@ -937,7 +937,7 @@
       "format": "esm"
     },
     "src/ui/decoration.ts": {
-      "bytes": 4516,
+      "bytes": 4608,
       "imports": [
         {
           "path": "vscode",
@@ -973,7 +973,7 @@
       "format": "esm"
     },
     "src/ui/decorator.ts": {
-      "bytes": 3117,
+      "bytes": 3085,
       "imports": [
         {
           "path": "vscode",
@@ -987,11 +987,6 @@
         },
         {
           "path": "../core/Dependency",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "../core/DecorationText",
           "kind": "import-statement",
           "external": true
         },
@@ -1237,7 +1232,7 @@
       "imports": [],
       "exports": [],
       "inputs": {},
-      "bytes": 251756
+      "bytes": 251907
     },
     "out/main.js": {
       "imports": [
@@ -1469,10 +1464,10 @@
           "bytesInOutput": 1802
         },
         "src/ui/decorator.ts": {
-          "bytesInOutput": 2392
+          "bytesInOutput": 2420
         },
         "src/ui/decoration.ts": {
-          "bytesInOutput": 3461
+          "bytesInOutput": 3533
         },
         "src/semver/semverUtils.ts": {
           "bytesInOutput": 337
@@ -1493,7 +1488,7 @@
           "bytesInOutput": 2149
         }
       },
-      "bytes": 135396
+      "bytes": 135496
     }
   }
 }

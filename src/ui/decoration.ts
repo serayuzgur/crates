@@ -62,7 +62,6 @@ export default function decoration(
   let contentCss = {} as DecorationInstanceRenderOptions;
   if (error) {
     hoverMessage = formatError(error);
-    // errorDecorator.replace("${version}", versions[0]);
     contentCss = decorationPreferences.errorDecoratorCss;
   } else {
     hoverMessage.appendMarkdown(`[View Crate](https://crates.io/crates/${item.key.replace(/"/g, "")})`);
@@ -78,6 +77,7 @@ export default function decoration(
       });
     }
 
+    // Build markdown hover text
     for (let i = 0; i < versions.length; i++) {
       const version = versions[i];
       const replaceData: ReplaceItem = {
@@ -111,34 +111,34 @@ export default function decoration(
       });
       editor.document.save();
     }
-
-    let latestCss = decorationPreferences.compatibleDecoratorCss;
-  
+    contentCss = decorationPreferences.compatibleDecoratorCss;
     if (!validRange(version)) {
-      latestCss = decorationPreferences.errorDecoratorCss;
+      contentCss = decorationPreferences.errorDecoratorCss;
     }
     else if (versions[0] !== maxSatisfying) {
       if (satisfies) {
-        latestCss = decorationPreferences.compatibleDecoratorCss;
+        contentCss = decorationPreferences.compatibleDecoratorCss;
       } else {
-        latestCss = decorationPreferences.incompatibleDecoratorCss;
+        contentCss = decorationPreferences.incompatibleDecoratorCss;
       }
-      latestCss.after!.contentText = latestCss.after!.contentText!.replace("${version}", versions[0])
+      // latestCss.after!.contentText = latestCss.after!.contentText!.replace("${version}", versions[0])
     }
 
-    contentCss = latestCss;
+    contentCss.after!.contentText = contentCss.after!.contentText!.replace("${version}", versions[0])
+    // contentCss = latestCss;
   }
-
+  
   const deco = {
     range: new Range(
       editor.document.positionAt(start),
       endofline,
-    ),
-    hoverMessage,
-    renderOptions: contentCss,
-  };
-  // if (version != "?" && contentText.length > 0) {
-  //   deco.renderOptions.after = { contentText };
-  // }
+      ),
+      hoverMessage,
+      renderOptions: {},
+    };
+    if (version != "?" && contentCss.after!.contentText!.length > 0) {
+      deco.renderOptions =  contentCss;
+    }
+    
   return deco;
 }
