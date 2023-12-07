@@ -2,7 +2,7 @@
   "name": "crates",
   "displayName": "crates",
   "description": "Helps Rust developers managing dependencies with Cargo.toml.",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "publisher": "serayuzgur",
   "author": {
     "name": "serayuzgur",
