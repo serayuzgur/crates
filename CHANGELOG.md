@@ -5,6 +5,7 @@ All notable changes to the "crates" extension will be documented in this file.
 ## 0.6.5
 
 - a bug fix for decorator css support [Jacob-32587](https://github.com/Jacob-32587)
+- crates-index-server support removed.
 
 ## 0.6.4
 
