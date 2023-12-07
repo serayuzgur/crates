@@ -57,7 +57,6 @@ ${errors.join('\n')}`);
   }
 }
 
-
 function loadPref() {
   const config = workspace.getConfiguration("");
   const compatibleDecoratorText = config.get<string>("crates.compatibleDecorator") ?? "";

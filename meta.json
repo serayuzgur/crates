@@ -937,7 +937,7 @@
       "format": "esm"
     },
     "src/ui/decoration.ts": {
-      "bytes": 4608,
+      "bytes": 4574,
       "imports": [
         {
           "path": "vscode",
@@ -973,7 +973,7 @@
       "format": "esm"
     },
     "src/ui/decorator.ts": {
-      "bytes": 3085,
+      "bytes": 3084,
       "imports": [
         {
           "path": "vscode",
@@ -1051,27 +1051,6 @@
       ],
       "format": "esm"
     },
-    "src/api/crates-index-server.ts": {
-      "bytes": 1505,
-      "imports": [
-        {
-          "path": "https",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "./crateMetadatas",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "node_modules/node-cache/index.js",
-          "kind": "import-statement",
-          "original": "node-cache"
-        }
-      ],
-      "format": "esm"
-    },
     "src/semver/compareVersions.ts": {
       "bytes": 2760,
       "imports": [],
@@ -1104,7 +1083,7 @@
       "format": "esm"
     },
     "src/core/fetcher.ts": {
-      "bytes": 3590,
+      "bytes": 3253,
       "imports": [
         {
           "path": "./Item",
@@ -1125,11 +1104,6 @@
           "path": "src/api/sparse-index-server.ts",
           "kind": "import-statement",
           "original": "../api/sparse-index-server"
-        },
-        {
-          "path": "src/api/crates-index-server.ts",
-          "kind": "import-statement",
-          "original": "../api/crates-index-server"
         },
         {
           "path": "src/semver/compareVersions.ts",
@@ -1232,7 +1206,7 @@
       "imports": [],
       "exports": [],
       "inputs": {},
-      "bytes": 251907
+      "bytes": 248284
     },
     "out/main.js": {
       "imports": [
@@ -1268,11 +1242,6 @@
         },
         {
           "path": "vscode",
-          "kind": "require-call",
-          "external": true
-        },
-        {
-          "path": "https",
           "kind": "require-call",
           "external": true
         },
@@ -1467,28 +1436,25 @@
           "bytesInOutput": 2420
         },
         "src/ui/decoration.ts": {
-          "bytesInOutput": 3533
+          "bytesInOutput": 3499
         },
         "src/semver/semverUtils.ts": {
           "bytesInOutput": 337
         },
         "src/api/sparse-index-server.ts": {
-          "bytesInOutput": 2592
-        },
-        "src/api/crates-index-server.ts": {
-          "bytesInOutput": 1196
+          "bytesInOutput": 1956
         },
         "src/semver/compareVersions.ts": {
           "bytesInOutput": 2498
         },
         "src/core/fetcher.ts": {
-          "bytesInOutput": 2754
+          "bytesInOutput": 2526
         },
         "src/providers/autoCompletion.ts": {
           "bytesInOutput": 2149
         }
       },
-      "bytes": 135496
+      "bytes": 133367
     }
   }
 }

@@ -2,15 +2,11 @@ import Item from "./Item";
 import Dependency from "./Dependency";
 import { StatusBar } from "../ui/status-bar";
 import {
-  isSparseCompatible,
   sparseIndexServerURL,
   versions as sparseVersions
 } from "../api/sparse-index-server";
-import {
-  versions as cratesVersions
-} from "../api/crates-index-server";
 import compareVersions from "../semver/compareVersions";
-import { CompletionItem, CompletionItemKind, CompletionList, workspace, window } from "vscode";
+import { CompletionItem, CompletionItemKind, CompletionList, workspace } from "vscode";
 import { sortText } from "../providers/autoCompletion";
 import { CrateMetadatas } from "../api/crateMetadatas";
 
@@ -22,13 +18,7 @@ export async function fetchCrateVersions(dependencies: Item[]): Promise<[Promise
 
   var versions;
   try {
-    if (await isSparseCompatible(indexServerURL)) {
-      console.log("Using sparse compatible index " + indexServerURL);
-      versions = sparseVersions;
-    } else {
-      console.log("Using cis index " + indexServerURL);
-      versions = cratesVersions;
-    }
+    versions = sparseVersions;
   } catch (e) {
     console.error(`Could not check index compatibility for url "${indexServerURL}" (using sparse instead) : ${e}`);
     indexServerURL = sparseIndexServerURL;
