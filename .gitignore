@@ -6,3 +6,4 @@ node_modules
 .DS_Store
 yarn.lock
 *.zip
+meta.json
