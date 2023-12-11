@@ -67,7 +67,7 @@
         "crates.indexServerURL": {
           "type": "string",
           "scope": "resource",
-          "description": "URL of the index server. Default value goes to official sparse index. Alternative values would be onpremise index servers (e.g. https://api.crates-vsc.space).",
+          "description": "URL of the index server. Default value goes to official sparse index. Alternative values would be onpremise index servers.",
           "default": "https://index.crates.io"
         },
         "crates.errorDecorator": {
