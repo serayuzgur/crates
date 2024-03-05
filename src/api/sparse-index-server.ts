@@ -16,23 +16,24 @@ export const versions = (name: string, indexServerURL: string) => {
       return;
     }
     // compute sparse index prefix
-    var prefix;
-    var lower_name = name.toLowerCase();
+    let prefix: string;
+    const lower_name = name.toLowerCase();
     if (lower_name.length <= 2) {
-      prefix = lower_name.length;
+      prefix = lower_name.length.toFixed(0);
     } else if (lower_name.length == 3) {
       prefix = "3/" + lower_name.substring(0, 1);
     } else {
       prefix = lower_name.substring(0, 2) + "/" + lower_name.substring(2, 4);
     }
-    var req = https.get(`${indexServerURL}/${prefix}/${lower_name}`, function (res) {
+    const url = `${indexServerURL}/${prefix}/${lower_name}`;
+    var req = https.get(url, function (res) {
       // reject on bad status
       if (!res.statusCode) {
-        reject(new Error('statusCode=' + res.statusCode));
+        reject(new Error(`statusCode=${res.statusCode}: ${url}`));
         return;
       }
       if (res.statusCode < 200 || res.statusCode >= 300) {
-        return reject(new Error('statusCode=' + res.statusCode));
+        return reject(new Error(`statusCode=${res.statusCode}: ${url}`));
       }
       // cumulate data
       var crate_metadatas: CrateMetadatas;

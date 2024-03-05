@@ -120,11 +120,12 @@ export function filterCrates(items: Item[]): Item[] {
  *
  * @param data Parse the given document and index all items.
  */
-export function parse(data: string): Item {
+export function parse2(data: string): Item {
   let item: Item = new Item();
   item.start = 0;
   item.end = data.length;
-  parseTables(data, item);
+  const asArr = Array.from(data);
+  parseTables(asArr, item);
   return item;
 }
 
@@ -133,13 +134,13 @@ export function parse(data: string): Item {
  * @param data
  * @param parent
  */
-function parseTables(data: string, parent: Item): Item {
+function parseTables(data: string[], parent: Item): Item {
   let item: Item = new Item();
   let i = -1;
-  let buff = [];
+  let length = data.length;
 
-  while (i++ < data.length) {
-    const ch = data.charAt(i);
+  while (i++ < length) {
+    const ch = data[i];
     if (isWhiteSpace(ch) || isNewLine(ch)) {
       continue;
     } else if (isComment(ch)) {
@@ -147,16 +148,12 @@ function parseTables(data: string, parent: Item): Item {
     } else if (ch === "[") {
       item = new Item();
       item.start = i;
-      buff = [];
     } else if (ch === "]") {
-      item.key = buff.join("");
+      item.setKey(data.slice(item.start + 1, i));
       i = parseValues(data, item, i);
       item = initNewItem(item, parent, i);
-    } else {
-      buff.push(ch);
     }
   }
-
   return parent;
 }
 
@@ -166,14 +163,14 @@ function parseTables(data: string, parent: Item): Item {
  * @param parent
  * @param index
  */
-function parseValues(data: string, parent: Item, index: number): number {
+function parseValues(data: string[], parent: Item, index: number): number {
   let i = index;
   let item = new Item();
   let last_ch = "";
 
   let isParsingKey = true;
   while (i++ < data.length) {
-    const ch = data.charAt(i);
+    const ch = data[i];
     let current_line = "";
     if (isNewLine(last_ch)) {
       current_line = getLine(data, i);
@@ -217,13 +214,13 @@ function parseValues(data: string, parent: Item, index: number): number {
       isParsingKey = true;
     }
   }
-
   return i;
 }
 
 function isCratesDep(i: Item): boolean {
   if (i.values && i.values.length) {
-    for (let value of i.values) {
+    for (let j = 0; j < i.values.length; j++) {
+      const value = i.values[j];
       if (value.key === "git" || value.key === "path") {
         return false;
       } else if (value.key === "package") {
@@ -240,12 +237,16 @@ function isCratesDep(i: Item): boolean {
  * @param parent
  * @param index
  */
-function parseArray(data: string, parent: Item, index: number): number {
+function isSkipChar(ch: string): boolean {
+  return ch === ' ' || ch === '\t' || ch === '\n' || ch === '\r' || ch === ',';
+}
+
+function parseArray(data: string[], parent: Item, index: number): number {
   let i = index;
   let item = new Item();
   while (i++ < data.length) {
-    const ch = data.charAt(i);
-    if (isWhiteSpace(ch) || isNewLine(ch) || isComma(ch)) {
+    const ch = data[i];
+    if (isSkipChar(ch)) {
       continue;
     } else if (isComment(ch)) {
       i = skipLineData(data, i);
@@ -267,20 +268,20 @@ function parseArray(data: string, parent: Item, index: number): number {
  * @param index
  * @param opener
  */
-function parseString(data: string, item: Item, index: number, opener: string): number {
+function parseString(data: string[], item: Item, index: number, opener: string): number {
   let i = index;
   item.start = index;
   let buff: string[] = [];
-  let multiline = data.substring(i, i + 3) === opener.repeat(3);
+  let multiline = data[i] === opener && data[i + 1] === opener && data[i + 2] === opener;
   if (multiline) {
     i += 2;
   }
   while (i++ < data.length) {
-    const ch = data.charAt(i);
+    const ch = data[i];
     switch (ch) {
       case '"':
       case "'":
-        if (ch === opener && (!multiline || data.substring(i, i + 3) === opener.repeat(3))) {
+        if (ch === opener && (!multiline || (data[i + 1] === opener && data[i + 2] === opener))) {
           if (multiline) {
             i += 2;
           }
@@ -300,15 +301,12 @@ function parseString(data: string, item: Item, index: number, opener: string): n
  * @param data
  * @param index
  */
-function skipLineData(data: string, index: number): number {
-  let i = index;
-  while (i++ < data.length) {
-    const ch = data.charAt(i);
-    if (isNewLine(ch)) {
-      return i;
-    }
+function skipLineData(data: string[], index: number): number {
+  const newlineIndex = data.indexOf("\n", index);
+  if (newlineIndex !== -1) {
+    return newlineIndex;
   }
-  return i;
+  return data.length;
 }
 
 /**
@@ -316,18 +314,18 @@ function skipLineData(data: string, index: number): number {
  * @param data
  * @param index
  */
-function getLine(data: string, index: number): string {
+function getLine(data: string[], index: number): string {
   let i = index;
-  let line: string = "";
+  let line: string[] = [];
   while (i < data.length) {
-    const ch = data.charAt(i);
+    const ch = data[i];
     if (isNewLine(ch)) {
-      return line;
+      return line.join("");
     }
-    line += ch;
+    line.push(ch);
     i++;
   }
-  return line;
+  return line.join("");
 }
 
 /**
@@ -336,22 +334,20 @@ function getLine(data: string, index: number): string {
  * @param item
  * @param index
  */
-function parseKey(data: string, item: Item, index: number): number {
+function parseKey(data: string[], item: Item, index: number): number {
   let i = index;
-  let buff: string[] = [];
   item.start = index;
   while (i < data.length) {
-    const ch = data.charAt(i);
+    const ch = data[i];
     if (ch === "=") {
-      item.key = buff.join("");
+      item.setKey(data.slice(item.start, i));
       return i;
-    } else if (!isWhiteSpace(ch)) {
-      buff.push(ch);
     }
     i++;
   }
   return i;
 }
+
 
 /**
  * Parse boolean
@@ -360,8 +356,8 @@ function parseKey(data: string, item: Item, index: number): number {
  * @param index
  * @param opener
  */
-function parseBoolean(data: string, item: Item, index: number, opener: string): number {
-  const ch = data.charAt(index);
+function parseBoolean(data: string[], item: Item, index: number, opener: string): number {
+  const ch = data[index];
   switch (ch) {
     case "t":
       item.value = "true";
@@ -381,16 +377,15 @@ function parseBoolean(data: string, item: Item, index: number, opener: string): 
  * @param index
  * @param opener
  */
-function parseNumber(data: string, item: Item, index: number): number {
-  const ch = data.charAt(index);
+function parseNumber(data: string[], item: Item, index: number): number {
+  const ch = data[index];
   if (ch === "+" || ch === "-") {
     index++;
   }
   let i = index;
   item.start = index;
-  let buff: string[] = [];
   while (i < data.length) {
-    const ch = data.charAt(i);
+    const ch = data[i];
     switch (ch) {
       case "0":
       case "1":
@@ -403,11 +398,10 @@ function parseNumber(data: string, item: Item, index: number): number {
       case "8":
       case "9":
       case ".":
-        buff.push(ch);
         break;
       default:
         if (isNewLine(ch)) {
-          item.value = buff.join("");
+          item.value = data.slice(item.start, i).join("");
           item.end = i;
           return i;
         }
@@ -447,22 +441,36 @@ function isComment(ch: string) {
   return ch === "#";
 }
 
-function isBoolean(data: string, i: number) {
-  return data.substring(i, i + 4) === "true" || data.substring(i, i + 5) === "false";
+function isBoolean(data: string[], i: number) {
+  const val = data.slice(i, i + 4).join();
+  return val === "true" || val === "fals";
 }
 
-function isNumber(data: string, i: number) {
-  const ch = data.charAt(i);
-  if (ch === "+" || ch === "-") {
-    return true;
-  }
-  return parseInt(data.charAt(i), 10);
+function isNumber(data: string[], i: number) {
+  const ch = data[i];
+  return ch === "+" || ch === "-" || !isNaN(parseInt(ch, 10));
 }
 
 function isGitConflictLine(line: string) {
-  return line.startsWith("<<<<<<<") || line.startsWith(">>>>>>>") || line.startsWith("=======");
+  const firstChar = line[0];
+  if (firstChar === '<') {
+    return line.startsWith("<<<<<<<");
+  } else if (firstChar === '=') {
+    return line.startsWith("=======");
+  } else if (firstChar === '>') {
+    return line.startsWith(">>>>>>>");
+  }
+  return false;
 }
 
 function isDisabledLine(line: string) {
-  return line.replace(/\s/g, '').endsWith("#crates:disable-check");
+  return /#crates:disable-check\s*$/.test(line);
 }
+
+const TOML = {
+  TRUE: ["t", "r", "u", "e"],
+  FALSE: ["f", "a", "l", "s", "e"],
+  CONFLICT_START: ["<", "<", "<", "<", "<"],
+  CONFLICT_END: [">", ">", ">", ">", ">"],
+  CONFLICT_EQUAL: ["=", "=", "=", "=", "="],
+};

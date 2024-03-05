@@ -10,10 +10,11 @@ import Item from "./Item";
 import decorate, { decorationHandle } from "../ui/decorator";
 import { fetchCrateVersions } from "./fetcher";
 import Dependency from "./Dependency";
+import { parse2 } from "../toml/parser2";
 
-function parseToml(text: string): Item[] {
+function parseToml(text: string, second: boolean = false): Item[] {
   console.log("Parsing...");
-  const toml = parse(text);
+  const toml = second ? parse2(text) : parse(text);
   const tomlDependencies = filterCrates(toml.values);
   console.log("Parsed");
   return tomlDependencies;
@@ -41,7 +42,6 @@ export function getFetchedDependency(document: TextDocument, crate: string, posi
     }
   }
 }
-
 export async function parseAndDecorate(
   editor: TextEditor,
   _wasSaved: boolean = false,
@@ -51,7 +51,16 @@ export async function parseAndDecorate(
   try {
     // Parse
     StatusBar.setText("Loading", "Parsing Cargo.toml");
-    dependencies = parseToml(text);
+    console.time("parseTomlOld");
+    for (let i = 1; i < 11; i++) {
+      dependencies = parseToml(text, false);
+    }
+    console.timeEnd("parseTomlOld");
+    console.time("parseTomlNew");
+    for (let i = 1; i < 11; i++) {
+      dependencies = parseToml(text, true);
+    }
+    console.timeEnd("parseTomlNew");
     if (fetchDeps || !fetchedDeps || !fetchedDepsMap) {
       const data = await fetchCrateVersions(dependencies);
       fetchedDeps = await data[0];

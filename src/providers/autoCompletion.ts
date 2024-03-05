@@ -70,8 +70,8 @@ export class VersionCompletions implements CompletionItemProvider {
         return new CompletionList(
           (filterVersion.length > 0
             ? fetchedDep.versions.filter((version) =>
-                version.toLowerCase().startsWith(filterVersion)
-              )
+              version.toLowerCase().startsWith(filterVersion)
+            )
             : fetchedDep.versions
           ).map((version) => {
             const item = new CompletionItem(version, CompletionItemKind.Class);
@@ -110,11 +110,12 @@ export class FeaturesCompletions implements CompletionItemProvider {
         crate = versionMatch[1];
         version = versionMatch[7] ?? versionMatch[5];
       } else {
+
         const match = findCrateAndVersion(document, position.line);
         if (!match) return;
         [crate, version] = match;
       }
-      
+
       const fetchedDep = getFetchedDependency(document, crate, position);
       if (!fetchedDep || !fetchedDep.featureCompletionItems || !fetchedDep.versions) return;
 

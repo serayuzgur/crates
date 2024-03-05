@@ -4,6 +4,9 @@
   "description": "Helps Rust developers managing dependencies with Cargo.toml.",
   "version": "0.6.6",
   "publisher": "serayuzgur",
+  "sponsor": {
+    "url": "https://github.com/sponsors/serayuzgur"
+  },
   "author": {
     "name": "serayuzgur",
     "email": "serayuzgur@gmail.com"
@@ -34,7 +37,7 @@
   ],
   "activationEvents": [
     "onLanguage:toml",
-    "workspaceContains:*/Cargo.toml"
+    "workspaceContains:**/Cargo.toml"
   ],
   "contributes": {
     "languages": [
@@ -50,7 +53,7 @@
           "Cargo.toml"
         ]
       }
-   ],
+    ],
     "commands": [
       {
         "command": "crates.replaceVersion",
@@ -66,6 +69,10 @@
         "command": "crates.updateAll",
         "title": "Update All dependencies of the Cargo.toml",
         "category": "👆 Crates"
+      },
+      {
+        "command": "welcome-view-content-sample.hello",
+        "title": "Hello World!"
       }
     ],
     "configuration": {
@@ -235,6 +242,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "fast-toml": "^0.5.4",
     "node-cache": "5.1.2",
     "semver": "7.5.3"
   }

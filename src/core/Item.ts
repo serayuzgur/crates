@@ -16,4 +16,8 @@ export default class Item {
       this.end = item.end;
     }
   }
+  // key setter
+  setKey(key: string[]) {
+    this.key = key.filter(predicate => predicate !== " ").join("");
+  }
 }
