@@ -37,6 +37,20 @@
     "workspaceContains:*/Cargo.toml"
   ],
   "contributes": {
+    "languages": [
+      {
+        "id": "toml",
+        "aliases": [
+          "TOML"
+        ],
+        "extensions": [
+          ".toml"
+        ],
+        "filenames": [
+          "Cargo.toml"
+        ]
+      }
+   ],
     "commands": [
       {
         "command": "crates.replaceVersion",
