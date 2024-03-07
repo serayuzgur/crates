@@ -114,11 +114,11 @@ function parsePair(line: string, row: number): Item | undefined {
     // json object
     parsePackage(line, item);
     parseVersion(line, item);
-    return item;
+    return item.start > -1 ? item : undefined;
   }
   item.start = line.indexOf(item.value);
   item.end = item.start + item.value.length;
-  return item;
+  return item.start > -1 ? item : undefined;
 }
 
 function parseVersion(line: string, item: Item) {
