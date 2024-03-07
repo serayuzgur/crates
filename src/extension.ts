@@ -54,18 +54,12 @@ export function activate(context: ExtensionContext) {
     //   "'", '"'
     // ),
   );
-  const welcomeDisposable = commands.registerCommand(
-    'welcome-view-content-sample.hello',
-    async () => {
-      window.showInformationMessage('Hello world!');
-    }
-  );
+
 
   tomlListener(window.activeTextEditor);
 
   // Add commands
   context.subscriptions.push(TomlCommands.replaceVersion);
-  context.subscriptions.push(welcomeDisposable);
 }
 
 export function deactivate() { }
