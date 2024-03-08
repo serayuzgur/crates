@@ -159,9 +159,20 @@ function parseVersion(line: string, item: Item) {
 function parseVersionValue(line: string, item: Item) {
   let i = item.start;
   let foundAt = -1;
+  let foundQuote = 0;
+  // find prev quote
+
   while (i++ < line.length) {
     const ch = line[i];
     if (isQuote(ch)) {
+      foundQuote++;
+      if (foundQuote === 2) {
+        // if we found 2 quotes, we are done since it all rolls back by 1 increase by one before break
+        console.log(i, foundQuote, line.substring(i));
+        i++;
+        break;
+      }
+
       continue;
     }
     if (isWhiteSpace(ch)) {
