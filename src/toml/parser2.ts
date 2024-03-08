@@ -278,7 +278,7 @@ function isBoolean(value: string): boolean {
   return value === "true" || value === "false";
 }
 function clearText(text: string) {
-  return text.replace(/[^a-zA-Z0-9-_]/g, "").trim();
+  return text.replace(/[^a-zA-Z0-9-_.]/g, "").trim();
 }
 
 function isTable(line: TextLine) {
