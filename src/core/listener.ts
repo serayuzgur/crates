@@ -14,7 +14,9 @@ import { parse } from "../toml/parser2";
 
 function parseDocs(editor: TextEditor): Item[] {
   const toml = parse(editor.document);
+  console.time("parse");
   const tomlDependencies = toml?.values || [];
+  console.timeEnd("parse");
   return tomlDependencies;
 }
 
@@ -45,7 +47,6 @@ export async function parseAndDecorate(
   _wasSaved: boolean = false,
   fetchDeps: boolean = true
 ) {
-  const text = editor.document.getText();
   try {
     // Parse
     StatusBar.setText("Loading", "Parsing Cargo.toml");

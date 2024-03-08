@@ -1,17 +1,12 @@
 [workspace]
 resolver = "2"
-members = [
-  "crates/*",
-  "credential/*",
-  "benches/benchsuite",
-  "benches/capture",
-]
+members = ["crates/*", "credential/*", "benches/benchsuite", "benches/capture"]
 exclude = [
   "target/", # exclude bench testing
 ]
 
 [workspace.package]
-rust-version = "1.73"  # MSRV:3
+rust-version = "1.73"                             # MSRV:3
 edition = "2021"
 license = "MIT OR Apache-2.0"
 homepage = "https://github.com/rust-lang/cargo"
@@ -46,8 +41,14 @@ filetime = "0.2.23"
 flate2 = { version = "1.0.28", default-features = false, features = ["zlib"] }
 git2 = "0.18.2"
 git2-curl = "0.19.0"
-gix = { version = "0.58.0", default-features = false, features = ["blocking-http-transport-curl", "progress-tree", "revision"] }
-gix-features-for-configuration-only = { version = "0.38.0", package = "gix-features", features = [ "parallel" ] }
+gix = { version = "0.58.0", default-features = false, features = [
+  "blocking-http-transport-curl",
+  "progress-tree",
+  "revision",
+] }
+gix-features-for-configuration-only = { version = "0.38.0", package = "gix-features", features = [
+  "parallel",
+] }
 glob = "0.3.1"
 handlebars = { version = "5.1.0", features = ["dir_source"] }
 hex = "0.4.3"
@@ -74,7 +75,9 @@ pathdiff = "0.2"
 percent-encoding = "2.3"
 pkg-config = "0.3.30"
 proptest = "1.4.0"
-pulldown-cmark = { version = "0.10.0", default-features = false, features = ["html"] }
+pulldown-cmark = { version = "0.10.0", default-features = false, features = [
+  "html",
+] }
 rand = "0.8.5"
 regex = "1.10.3"
 rusqlite = { version = "0.31.0", features = ["bundled"] }
@@ -128,7 +131,7 @@ name = "cargo"
 version = "0.79.0"
 edition.workspace = true
 license.workspace = true
-rust-version = "1.76.0"  # MSRV:1
+rust-version = "1.76.0" # MSRV:1
 homepage = "https://doc.rust-lang.org/cargo/index.html"
 repository.workspace = true
 documentation = "https://docs.rs/cargo"
@@ -252,7 +255,12 @@ doc = false
 vendored-openssl = ["openssl/vendored"]
 vendored-libgit2 = ["libgit2-sys/vendored"]
 # This is primarily used by rust-lang/rust distributing cargo the executable.
-all-static = ['vendored-openssl', 'curl/static-curl', 'curl/force-system-lib-on-osx', 'vendored-libgit2']
+all-static = [
+  'vendored-openssl',
+  'curl/static-curl',
+  'curl/force-system-lib-on-osx',
+  'vendored-libgit2',
+]
 
 [lints]
 workspace = true
