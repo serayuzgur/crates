@@ -39,9 +39,6 @@ export default function decoration(
 ): DecorationOptions {
   // Also handle json valued dependencies
 
-  const start = item.start;
-  let endofline = editor.document.lineAt(editor.document.positionAt(item.end)).range.end;
-  const end = item.end;
   const version = item.value?.replace(",", "");
   const [satisfies, maxSatisfying] = checkVersion(version, versions);
 
@@ -70,9 +67,8 @@ export default function decoration(
 
     if (versions.length > 0) {
       status.replaceItems.push({
-        item: `"${versions[0]}"`,
-        start,
-        end,
+        value: versions[0],
+        range: item.range,
       });
     }
 
@@ -80,13 +76,16 @@ export default function decoration(
     for (let i = 0; i < versions.length; i++) {
       const version = versions[i];
       const replaceData: ReplaceItem = {
-        item: `"${version}"`,
-        start,
-        end,
+        value: version,
+        range: {
+          start: { line: item.range.start.line, character: item.range.start.character },
+          end: { line: item.range.end.line, character: item.range.end.character },
+        }
+
       };
       const isCurrent = version === maxSatisfying;
       const encoded = encodeURI(JSON.stringify(replaceData));
-      const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key.replace(/"/g, "")}/${version})` : "";
+      const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key}/${version})` : "";
       const command = `${isCurrent ? "**" : ""}[${version}](command:crates.replaceVersion?${encoded})${docs}${isCurrent ? "**" : ""}`;
       hoverMessage.appendMarkdown("\n * ");
       hoverMessage.appendMarkdown(command);
@@ -94,18 +93,15 @@ export default function decoration(
     if (version == "?") {
       const version = versions[0];
       const info: ReplaceItem = {
-        item: `"${version}"`,
-        start,
-        end,
+        value: version,
+        range: item.range,
+
       };
       // decoPositon = + version.length;
       editor.edit((edit) => {
         edit.replace(
-          new Range(
-            editor.document.positionAt(info.start + 1),
-            editor.document.positionAt(info.end - 1),
-          ),
-          info.item.substr(1, info.item.length - 2),
+          item.range,
+          info.value.substr(1, info.value.length - 2),
         );
       });
       editor.document.save();
@@ -122,20 +118,17 @@ export default function decoration(
       }
     }
 
-    contentCss.after!.contentText = contentCss.after!.contentText!.replace("${version}", versions[0])
+    contentCss.after!.contentText = contentCss.after!.contentText!.replace("${version}", versions[0]);
   }
-  
+
   const deco = {
-    range: new Range(
-      editor.document.positionAt(start),
-      endofline,
-      ),
-      hoverMessage,
-      renderOptions: {},
-    };
-    if (version != "?" && contentCss.after!.contentText!.length > 0) {
-      deco.renderOptions =  contentCss;
-    }
-    
+    range: item.decoRange,
+    hoverMessage,
+    renderOptions: {},
+  };
+  if (version != "?" && contentCss.after!.contentText!.length > 0) {
+    deco.renderOptions = contentCss;
+  }
+
   return deco;
 }

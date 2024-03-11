@@ -70,14 +70,14 @@ function findVersion(item: Item): Item[] {
       const dependency = findVersionTable(field);
       if (dependency) dependencies.push(dependency);
     } else if (field.value != null) {
-      dependencies.push(field)
+      dependencies.push(field);
     }
   }
   return dependencies;
 }
 
 function findVersionTable(table: Item): Item | null {
-  let item = null
+  let item = null;
   let itemName = null;
   for (const field of table.values) {
     if (field.key === "workspace") return null;

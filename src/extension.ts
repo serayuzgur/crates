@@ -9,6 +9,7 @@ import {
   TextDocumentChangeEvent,
   languages,
   DocumentSelector,
+  commands,
 } from "vscode";
 import tomlListener from "./core/listener";
 import TomlCommands from "./toml/commands";
@@ -53,6 +54,7 @@ export function activate(context: ExtensionContext) {
     //   "'", '"'
     // ),
   );
+
 
   tomlListener(window.activeTextEditor);
 

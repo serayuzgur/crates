@@ -3,19 +3,20 @@
  * Filters active editor files according to the extension.
  */
 import { Position, Range, TextDocument, TextEditor } from "vscode";
-import { parse, filterCrates } from "../toml/parser";
 import { StatusBar } from "../ui/status-bar";
 import { status } from "../toml/commands";
 import Item from "./Item";
 import decorate, { decorationHandle } from "../ui/decorator";
 import { fetchCrateVersions } from "./fetcher";
 import Dependency from "./Dependency";
+import { parse } from "../toml/parser2";
 
-function parseToml(text: string): Item[] {
-  console.log("Parsing...");
-  const toml = parse(text);
-  const tomlDependencies = filterCrates(toml.values);
-  console.log("Parsed");
+
+function parseDocs(editor: TextEditor): Item[] {
+  const toml = parse(editor.document);
+  console.time("parse");
+  const tomlDependencies = toml?.values || [];
+  console.timeEnd("parse");
   return tomlDependencies;
 }
 
@@ -41,17 +42,15 @@ export function getFetchedDependency(document: TextDocument, crate: string, posi
     }
   }
 }
-
 export async function parseAndDecorate(
   editor: TextEditor,
   _wasSaved: boolean = false,
   fetchDeps: boolean = true
 ) {
-  const text = editor.document.getText();
   try {
     // Parse
     StatusBar.setText("Loading", "Parsing Cargo.toml");
-    dependencies = parseToml(text);
+    dependencies = parseDocs(editor);
     if (fetchDeps || !fetchedDeps || !fetchedDepsMap) {
       const data = await fetchCrateVersions(dependencies);
       fetchedDeps = await data[0];

@@ -5,9 +5,11 @@ import { commands, TextEditor, TextEditorEdit, Range } from "vscode";
 import tomlListener from "../core/listener";
 
 export interface ReplaceItem {
-  item: string;
-  start: number;
-  end: number;
+  value: string;
+  range: {
+    start: { line: number; character: number; };
+    end: { line: number; character: number; };
+  };
 }
 
 export const status = {
@@ -22,14 +24,14 @@ export const replaceVersion = commands.registerTextEditorCommand(
       const { fileName } = editor.document;
       if (fileName.toLocaleLowerCase().endsWith("cargo.toml")) {
         status.inProgress = true;
-        console.log("Replacing", info.item);
-        edit.replace(
-          new Range(
-            editor.document.positionAt(info.start + 1),
-            editor.document.positionAt(info.end - 1),
-          ),
-          info.item.substr(1, info.item.length - 2),
+        console.debug("Replacing", info.value, "at", info.range);
+        const range = new Range(
+          info.range.start.line,
+          info.range.start.character,
+          info.range.end.line,
+          info.range.end.character,
         );
+        edit.replace(range, info.value);
         status.inProgress = false;
       }
     }
@@ -61,10 +63,12 @@ export const updateAll = commands.registerTextEditorCommand(
         const rItem = status.replaceItems[i];
         edit.replace(
           new Range(
-            editor.document.positionAt(rItem.start),
-            editor.document.positionAt(rItem.end),
+            rItem.range.start.line,
+            rItem.range.start.character + 1,
+            rItem.range.end.line,
+            rItem.range.end.character - 1,
           ),
-          rItem.item,
+          rItem.value,
         );
       }
       status.inProgress = false;
