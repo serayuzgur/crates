@@ -79,6 +79,7 @@ function findVersion(item: Item): Item[] {
 function findVersionTable(table: Item): Item | null {
   let item = null
   let itemName = null;
+  let itemRegistry = undefined;
   for (const field of table.values) {
     if (field.key === "workspace") return null;
     if (field.key === "version") {
@@ -86,8 +87,10 @@ function findVersionTable(table: Item): Item | null {
       item.key = table.key;
     }
     if (field.key === "package") itemName = field.value;
+    if (field.key === "registry") itemRegistry = field.value;
   }
   if (item && itemName) item.key = itemName;
+  if (item && itemRegistry !== undefined) item.registry = itemRegistry;
   return item;
 }
 

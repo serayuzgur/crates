@@ -5,6 +5,7 @@ export default class Item {
   key: string = "";
   values: Array<any> = [];
   value: string | undefined = "";
+  registry?: string;
   start: number = -1;
   end: number = -1;
   constructor(item?: Item) {
@@ -12,6 +13,7 @@ export default class Item {
       this.key = item.key;
       this.values = item.values;
       this.value = item.value;
+      this.registry = item.registry;
       this.start = item.start;
       this.end = item.end;
     }

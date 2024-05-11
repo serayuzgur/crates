@@ -15,8 +15,11 @@ function parseToml(text: string): Item[] {
   console.log("Parsing...");
   const toml = parse(text);
   const tomlDependencies = filterCrates(toml.values);
+  // Atm, ignore crates that have an alternate registry, as we do not support them yet,
+  // but this may change in the future.
+  const tomlDependenciesWoReg = tomlDependencies.filter((crate) => crate.registry === undefined);
   console.log("Parsed");
-  return tomlDependencies;
+  return tomlDependenciesWoReg;
 }
 
 var dependencies: Item[];
