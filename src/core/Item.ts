@@ -3,7 +3,7 @@
  */
 export default class Item {
   key: string = "";
-  values: Array<any> = [];
+  values: Array<Item> = [];
   value: string | undefined = "";
   start: number = -1;
   end: number = -1;

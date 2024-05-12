@@ -70,6 +70,7 @@ function findVersion(item: Item): Item[] {
       const dependency = findVersionTable(field);
       if (dependency) dependencies.push(dependency);
     } else if (field.value != null) {
+      if (field.key.endsWith(".version")) field.key = field.key.replace(".version", "");
       dependencies.push(field)
     }
   }
@@ -226,7 +227,7 @@ function isCratesDep(i: Item): boolean {
     for (let value of i.values) {
       if (value.key === "git" || value.key === "path") {
         return false;
-      } else if (value.key === "package") {
+      } else if (value.key === "package" && value.value !== undefined) {
         i.key = value.value;
       }
     }
