@@ -65,7 +65,7 @@ export function findCrateAndVersion(
 function findVersion(item: Item): Item[] {
   let dependencies: Item[] = [];
   for (const field of item.values) {
-    if (field.key.endsWith(".workspace")) continue;
+    if (field.key.endsWith(".workspace") || field.key.endsWith(".path")) continue;
     if (field.values.length > 0) {
       const dependency = findVersionTable(field);
       if (dependency) dependencies.push(dependency);
@@ -81,7 +81,7 @@ function findVersionTable(table: Item): Item | null {
   let item = null
   let itemName = null;
   for (const field of table.values) {
-    if (field.key === "workspace") return null;
+    if (field.key === "workspace" || field.key === "path") return null;
     if (field.key === "version") {
       item = new Item(field);
       item.key = table.key;
