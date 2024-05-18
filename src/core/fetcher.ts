@@ -9,34 +9,30 @@ import compareVersions from "../semver/compareVersions";
 import { CompletionItem, CompletionItemKind, CompletionList, workspace } from "vscode";
 import { sortText } from "../providers/autoCompletion";
 import { CrateMetadatas } from "../api/crateMetadatas";
+import { AlternateRegistry } from "./AlternateRegistry";
 
-export async function fetchCrateVersions(dependencies: Item[]): Promise<[Promise<Dependency[]>, Map<string, Dependency[]>]> {
+export async function fetchCrateVersions(dependencies: Item[], alternateRegistries?: AlternateRegistry[]): Promise<[Promise<Dependency[]>, Map<string, Dependency[]>]> {
   // load config
   const config = workspace.getConfiguration("");
   const shouldListPreRels = !!config.get("crates.listPreReleases");
   var indexServerURL = config.get<string>("crates.indexServerURL") ?? sparseIndexServerURL;
 
-  var versions;
-  try {
-    versions = sparseVersions;
-  } catch (e) {
-    console.error(`Could not check index compatibility for url "${indexServerURL}" (using sparse instead) : ${e}`);
-    indexServerURL = sparseIndexServerURL;
-    versions = sparseVersions;
-  }
-
   StatusBar.setText("Loading", "👀 Fetching " + indexServerURL.replace(/^https?:\/\//, ''));
 
-  let transformer = transformServerResponse(versions, shouldListPreRels, indexServerURL);
+  let transformer = transformServerResponse(sparseVersions, shouldListPreRels, indexServerURL, alternateRegistries);
   let responsesMap: Map<string, Dependency[]> = new Map();
   const responses = dependencies.map(transformer);
   return [Promise.all(responses), responsesMap];
 }
 
 
-function transformServerResponse(versions: (name: string, indexServerURL: string) => Promise<CrateMetadatas>, shouldListPreRels: boolean, indexServerURL: string): (i: Item) => Promise<Dependency> {
+function transformServerResponse(versions: (name: string, indexServerURL?: string, registryToken?: string) => Promise<CrateMetadatas>, shouldListPreRels: boolean, indexServerURL: string, alternateRegistries?: AlternateRegistry[]): (i: Item) => Promise<Dependency> {
   return function (item: Item): Promise<Dependency> {
-    return versions(item.key, indexServerURL).then((crate: any) => {
+    // Use the sparse index if (and only if) the crate does not use an alternate registry
+    const alternateRegistry = alternateRegistries?.find((registry) => item.registry == registry.name);
+    var thisCrateRegistry = item.registry !== undefined ? alternateRegistry?.index : indexServerURL;
+    var thisCrateToken = item.registry !== undefined ? alternateRegistry?.token : undefined;
+    return versions(item.key, thisCrateRegistry, thisCrateToken).then((crate: any) => {
       const versions = crate.versions.reduce((result: any[], item: string) => {
         const isPreRelease = !shouldListPreRels && (item.indexOf("-alpha") !== -1 || item.indexOf("-beta") !== -1 || item.indexOf("-rc") !== -1 || item.indexOf("-pre") !== -1);
         if (!isPreRelease)

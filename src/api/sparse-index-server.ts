@@ -1,11 +1,12 @@
 import * as https from 'https';
+import * as http from 'http';
 import { CrateMetadatas } from './crateMetadatas';
 import NodeCache from "node-cache";
 
 export const sparseIndexServerURL = "https://index.crates.io";
 const cache = new NodeCache({ stdTTL: 60 * 10 });
 
-export const versions = (name: string, indexServerURL: string) => {
+export const versions = (name: string, indexServerURL?: string, registryToken?: string) => {
   // clean dirty names
   name = name.replace(/"/g, "");
 
@@ -25,7 +26,26 @@ export const versions = (name: string, indexServerURL: string) => {
     } else {
       prefix = lower_name.substring(0, 2) + "/" + lower_name.substring(2, 4);
     }
-    var req = https.get(`${indexServerURL}/${prefix}/${lower_name}`, function (res) {
+
+    // This could happen if crate have an alternate registry, but index was not found.
+    // We should not default on sparse index in this case, juste ignore this crate fetch.
+    if (indexServerURL === undefined) return;
+
+    // Add a trailing '/', and parse as `URL()`
+    let indexServerURLParsed: URL = new URL(`${indexServerURL.replace(/\/$/, "")}/`)
+    let options = {
+      hostname: indexServerURLParsed.hostname,
+      port: indexServerURLParsed.port,
+      path: `${indexServerURLParsed.pathname}${prefix}/${lower_name}`,
+      headers: {}
+    }
+    if (registryToken !== undefined) {
+      options.headers = {
+        Authorization: registryToken
+      }
+    }
+    const requests = indexServerURLParsed.protocol == "https:" ? https : http;
+    var req = requests.get(options, function (res) {
       // reject on bad status
       if (!res.statusCode) {
         reject(new Error('statusCode=' + res.statusCode));
@@ -69,28 +89,3 @@ export const versions = (name: string, indexServerURL: string) => {
     req.end();
   });
 };
-
-// Check if `config.json` exists at root of `indexServerURL`
-export async function isSparseCompatible(indexServerURL: string): Promise<boolean> {
-  return new Promise<boolean>(function (resolve, reject) {
-    const cached = cache.get<boolean>(indexServerURL);
-    if (cached) {
-      resolve(cached);
-      return;
-    }
-
-    var req = https.get(`${indexServerURL}/config.json`, (res) => {
-      if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300 && res.headers['content-type'] === "application/json") {
-        cache.set(indexServerURL, true);
-        resolve(true);
-      } else {
-        cache.set(indexServerURL, false);
-        resolve(false);
-      }
-    }).on('error', (e) => {
-      reject(e);
-    });
-
-    req.end();
-  });
-}

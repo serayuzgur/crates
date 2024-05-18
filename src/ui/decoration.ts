@@ -65,7 +65,9 @@ export default function decoration(
     contentCss = decorationPreferences.errorDecoratorCss;
   } else {
     hoverMessage.appendMarkdown("#### Versions");
-    hoverMessage.appendMarkdown(` _( [View Crate](https://crates.io/crates/${item.key.replace(/"/g, "")}) | [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
+    if (item.registry === undefined) {
+      hoverMessage.appendMarkdown(` _( [View Crate](https://crates.io/crates/${item.key.replace(/"/g, "")}) | [Check Reviews](https://web.crev.dev/rust-reviews/crate/${item.key.replace(/"/g, "")}) )_`);
+    }
     hoverMessage.isTrusted = true;
 
     if (versions.length > 0) {
@@ -86,7 +88,7 @@ export default function decoration(
       };
       const isCurrent = version === maxSatisfying;
       const encoded = encodeURI(JSON.stringify(replaceData));
-      const docs = (i === 0 || isCurrent) ? `[(docs)](https://docs.rs/crate/${item.key.replace(/"/g, "")}/${version})` : "";
+      const docs = ((i === 0 || isCurrent) && item.registry === undefined) ? `[(docs)](https://docs.rs/crate/${item.key.replace(/"/g, "")}/${version})` : "";
       const command = `${isCurrent ? "**" : ""}[${version}](command:crates.replaceVersion?${encoded})${docs}${isCurrent ? "**" : ""}`;
       hoverMessage.appendMarkdown("\n * ");
       hoverMessage.appendMarkdown(command);
@@ -124,18 +126,18 @@ export default function decoration(
 
     contentCss.after!.contentText = contentCss.after!.contentText!.replace("${version}", versions[0])
   }
-  
+
   const deco = {
     range: new Range(
       editor.document.positionAt(start),
       endofline,
-      ),
-      hoverMessage,
-      renderOptions: {},
-    };
-    if (version != "?" && contentCss.after!.contentText!.length > 0) {
-      deco.renderOptions =  contentCss;
-    }
-    
+    ),
+    hoverMessage,
+    renderOptions: {},
+  };
+  if (version != "?" && contentCss.after!.contentText!.length > 0) {
+    deco.renderOptions = contentCss;
+  }
+
   return deco;
 }

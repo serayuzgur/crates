@@ -33,6 +33,12 @@ Inflector = "0.11.4"
 block-modes = "0.8.1" # crates: disable-check
 jpegxl-sys = "0.8.2"
 tracing = "=0.1.37"
+external = { version = "0.1.0", registry = "public-registry" }
+external-unknown = { version = "0.1.0", registry = "unknown-registry" }
+
+[dependencies.external2]
+registry = "private-registry"
+version = "0.0.2"
 
 [dependencies.clap]
 version = "3.0.0-beta.2"

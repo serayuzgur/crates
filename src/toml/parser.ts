@@ -1,5 +1,6 @@
 import { TextDocument } from "vscode";
 import Item from "../core/Item";
+import { AlternateRegistry } from "../core/AlternateRegistry";
 
 export const RE_VERSION = /^[ \t]*(?<!#)(\S+?)([ \t]*=[ \t]*)(?:({.*?version[ \t]*=[ \t]*)("|')(.*?)\4|("|')(.*?)\6)/;
 export const RE_FEATURES = /^[ \t]*(?<!#)((?:[\S]+?[ \t]*=[ \t]*.*?{.*?)?features[ \t]*=[ \t]*\[[ \t]*)(.+?)[ \t]*\]/;
@@ -79,6 +80,7 @@ function findVersion(item: Item): Item[] {
 function findVersionTable(table: Item): Item | null {
   let item = null
   let itemName = null;
+  let itemRegistry = undefined;
   for (const field of table.values) {
     if (field.key === "workspace") return null;
     if (field.key === "version") {
@@ -86,8 +88,10 @@ function findVersionTable(table: Item): Item | null {
       item.key = table.key;
     }
     if (field.key === "package") itemName = field.value;
+    if (field.key === "registry") itemRegistry = field.value;
   }
   if (item && itemName) item.key = itemName;
+  if (item && itemRegistry !== undefined) item.registry = itemRegistry;
   return item;
 }
 
@@ -114,6 +118,39 @@ export function filterCrates(items: Item[]): Item[] {
     }
   }
   return dependencies;
+}
+
+/**
+ * Parse config.toml to extract alternate registries.
+ * @param configTomlContent 
+ * @returns 
+ */
+export function parseAlternateRegistries(configTomlContent: string): AlternateRegistry[] {
+  const toml = parse(configTomlContent);
+  let alternateRegistries: AlternateRegistry[] = [];
+  for (let value of toml.values) {
+    if (value.key.startsWith("registries.")) {
+      addRegistry(value, alternateRegistries);
+    } else if (value.key == "registries") {
+      for (let registry of value.values) {
+        addRegistry(registry, alternateRegistries);
+      }
+    }
+  }
+  return alternateRegistries
+}
+
+/**
+ * Add `registry` to `alternateRegistries` array, search its index and token.
+ * Return nothing, as we update `alternateRegistries` reference.
+ * @param registry 
+ * @param alternateRegistries 
+ */
+function addRegistry(registry: Item, alternateRegistries: AlternateRegistry[]) {
+  const name = registry.key.replace("registries.", "");
+  const index = registry.values.find(({ key }) => key === "index")?.value?.replace("sparse+", "");
+  const token = registry.values.find(({ key }) => key === "token")?.value;
+  alternateRegistries.push(new AlternateRegistry(name, index, token));
 }
 
 /**
@@ -226,7 +263,7 @@ function isCratesDep(i: Item): boolean {
     for (let value of i.values) {
       if (value.key === "git" || value.key === "path") {
         return false;
-      } else if (value.key === "package") {
+      } else if (value.key === "package" && value.value !== undefined) {
         i.key = value.value;
       }
     }
