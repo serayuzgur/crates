@@ -7,6 +7,38 @@
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/serayuzgur.crates)](https://img.shields.io/visual-studio-marketplace/r/serayuzgur.crates)
 [![GitHub stars](https://img.shields.io/github/stars/serayuzgur/crates.svg)](https://github.com/serayuzgur/crates/stargazers)
 
+This project is now archived. Please use the renamed and maintained version [Dependi](https://github.com/filllabs/dependi) instead.
+
+## Transition to Dependi for Next-Generation Dependency Management!
+
+Dear Crates Users,
+
+Since 2018, Crates has become the most loved and used dependency management extension within the Rust community. Due to increased demand and numerous feature requests, we have decided to dedicate our full efforts to enhancing this product. As a result, we are excited to introduce Dependi, our new and more powerful extension that builds on the foundation of Crates.
+
+Important Update:
+Crates is now deprecated and will no longer receive updates or bug fixes. However, Dependi will be continuously updated to ensure you always have the best tools at your disposal.
+
+Why Migrate to Dependi?
+
+- Continuous Updates: Unlike Crates, which will no longer be updated, Dependi will receive regular updates and improvements.
+
+- Broad Language Support: In addition to Rust, Dependi now supports Go, JavaScript, and Python.
+
+- Enhanced Security: Keep your projects safer with advanced security reports.
+- Seamless Updates: Effortlessly manage all your dependency updates with a single command.
+
+- Comprehensive Documentation: Access extensive documentation for Rust, Go, JavaScript, and Python.
+
+Dependi Versions:
+
+- Core Version: Dependi Core offers an extended feature set including the all feature set of Crates and it will be free always.
+
+- Pro Version: For a limited time, enjoy a free trial period of our advanced version, which includes many new and powerful features.
+
+Discover Dependi now and take advantage of its powerful features by [clicking here](https://www.dependi.io/) to join the next generation of dependency management!
+
+Thank you for your loyalty and support to Crates. With Dependi, stronger and more efficient projects await you!
+
 ## Crates: Simplify Dependency Management in Rust & VSCode
 
 Welcome to **Crates**, the ultimate Rust extension for VSCode! Simplify your dependency management with ease while using Cargo.toml for your project.
@@ -64,7 +96,5 @@ Any minor issues or glitches you encounter will automatically be resolved when y
 If you find Crates valuable and want to support its development, please consider becoming a Patron on [Patreon](https://www.patreon.com/bePatron?u=11468905) or a GitHub Sponsor on [GitHub](https://github.com/sponsors/serayuzgur). Your contribution will enable us to continue improving Crates and providing priority support to our patrons.
 
 ---
-
-[<img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.png" width="201px"/>](https://www.digitalocean.com/?refcode=3c1a47ab4694&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 Help us simplify Rust dependency management with Crates, and let's make coding in Rust even more enjoyable! Together, we can achieve great things.
