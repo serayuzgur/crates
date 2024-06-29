@@ -10,12 +10,31 @@ import { CompletionItem, CompletionItemKind, CompletionList, workspace } from "v
 import { sortText } from "../providers/autoCompletion";
 import { CrateMetadatas } from "../api/crateMetadatas";
 
-export async function fetchCrateVersions(dependencies: Item[]): Promise<[Promise<Dependency[]>, Map<string, Dependency[]>]> {
+export async function fetchCrateVersions(dependencies: Item[]): Promise<[Dependency[], Map<string, Dependency[]>]> {
   // load config
   const config = workspace.getConfiguration("");
   const shouldListPreRels = !!config.get("crates.listPreReleases");
-  var indexServerURL = config.get<string>("crates.indexServerURL") ?? sparseIndexServerURL;
+  const indexServerURL = config.get<string>("crates.indexServerURL") ?? sparseIndexServerURL;
+  const otherIndexServerURLs = config.get<string[]>("crates.otherIndexServerURLs") ?? [];
+  const allServerUrls = [indexServerURL, ...otherIndexServerURLs];
 
+  let responsesMap: Map<string, Dependency[]> = new Map();
+  const responses = await Promise.all(allServerUrls.map(url => fetchCrateVersionsFromIndex(dependencies, shouldListPreRels, url)));
+
+  let resolvedDeps: Dependency[] = responses[0]; // start with the dependencies from the first server (probably crates.io)
+  for (let server = 1; server < responses.length; server++) {
+    // if there are other servers, accumulate by replacing dependencies that still are errors
+    for (let d = 0; d < resolvedDeps.length; d++) {
+      if (resolvedDeps[d].error) {
+        // this dependency failed so far, replace by the last response
+        resolvedDeps[d] = responses[server][d];
+      }
+    }
+  }
+  return [resolvedDeps, responsesMap];
+}
+
+async function fetchCrateVersionsFromIndex(dependencies: Item[], shouldListPreRels: boolean, indexServerURL: string): Promise<Dependency[]> {
   var versions;
   try {
     versions = sparseVersions;
@@ -28,9 +47,9 @@ export async function fetchCrateVersions(dependencies: Item[]): Promise<[Promise
   StatusBar.setText("Loading", "👀 Fetching " + indexServerURL.replace(/^https?:\/\//, ''));
 
   let transformer = transformServerResponse(versions, shouldListPreRels, indexServerURL);
-  let responsesMap: Map<string, Dependency[]> = new Map();
+  
   const responses = dependencies.map(transformer);
-  return [Promise.all(responses), responsesMap];
+  return Promise.all(responses);
 }
 
 
