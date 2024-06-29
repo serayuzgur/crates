@@ -39,6 +39,15 @@ external-unknown = { version = "0.1.0", registry = "unknown-registry" }
 [dependencies.external2]
 registry = "private-registry"
 version = "0.0.2"
+smoldot.version = "0.17.0"
+
+[dependencies.depsonpath]
+version = "7.0.0-alpha1"
+path = "../lib"
+
+[workspace.dependencies]
+my_package.path = "../lib"
+my_package2 = { path = "../" }
 
 [dependencies.clap]
 version = "3.0.0-beta.2"
